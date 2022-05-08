@@ -19,3 +19,8 @@
 - Express 4.18.1
 ### Client
 - React 17.0.2
+
+## Issue Name Rules
+- Dev: 개발 관련 이슈
+- Bug: 버그 관련 이슈
+- Etc: 기타 이슈
