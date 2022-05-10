@@ -9,11 +9,7 @@ const path = require('path');
 
 // Router 모듈 불러오기
 const routes = require("./Router/routes.js")
-
-// 미들웨어 함수를 특정 경로에 등록
-app.use('/api/data', function(req, res) {
-    res.json({ greeting: 'Hello World' });
-});
+const api = require("./Router/api.js")
 
 // 기본 포트를 app 객체에 설정
 const PORT = process.env.PORT || 5000;
@@ -23,4 +19,9 @@ app.listen(PORT, () => console.log(`server is running ${PORT}`));
 app.use(express.static(path.join(__dirname, '../client/build')));
 
 // 라우트 설정
+app.use(api);
 app.use(routes);
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});

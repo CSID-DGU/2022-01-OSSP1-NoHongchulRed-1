@@ -2,20 +2,11 @@ import React from 'react';
 import { Route, Routes, Link, useLocation } from 'react-router-dom';
 import About from './About';
 import Home from './Home';
-import { Button } from "@material-ui/core";
+import Search from './Search'
 
 function App() {
   return (
     <div className="App">
-      <Button variant="contained" color="primary" onClick={() => {
-          fetch('/api/data')
-          .then((res) => {
-            return res.json();
-          })
-          .then((data) => {
-            console.log(data);
-          });
-        }}>get data</Button>
       <ul>
         <li>
           <Link to="/">홈</Link>
@@ -23,11 +14,15 @@ function App() {
         <li>
           <Link to="/about">소개</Link>
         </li>
+        <li>
+          <Link to="/search">검색</Link>
+        </li>
       </ul>
       <hr />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/search" element={<Search />} />
         <Route
           path = "/*"
           element={ <div>

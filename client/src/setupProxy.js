@@ -8,4 +8,16 @@ module.exports = function(app) {
             changeOrigin: true
         })
     );
+    app.use('/kakao', 
+        createProxyMiddleware({
+            target: "http://localhost:5000",
+            changeOrigin: true
+        })
+    );
+    app.use('/db', 
+        createProxyMiddleware({
+            target: "http://localhost:5000",
+            changeOrigin: true
+        })
+    );
 };
