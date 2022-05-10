@@ -20,10 +20,8 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 
 // 라우트 설정
 app.use(api);
+app.use(routes);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
-
-// 아래 코드는 현재 오류 있어서 위에 것으로 대체
-//app.use(routes);

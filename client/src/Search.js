@@ -40,6 +40,15 @@ const Search = () => {
                 console.log(data);
             });
             }}>get multiple book data</Button>
+            <Button variant="contained" color="primary" onClick={() => {
+            fetch('/db/' + text)
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                console.log(data);
+            });
+            }}>get user data</Button>
         </div>
     );
 };
