@@ -10,42 +10,55 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    display: 'flex',
+    flexDirection: 'row',
+    maxwidth: 345,
   },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: 500,
+  },
+  media: {
+    maxheight: 300,
+  }
 });
 
-export default function SearchResultCard() {
+export default function SearchResultCard({thumbnail, title, authors, publisher, datetime, contents}) {
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        <CardMedia
+        <CardMedia 
           component="img"
           alt="Contemplative Reptile"
-          height="170"
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
+          height= "100%"
+          width= "100%"
+          image={thumbnail}
+          title="book"
         />
+
+      </CardActionArea>
+      
+      <div className={classes.content}>
         <CardContent>
           <Typography gutterBottom variant="h6" component="h2">
-            책제목: Lizard
+            {title}
           </Typography>
-          <Typography gutterBottom variant="h7" component="h3">
-            저자: Lizard
+          <Typography gutterBottom variant="subtitle1" component="h3">
+            저자: {authors}
           </Typography>
-          <Typography gutterBottom variant="h7" component="h3">
-            출판사: Lizard
+          <Typography gutterBottom variant="subtitle1" component="h3">
+            출판사: {publisher}
           </Typography>
-          <Typography gutterBottom variant="h7" component="h3">
-            출판년도: Lizard
+          <Typography gutterBottom variant="subtitle1" component="h3">
+            출판년도: {datetime}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            책소개: Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+            {contents}
           </Typography>
         </CardContent>
-      </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
           독후감 작성
@@ -54,6 +67,7 @@ export default function SearchResultCard() {
           독후감 모아보기
         </Button>
       </CardActions>
+      </div>
     </Card>
   );
 }

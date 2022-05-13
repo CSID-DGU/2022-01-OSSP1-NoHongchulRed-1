@@ -14,16 +14,12 @@ const Positioner = styled.div`
     position: sticky;
     top: 0px;
     width: 100%;
-    background: yellow;
-
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     flex-grow: 1;
-
     padding-right: 1rem;
-
 `;
 
 /*
@@ -62,7 +58,7 @@ const Header = ({children}) => {
         <Positioner>
             <img src = {Logo} alt="logo-img"/>
             <Title>{children}</Title>
-            <Button variant="contained" color="primary">Log out</Button>   
+            <Button variant="contained" color="default">Log out</Button>   
         </Positioner>
         <Spacing></Spacing>
         </div>
