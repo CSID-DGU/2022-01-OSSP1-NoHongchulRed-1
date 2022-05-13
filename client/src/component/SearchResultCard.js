@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
@@ -24,6 +25,13 @@ const useStyles = makeStyles({
   }
 });
 
+/*
+      <Link to = "/EditPage">
+        <Button size="small" color="primary"  >
+          독후감 작성
+        </Button>
+      </Link>
+*/
 export default function SearchResultCard({thumbnail, title, authors, publisher, datetime, contents}) {
   const classes = useStyles();
 
@@ -60,9 +68,11 @@ export default function SearchResultCard({thumbnail, title, authors, publisher, 
           </Typography>
         </CardContent>
       <CardActions>
+        <Link to = "/EditPage">
         <Button size="small" color="primary">
           독후감 작성
         </Button>
+        </Link>
         <Button size="small" color="primary">
           독후감 모아보기
         </Button>

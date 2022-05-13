@@ -6,11 +6,14 @@ import Search from './component/Search';
 import BookSearchPage from './view/BookSearchPage';
 import { Switch } from '@material-ui/core';
 import Header from './component/Header';
+import SetRoute from './component/SetRoute';
 
 function App() {
   return (
     <div className="App">
-        <BookSearchPage></BookSearchPage>
+      <Header></Header>
+
+        <SetRoute/>
     </div>
   );
 }
