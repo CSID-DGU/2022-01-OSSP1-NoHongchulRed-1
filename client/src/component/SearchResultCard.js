@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   root: {
     display: 'flex',
     flexDirection: 'row',
-    maxwidth: 345,
+    maxWidth: 380,
   },
   content: {
     display: 'flex',
