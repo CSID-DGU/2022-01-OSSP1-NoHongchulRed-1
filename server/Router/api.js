@@ -6,6 +6,41 @@ const axios = require('axios');
 
 const router = express.Router();
 
+// Authentication
+router.get('/POST/db/users/login',(req,res) => {
+    res.json({
+        id: req.id,
+        password: req.password,
+    });
+});
+
+// Registration
+
+router.post('/POST/db/users',(req,res) => {
+    const user = new user(req.body);
+
+    user.save()
+    res.json({
+        id: req.id,
+        password: req.password,
+        nickname: req.nickname,
+        age: req.age,
+        sexuality: req.sexuality,
+    });
+});
+
+// Get User
+
+router.get('/GET/db/users/:id',(req,res) => {
+    res.json({
+        id: req.id,
+        password: req.password,
+        nickname: req.nickname,
+        age: req.age,
+        sexuality: req.sexuality,
+    });
+});
+
 // 미들웨어 함수를 특정 경로에 등록
 router.get('/api/data', (req, res) => {
     res.json({ greeting: 'Hello World' });
