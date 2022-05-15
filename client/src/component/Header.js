@@ -77,7 +77,6 @@ const Header = ({children}) => {
             <Link to = "/LoginPage">
                 <Button variant="contained" color="default">Log out</Button>   
             </Link>
-            <Link to="/BookSearchPage">검색결과화면</Link>
         </Positioner>
 
         </Wrapper>

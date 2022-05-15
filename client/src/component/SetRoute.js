@@ -6,6 +6,9 @@ import BookSearchPage from '../view/BookSearchPage';
 import About from '../About';
 import Main from '../view/Main';
 import LoginPage from '../view/LoginPage';
+import ViewReportPage from '../view/ViewReportPage';
+import MyBookPage from '../view/MyBookPage';
+import GatherReportPage from '../view/GatherReportPage';
 
 //Route 관리 파일
 const SetRoute = () => {
@@ -17,6 +20,9 @@ const SetRoute = () => {
         <Route exact path="/BookSearchPage" element={<BookSearchPage />} />
         <Route exact path="/about" element={<About />} />
         <Route exact path="/LoginPage" element={<LoginPage />} />
+        <Route exact path="/ViewReportPage" element={<ViewReportPage />} />
+        <Route exact path="/MyBookPage" element={<MyBookPage />} />
+        <Route exact path="/GatherReportPage" element={<GatherReportPage />} />
         <Route
           path = "/*"
           element={ <div>
