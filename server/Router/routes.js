@@ -46,8 +46,8 @@ router.post('/db/users',(req,res) => {
     
     password= bcrypt.hashSync(password);// 암호화
              // bcrypt가 hash 된 것끼리 비교하는 함수 있어서
-    pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id=? ?',[id],(err) => {
-        if (err) {
+    pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id=? ?',[id],err => {
+        if (err) { // error 가 의미하는 게 id 중복
             console.log(err)
             return res.render('error', { message: "회원가입 실패" })
         }
