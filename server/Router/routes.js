@@ -18,21 +18,28 @@ router.post('/db/users/login',(req,res) => {
     const userId = req.id;
     const password = req.password;
     password = bcrypt.hashSync(password); // 암호화
+
+    try {
+        pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id =?',[userId],(err,userinfo) => {// id 찾기 
+            if (!userinfo[0]) {
+                bcrypt.compare(password, userinfo[0].password,(err,tf) => { // 암호화된 비번 비교
+                    if (tf !== true) {
+                        return res.render('error',{message:"아이디 또는 비밀번호 확인해주세요."})
+                    }
+                    else {
+                        req.session.nickname=userinfo[0].nickname;
+                        req.session.id = userinfo[0].id;
+                        return res.redirect('/');
+                    }
+                })
+            }
+        })
+        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [userId])
+        return res.json(data[0])
+    } catch (err) {
+        return res.status(500).json(err)
+    }
     
-    pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id =?',[userId],(err,userinfo) => {// id 찾기 
-        if (err || !userinfo[0]) {
-            bcrypt.compare(password, userinfo[0].password,(err,tf) => { // 암호화된 비번 비교
-                if (tf !== true) {
-                    return res.render('error',{message:"아이디 또는 비밀번호 확인해주세요."})
-                }
-                else {
-                    req.session.nickname=userinfo[0].nickname;
-                    req.session.id = userinfo[0].id;
-                    return res.redirect('/');
-                }
-            })
-        }
-    })
 });
 
 // Registration
@@ -46,19 +53,24 @@ router.post('/db/users',(req,res) => {
     
     password= bcrypt.hashSync(password);// 암호화
              // bcrypt가 hash 된 것끼리 비교하는 함수 있어서
-    pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id=? ?',[id],err => {
-        if (err) { // error 가 의미하는 게 id 중복
-            console.log(err)
-            return res.render('error', { message: "회원가입 실패" })
-        }
-        else {
-            console.log('회원가입 성공');
-            pool.query('INSERT INTO BOOKWEB.UserTB(id, password, nickname, age, sexuality) VALUES (?,?,?,?,?)',
-            [id, password, nickname, age, sexuality]);
-            return res.redirect('/')
-        }
-
-    });
+    try {
+        pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id=? ?',[id],(err,data) => {
+       
+            if (data.length==0) { // data가 없다는 건 id가 DB에 없다 즉 로그인 성공
+                console.log('회원가입 성공');
+                pool.query('INSERT INTO BOOKWEB.UserTB(id, password, nickname, age, sexuality) VALUES (?,?,?,?,?)',
+                [id, password, nickname, age, sexuality]);
+                return res.redirect('/')
+            }
+            else {
+                console.log(err)
+                return res.render('error', { message: "회원가입 실패" })
+            }
+        });
+    } catch (err) {
+        return res.status(500).json(err)
+    }
+  
 });
 
 // Get User
