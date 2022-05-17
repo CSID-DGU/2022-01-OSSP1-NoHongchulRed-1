@@ -34,8 +34,6 @@ router.post('/db/users/login',(req,res) => {
                 })
             }
         })
-        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [userId])
-        return res.json(data[0])
     } catch (err) {
         return res.status(500).json(err)
     }
