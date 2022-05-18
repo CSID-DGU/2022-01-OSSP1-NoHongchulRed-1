@@ -117,7 +117,6 @@ const EditPage = () => {
                 </div>
             </form>
             <Spacing/>
-            <Button variant="contained" color="default" type="submit">작성완료</Button>
         </Wrapper>
     );
 }

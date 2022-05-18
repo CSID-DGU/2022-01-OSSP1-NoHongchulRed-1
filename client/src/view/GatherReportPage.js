@@ -30,7 +30,7 @@ const LeftSide = styled.div`
     display: flex;
     flex-direction: column;
     margin: 2rem;
-    padding: 2rem 2rem 2rem;
+    padding: 0rem 2rem 2rem;
 `;
 
 export default function GatherReportPage () {

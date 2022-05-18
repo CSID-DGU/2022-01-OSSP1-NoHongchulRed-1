@@ -1,9 +1,9 @@
 .shortReport-area{
-    /* display: flex; */
-    display: block;
+    display: flex;
+    /*display: block;*/
     width: 100%;
     height: auto;
-    /* justify-content: space-evenly; */
+    justify-content: center;
     margin-top: 30px;
     padding: 0 20px;
     /* align-items: center; */
