@@ -3,9 +3,6 @@ import React, { useState, useEffect } from 'react';
 
 // import { Button } from '@material-ui/core';
 // import TextField from '@material-ui/core/TextField';
-
-import Title from '../common/Title'
-import Nav from '../common/Nav'
 import './ShortReport.css'
 
 const tempParmas = [
@@ -45,8 +42,6 @@ const Main = () => {
 
     return (
         <>
-            <Title />
-            <Nav />
             <div className="shortReport-area">
                 {reportList.map((data, index) => {
                     return (
