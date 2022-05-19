@@ -34,13 +34,12 @@ router.post('/db/users/login', async (req,res) => {
                         return res.status(500).send("<h1>500 error</h1>");
                     }
                 });
-                res.json(req.session);
-            }
-            else {
-                return res.json({message: "wrong password"});
+                return res.json(Object.assign(req.session, {issuccess: true, message: "success"}));
+            } else {
+                return res.json({issuccess: false, message: "wrong password"});
             }
         } else {
-            return res.json({message : "no data"});
+            return res.json({issuccess: false, message: "no data"});
         }
     } catch (err) {
         return res.status(500).json(err);
@@ -48,17 +47,16 @@ router.post('/db/users/login', async (req,res) => {
 });
 
 router.get('/db/users/logout', async (req,res) => {
-
-    if(req.session.userId){
-        console.log('로그아웃');
-        
+    // 로그아웃 세션 버그 있음 추후 수정
+    console.log(req.session);
+    if (req.session.userId) {
+        console.log("hi")
         await req.session.destroy(function(err){
-            if(err) throw err;
+            if (err) throw err;
         });
-        res.json(req.session);
-    }
-    else {
-        return res.json({message : "no login"});
+        return res.json(Object.assign(req.session, {issuccess: true, message: "success"}));
+    } else {
+        return res.json({issuccess: false, message: "not login yet"});
     }
 });
 
@@ -78,24 +76,22 @@ router.post('/db/users', async (req,res) => {
         if (data[0].length == 0) {
             pool.query('INSERT INTO BOOKWEB.UserTB(id, password, nickname, age, sexuality) VALUES (?,?,?,?,?)',
             [id, hashPassword, nickname, age, sexuality]);
-            return res.json({message: "register success"})
-        }
-        else {
-            return res.json({message : "id is duplicated"});
+            return res.json({issuccess: false, message: "register success"});
+        } else {
+            return res.json({issuccess: false, message: "id is duplicated"});
         }
     } catch (err) {
-        return res.json({message : "db error"});
+        return res.json({issuccess: false, message: "db error"});
     }
   
 });
 
 // Get User
-
-router.get('/db/:userId', async (req, res, next) => {
+router.get('/db/users/:userId', async (req, res, next) => {
     const { userId } = req.params;
     try {
         const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [userId]);
-        return res.json(data[0]);
+        return res.json(data[0][0]);
     } catch (err) {
         return res.status(500).json(err);
     }

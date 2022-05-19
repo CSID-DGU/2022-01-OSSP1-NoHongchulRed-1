@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useState } from 'react';
 
 const Test = () => {
+    // 세션 쿠키 보려면 build하고 localhost:5000 에서 확인해야 함
     // 세션 정보 받아오는용
     const [userSession, setUserSession] = useState({
         id: '',
@@ -121,11 +122,34 @@ const Test = () => {
         }
     }
 
+    // 회원 확인용
+    const [userId, setuserId] = useState('');
+
+    const onChangeUser = (e) => {
+        setuserId(e.target.value);
+    };
+
+    const onSubmitUser = () => {
+        try {
+            // axios로 get
+            // 파라미터 userId로 전달
+            axios.get('/db/users/' + userId)
+            .then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                console.log(data);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     // ~자를 입력하세요 등 텍스트는 임의로 설정한 것
     // 단순한 테스트를 위해 라디오버튼나 체크박스 사용 안함 (실제 개발 시 UI 내용 적용 필요)
     return (
         <div>
-            <h1><font size="7">로그인</font></h1>
+            <h1><font size="3">로그인</font></h1>
             <input type="text" name="id" placeholder="아이디" value={loginInputs.id} maxLength="20" onChange={onChangeLogin} />
             <br />
             <input type="password" name="password" placeholder="비밀번호" value={loginInputs.password} maxLength="20" onChange={onChangeLogin} />
@@ -139,7 +163,7 @@ const Test = () => {
 
             <hr />
 
-            <h1><font size="7">회원가입</font></h1>
+            <h1><font size="3">회원가입</font></h1>
             <input type="text" name="id" placeholder="아이디는 4~16자를 입력하세요" value={registerInputs.id} maxLength="16" onChange={onChangeRegister} />
             <br />
             <input type="password" name="password" placeholder="비밀번호는 8~16자를 입력하세요" value={registerInputs.password} maxLength="16" onChange={onChangeRegister} />
@@ -152,6 +176,12 @@ const Test = () => {
             <br />
             <button onClick={onSubmitRegister}>회원가입</button>
             <button onClick={onResetRegister}>취소</button>
+
+            <hr />
+            <h1><font size="3">유저 정보</font></h1>
+            <input type="text" name="id" placeholder="아이디 입력" value={userId} maxLength="16" onChange={onChangeUser} />
+            <button onClick={onSubmitUser}>데이터 불러오기</button>
+            <br />
         </div>
     );
 };
