@@ -37,17 +37,19 @@ const Main = () => {
                 <div className="right-box">
                     <div className="user-profile">
                         <div>
-                            <h3>박철수 님</h3>
-                            <Button variant="contained" onClick={() => {alert("로그아웃 되었습니다");navigate('/')}}>Logout</Button>
+                            <h3>박철수</h3>
+                            <h3> 님</h3>
+                            {/* <Button variant="contained" onClick={() => {alert("로그아웃 되었습니다");navigate('/')}}>Logout</Button> */}
                         </div>
                         <div>
-                            <label>내가 쓴 독후감</label><label>3</label>
+                            <label>내가 쓴 독후감</label>
+                            <label>3</label>
                         </div>
                         
                         <Button variant="outlined" color="primary" onClick={() => navigate('/userEdit')}>내 정보 수정</Button>
                     </div>
                     <div className="write-bookReport">
-                        <Button variant="contained" color="secondary">독후감 작성하기</Button>
+                        <Button variant="contained" color="secondary" onClick={() => navigate('/EditPage')}>독후감 작성하기</Button>
                     </div>
                 </div>
             </div>
