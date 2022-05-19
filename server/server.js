@@ -1,3 +1,6 @@
+// 환경변수 불러오기
+require('dotenv').config({path: '../.env'});
+
 // express 모듈 불러오기
 const express = require('express');
 
@@ -6,6 +9,15 @@ const app = express();
 
 // path 모듈 불러오기
 const path = require('path');
+
+// body-parser 모듈 불러오기
+var bodyParser = require('body-parser')
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 // Router 모듈 불러오기
 const routes = require("./Router/routes.js")

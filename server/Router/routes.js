@@ -10,63 +10,62 @@ const session = require('express-session');
 const res = require('express/lib/response');
 //const index = path.join(__dirname, '../client/build/index.html');
 
+const saltOrRounds = 10;
+
 // Authentication
 // 로그인 
-// id에 해당하는 유저가 있는지 찾고 비밀번호 암호화 후 값을 비교해서 비번까지 맞는지 확인
-// 성공하면 세션에 유저 정보 담아서 프론트로 넘기고
-router.post('/db/users/login',(req,res) => { 
-    const userId = req.id;
-    const password = req.password;
-    password = bcrypt.hashSync(password); // 암호화
+// id에 해당하는 유저가 있는지 찾고 bcrypt.compare로 비밀번호를 비교
+// 성공하면 세션에 유저 정보 담아서 프론트로 넘겨줌
+router.post('/db/users/login', async (req,res) => {
+    const id = req.body.id;
+    const password = req.body.password;
 
     try {
-        pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id =?',[userId],(err,userinfo) => {// id 찾기 
-            if (!userinfo[0]) {
-                bcrypt.compare(password, userinfo[0].password,(err,tf) => { // 암호화된 비번 비교
-                    if (tf !== true) {
-                        return res.render('error',{message:"아이디 또는 비밀번호 확인해주세요."})
-                    }
-                    else {
-                        req.session.nickname=userinfo[0].nickname;
-                        req.session.id = userinfo[0].id;
-                        return res.redirect('/');
-                    }
-                })
+        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [id]);
+        // id 유무 체크
+        if (data[0].length != 0) {
+            const userData = data[0][0];
+            // password 체크
+            var compare = await bcrypt.compare(password, userData.password)
+            if (compare) {
+                //req.session.nickname = userData.nickname;
+                //req.session.id = userData.id;
+                return res.json({message: "login success"})
             }
-        })
+            else {
+                return res.json({message: "wrong password"})
+            }
+        } else {
+            return res.json({message : "no data"});
+        }
     } catch (err) {
         return res.status(500).json(err)
     }
-    
 });
 
 // Registration
 // id가 중복인지 체크하고 없으면 데이터 값 가지고 insert
-router.post('/db/users',(req,res) => {
-    const userId = req.id;
-    const password = req.password;
-    const nickname= req.nickname;
-    const age = req.age;
-    const sexuality = req.sexuality;
+router.post('/db/users', async (req,res) => {
+    const id = req.body.id;
+    const password = req.body.password;
+    const nickname = req.body.nickname;
+    const age = req.body.age;
+    const sexuality = req.body.sexuality;
     
-    password= bcrypt.hashSync(password);// 암호화
-             // bcrypt가 hash 된 것끼리 비교하는 함수 있어서
+    const hashPassword = bcrypt.hashSync(password, saltOrRounds); // 암호화
     try {
-        pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id=? ?',[id],(err,data) => {
-       
-            if (data.length==0) { // data가 없다는 건 id가 DB에 없다 즉 로그인 성공
-                console.log('회원가입 성공');
-                pool.query('INSERT INTO BOOKWEB.UserTB(id, password, nickname, age, sexuality) VALUES (?,?,?,?,?)',
-                [id, password, nickname, age, sexuality]);
-                return res.redirect('/')
-            }
-            else {
-                console.log(err)
-                return res.render('error', { message: "회원가입 실패" })
-            }
-        });
+        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [id])
+        // id 유무 체크 (로그인과 달리 중복 id가 없어야 함)
+        if (data[0].length == 0) {
+            pool.query('INSERT INTO BOOKWEB.UserTB(id, password, nickname, age, sexuality) VALUES (?,?,?,?,?)',
+            [id, hashPassword, nickname, age, sexuality]);
+            return res.json({message: "register success"})
+        }
+        else {
+            return res.json({message : "id is duplicated"});
+        }
     } catch (err) {
-        return res.status(500).json(err)
+        return res.json({message : "db error"});
     }
   
 });
