@@ -3,6 +3,12 @@ import axios from 'axios';
 import { useState } from 'react';
 
 const Test = () => {
+    // 세션 정보 받아오는용
+    const [userSession, setUserSession] = useState({
+        id: '',
+        nickname: ''
+    });
+
     // 로그인용
     const [loginInputs, setLoginInputs] = useState({
         id: '',
@@ -35,7 +41,35 @@ const Test = () => {
                 return res.data;
             })
             .then((data) => {
-                console.log(data);
+                // 세션을 data로 넘겨주었으므로 해당 내용으로 설정
+                console.log(data)
+                setUserSession({
+                    ...userSession,
+                    id: data.userId,
+                    nickname: data.nickname
+                });
+            });
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const onSubmitLoout = () => {
+        try {
+            // axios로 post
+            // id와 password를 body에 넣어 전달
+            axios.get('/db/users/logout')
+            .then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                // 세션을 data로 넘겨주었으므로 해당 내용으로 설정
+                console.log(data)
+                setUserSession({
+                    ...userSession,
+                    id: data.userId,
+                    nickname: data.nickname
+                });
             });
         } catch (err) {
             console.log(err)
@@ -98,6 +132,10 @@ const Test = () => {
             <br />
             <button onClick={onSubmitLogin}>로그인</button>
             <button onClick={onResetLogin}>취소</button>
+            <br />
+            <p>id: {userSession.id}, nickname: {userSession.nickname}</p>
+            <br />
+            <button onClick={onSubmitLoout}>로그아웃</button>
 
             <hr />
 

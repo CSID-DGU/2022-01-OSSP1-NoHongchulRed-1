@@ -6,8 +6,6 @@ const router = express.Router();
 
 const bcrypt = require('bcrypt');
 
-const session = require('express-session');
-const res = require('express/lib/response');
 //const index = path.join(__dirname, '../client/build/index.html');
 
 const saltOrRounds = 10;
@@ -26,20 +24,41 @@ router.post('/db/users/login', async (req,res) => {
         if (data[0].length != 0) {
             const userData = data[0][0];
             // password 체크
-            var compare = await bcrypt.compare(password, userData.password)
+            var compare = await bcrypt.compare(password, userData.password);
             if (compare) {
-                //req.session.nickname = userData.nickname;
-                //req.session.id = userData.id;
-                return res.json({message: "login success"})
+                req.session.userId = userData.id;
+                req.session.nickname = userData.nickname;
+                req.session.save(err => {
+                    if (err) {
+                        console.log(err);
+                        return res.status(500).send("<h1>500 error</h1>");
+                    }
+                });
+                res.json(req.session);
             }
             else {
-                return res.json({message: "wrong password"})
+                return res.json({message: "wrong password"});
             }
         } else {
             return res.json({message : "no data"});
         }
     } catch (err) {
-        return res.status(500).json(err)
+        return res.status(500).json(err);
+    }
+});
+
+router.get('/db/users/logout', async (req,res) => {
+
+    if(req.session.userId){
+        console.log('로그아웃');
+        
+        await req.session.destroy(function(err){
+            if(err) throw err;
+        });
+        res.json(req.session);
+    }
+    else {
+        return res.json({message : "no login"});
     }
 });
 
@@ -54,7 +73,7 @@ router.post('/db/users', async (req,res) => {
     
     const hashPassword = bcrypt.hashSync(password, saltOrRounds); // 암호화
     try {
-        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [id])
+        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [id]);
         // id 유무 체크 (로그인과 달리 중복 id가 없어야 함)
         if (data[0].length == 0) {
             pool.query('INSERT INTO BOOKWEB.UserTB(id, password, nickname, age, sexuality) VALUES (?,?,?,?,?)',
@@ -73,12 +92,12 @@ router.post('/db/users', async (req,res) => {
 // Get User
 
 router.get('/db/:userId', async (req, res, next) => {
-    const { userId } = req.params
+    const { userId } = req.params;
     try {
-        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [userId])
-        return res.json(data[0])
+        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [userId]);
+        return res.json(data[0]);
     } catch (err) {
-        return res.status(500).json(err)
+        return res.status(500).json(err);
     }
 });
 
