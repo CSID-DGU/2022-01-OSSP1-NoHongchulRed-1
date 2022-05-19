@@ -7,14 +7,14 @@ import BookSearchPage from './view/BookSearchPage';
 import { Switch } from '@material-ui/core';
 import Header from './component/Header';
 import SetRoute from './component/SetRoute';
-//import Nav from '../src/domains/common/Nav';
+import Nav from '../src/component/Nav';
 
 
 function App() {
   return (
     <div className="App">
       <Header></Header>
-      {/* <Nav></Nav> */}
+      <Nav></Nav>
 
         <SetRoute/>
     </div>

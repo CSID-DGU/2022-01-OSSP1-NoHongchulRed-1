@@ -30,9 +30,7 @@ const Spacing = styled.div`
 
 function BookSearchPage() {
     return (
-        <div>
-            <center><MultipleBookSearch></MultipleBookSearch></center>
-            
+        <div>          
             <Wrapper>
             <SearchResultCard thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F5416922%3Ftimestamp%3D20220512171037"
             title="달러구트 꿈 백화점" authors="이미예" publisher="하늘출판사" datetime="2020" contents="달러구트 꿈 백화점 소개글입니다" ></SearchResultCard>

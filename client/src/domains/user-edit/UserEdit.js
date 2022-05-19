@@ -107,7 +107,6 @@ const UserEdit = () => {
 
     return (
         <>
-            <Title />
             <div className="userEdit-area">
                 <div className="flex-vertical left_box">
                     <h3>필수정보</h3>

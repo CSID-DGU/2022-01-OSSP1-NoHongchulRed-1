@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@material-ui/core';
 
-import Title from '../domains/common/Title'
-import Nav from '../domains/common/Nav'
 import Book1 from '../assets/images/book1.jpg'
 import Book2 from '../assets/images/book2.jpg'
 import Book3 from '../assets/images/book3.jpg'
@@ -29,8 +27,6 @@ const Main = () => {
 
     return (
         <>
-            <Title />
-            <Nav />
             <div className="main-area">
                 <div className="recommended-books">
                     <span>★ 박철수 님을 위한 추천 도서 BEST 3 ★</span>

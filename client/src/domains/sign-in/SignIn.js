@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
-import { GroupAdd } from '@material-ui/icons';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import Logo from '../../assets/images/logo.png'
 import './SignIn.css'
 
@@ -61,7 +61,7 @@ const SignIn = () => {
                     
                     <div className="flex-horizontal signup-fild">
                     {/* <div> */}
-                        <GroupAdd />
+                        <GroupAddIcon />
                         <label onClick={onClickSignUp}>회원가입</label>
                     </div>
                 </div>
