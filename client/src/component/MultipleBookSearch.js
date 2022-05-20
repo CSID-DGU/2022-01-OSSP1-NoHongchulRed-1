@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 
 import SearchIcon from '@material-ui/icons/Search';
 
+import SearchIcon from '@material-ui/icons/Search';
+
 const Search = () => {
     const [text, setText] = useState('')
     const [books, setBooks] = useState([]);
@@ -21,7 +23,7 @@ const Search = () => {
                 return res.json();
             })
             .then((data) => {
-                navigate('/BookSearchPage', {state: data});               
+                navigate('/BookSearchPage');               
             });
     }
 
@@ -39,6 +41,7 @@ const Search = () => {
                 variant="contained" 
                 aria-label="search" 
                 onClick={SendData} >
+
                 <SearchIcon style={{ fill: "Black" }} />
             </Button>
         </form>

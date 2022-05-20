@@ -9,13 +9,11 @@ import Header from './component/Header';
 import SetRoute from './component/SetRoute';
 import Nav from './component/Nav';
 
-
 function App() {
   return (
     <div className="App">
       <Header></Header>
       <Nav></Nav>
-
         <SetRoute/>
     </div>
   );

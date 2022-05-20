@@ -32,25 +32,23 @@ function BookSearchPage() {
   console.log(state.documents[0].publisher);
     
     return (
-      <div>
-          <Wrapper>
-              {state.documents.map((data, index) => {
-                  return (
-                      <div key={index}>
-                          <SearchResultCard 
-                            thumbnail = {data.thumbnail}
-                            title={data.title} 
-                            authors= {data.authors}
-                            publisher={data.publisher}
-                            datetime={data.datetime}
-                             >
-                          </SearchResultCard>
-                      </div>
-                  )
-              })}
-          </Wrapper>
-      </div>
-  )
+
+        <div> 
+            <Wrapper>
+            <SearchResultCard thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F5416922%3Ftimestamp%3D20220512171037"
+            title="달러구트 꿈 백화점" authors="이미예" publisher="하늘출판사" datetime="2020" contents="달러구트 꿈 백화점 소개글입니다" ></SearchResultCard>
+            <SearchResultCard thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F5416922%3Ftimestamp%3D20220512171037"
+            title="달러구트 꿈 백화점" authors="이미예" publisher="하늘출판사" datetime="2020" contents="달러구트 꿈 백화점 소개글입니다" ></SearchResultCard>
+            <SearchResultCard thumbnail = "../image/BookImg1.png" title="달러구트 꿈 백화점" authors="이미예" 
+            publisher="하늘출판사" datetime="2020" contents="달러구트 꿈 백화점 소개글입니다" ></SearchResultCard>
+            <SearchResultCard thumbnail = "../image/BookImg1.png" title="달러구트 꿈 백화점" authors="이미예" 
+            publisher="하늘출판사" datetime="2020" contents="달러구트 꿈 백화점 소개글입니다" ></SearchResultCard>
+            <SearchResultCard thumbnail = "../image/BookImg1.png" title="달러구트 꿈 백화점" authors="이미예" 
+            publisher="하늘출판사" datetime="2020" contents="달러구트 꿈 백화점 소개글입니다" ></SearchResultCard>
+            </Wrapper>
+        </div>
+    );
+
 }
 
 /*
