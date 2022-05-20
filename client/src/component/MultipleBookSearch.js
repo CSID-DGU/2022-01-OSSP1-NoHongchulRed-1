@@ -2,11 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { TextField, Button } from "@material-ui/core";
 import BookSearchPage from '../view/BookSearchPage';
-
-import { useNavigate } from 'react-router-dom';
-
-import SearchIcon from '@material-ui/icons/Search';
-
+import { useNavigate } from 'react-router';
 
 const Search = () => {
     const [text, setText] = useState('')
@@ -18,7 +14,7 @@ const Search = () => {
 
     return (
         <div>
-            <TextField style={{ background: 'white', borderRadius: '4px' }} label="책 제목으로 검색" variant="outlined" size="small" onChange={onChange} />
+            <TextField label="책 제목으로 검색" variant="outlined" size="small" onChange={onChange} />
 
             <Button variant="contained" color="default" size ="medium" onClick={() => {
             fetch('/kakao/search/multiple/' + text)
@@ -26,7 +22,6 @@ const Search = () => {
                 return res.json();
             })
             .then((data) => {
-
                 console.log("data 출력 ▼");
                 console.log(data);
                 console.log("data.documents 출력 ▼");
@@ -38,7 +33,6 @@ const Search = () => {
             });
             }}>검색</Button>
         </div>
-
     );
 };
 //const navigate = useNavigate();

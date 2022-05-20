@@ -10,7 +10,6 @@ import SetRoute from './component/SetRoute';
 import Nav from '../src/component/Nav';
 
 
-
 function App() {
   return (
     <div className="App">
