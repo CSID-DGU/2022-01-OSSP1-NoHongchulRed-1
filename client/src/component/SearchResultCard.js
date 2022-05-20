@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   root: {
     display: 'flex',
     flexDirection: 'row',
-    maxWidth: 380,
+    maxWidth: 450,
   },
   content: {
     display: 'flex',
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     width: 500,
   },
   media: {
-    maxheight: 300,
+    maxHeight: 300,
   }
 });
 
@@ -61,7 +61,7 @@ export default function SearchResultCard({thumbnail, title, authors, publisher, 
             출판사: {publisher}
           </Typography>
           <Typography gutterBottom variant="subtitle1" component="h3">
-            출판년도: {datetime}
+            출판년도: {datetime.substr(0, 4)}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {contents}

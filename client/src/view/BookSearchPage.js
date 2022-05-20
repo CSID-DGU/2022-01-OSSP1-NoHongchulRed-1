@@ -10,7 +10,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     width: 70rem;
     margin: 2rem auto;
@@ -43,7 +43,7 @@ function BookSearchPage() {
                             authors= {data.authors}
                             publisher={data.publisher}
                             datetime={data.datetime}
-                            contents={data.contents} >
+                             >
                           </SearchResultCard>
                       </div>
                   )
