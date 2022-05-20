@@ -16,9 +16,9 @@ const Header = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="title-area" onClick={() => navigate('/Main')}>
+        <div className="title-area" >
             <ImportContactsIcon fontSize='large'/>
-            <div>
+            <div onClick={() => navigate('/Main')}>
                 <h2>Read</h2>
                 <h2>Lead</h2>
             </div>
