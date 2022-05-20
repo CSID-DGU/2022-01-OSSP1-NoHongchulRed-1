@@ -18,7 +18,6 @@ const SetRoute = () => {
   return (
     
       <Routes>
-       <Route exact={true} path="/" element={<Main/>} />
         <Route exact={true} path="/Main" element={<Main/>} />
         <Route exact path="/EditPage" element={<EditPage />} />
         <Route exact path="/BookSearchPage" element={<BookSearchPage />} />
