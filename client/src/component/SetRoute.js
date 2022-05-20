@@ -8,6 +8,7 @@ import About from '../About';
 import SignIn from '../domains/sign-in/SignIn';
 import SignUp from '../domains/sign-up/SignUp';
 import Main from '../view/Main';
+import LoginPage from '../view/LoginPage';
 import ViewReportPage from '../view/ViewReportPage';
 import MyBookPage from '../view/MyBookPage';
 import GatherReportPage from '../view/GatherReportPage';
@@ -18,6 +19,7 @@ const SetRoute = () => {
   return (
     
       <Routes>
+        <Route exact={true} path="/" element={<Main/>} />
         <Route exact={true} path="/Main" element={<Main/>} />
         <Route exact path="/EditPage" element={<EditPage />} />
         <Route exact path="/BookSearchPage" element={<BookSearchPage />} />

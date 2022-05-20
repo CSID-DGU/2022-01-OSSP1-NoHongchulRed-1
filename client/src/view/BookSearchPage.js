@@ -4,7 +4,7 @@ import { useState } from 'react';
 import MultipleBookSearch from '../component/MultipleBookSearch';
 import SearchResultCard from '../component/SearchResultCard';
 import styled from 'styled-components'; //CSS-IN_JS
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 const Wrapper = styled.div`
     display: flex;
