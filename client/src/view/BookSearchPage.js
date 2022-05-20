@@ -30,6 +30,7 @@ const Spacing = styled.div`
 
 function BookSearchPage() {
     return (
+<<<<<<< HEAD
         <div>          
             <Wrapper>
             <SearchResultCard thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F5416922%3Ftimestamp%3D20220512171037"
@@ -45,6 +46,27 @@ function BookSearchPage() {
             </Wrapper>
         </div>
     );
+=======
+      <div>
+          <Wrapper>
+              {state.documents.map((data, index) => {
+                  return (
+                      <div key={index}>
+                          <SearchResultCard 
+                            thumbnail = {data.thumbnail}
+                            title={data.title} 
+                            authors= {data.authors}
+                            publisher={data.publisher}
+                            datetime={data.datetime}
+                             >
+                          </SearchResultCard>
+                      </div>
+                  )
+              })}
+          </Wrapper>
+      </div>
+  )
+>>>>>>> parent of 009ba24 (Merge branch 'master' into front/main)
 }
 
 /*
