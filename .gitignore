@@ -207,6 +207,3 @@ sketch
 
 # build folder
 client/build
-
-# session
-server/sessions

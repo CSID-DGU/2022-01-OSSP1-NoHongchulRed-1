@@ -7,7 +7,8 @@ import BookSearchPage from './view/BookSearchPage';
 import { Switch } from '@material-ui/core';
 import Header from './component/Header';
 import SetRoute from './component/SetRoute';
-import Nav from './component/Nav';
+import Nav from '../src/component/Nav';
+
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <div className="App">
       <Header></Header>
       <Nav></Nav>
+
         <SetRoute/>
     </div>
   );

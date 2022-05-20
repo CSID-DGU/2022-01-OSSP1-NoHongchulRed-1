@@ -9,7 +9,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-//import Title from '../common/Title'
+import Title from '../common/Title'
 import './SignUp.css'
 
 const START_AGE = 1;
@@ -89,7 +89,7 @@ const SignUp = () => {
 
     return (
         <>
-            {/* <Title /> */}
+            <Title />
             <div className="signup-area">
                 <div className="flex-vertical left_box">
                     <h3>필수정보</h3>

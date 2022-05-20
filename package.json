@@ -6,17 +6,11 @@
     "dev": "concurrently \"npm run server\" \"npm run front\""
   },
   "dependencies": {
+    "@material-ui/icons": "^4.11.3",
     "axios": "^0.27.2",
-    "bcrypt": "^5.0.1",
-    "body-parser": "^1.20.0",
     "concurrently": "^7.1.0",
     "dotenv": "^16.0.0",
     "express": "^4.18.1",
-<<<<<<< HEAD
-=======
-    "express-session": "^1.17.3",
-    "memorystore": "^1.6.7",
->>>>>>> 009ba244c4e631e089b4593b0b2cbb21602b0a6b
     "mysql2": "^2.3.3"
   },
   "devDependencies": {

@@ -4,9 +4,7 @@ const express = require('express');
 const path = require('path');
 const axios = require('axios');
 
-
 const router = express.Router();
-const bcrypt = require('bcrypt');
 
 // 미들웨어 함수를 특정 경로에 등록
 router.get('/api/data', (req, res) => {
