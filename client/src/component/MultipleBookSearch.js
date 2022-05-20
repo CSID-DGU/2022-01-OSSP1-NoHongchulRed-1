@@ -14,7 +14,7 @@ const Search = () => {
 
     return (
         <div>
-            <TextField label="책 제목으로 검색" variant="outlined" size="small" onChange={onChange} />
+            <TextField style={{ background: 'white', borderRadius: '4px' }} label="책 제목으로 검색" variant="outlined" size="small" onChange={onChange} />
 
             <Button variant="contained" color="default" size ="medium" onClick={() => {
             fetch('/kakao/search/multiple/' + text)

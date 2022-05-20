@@ -8,7 +8,7 @@ const Title = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="title-area" onClick={() => navigate('/main')}>
+        <div className="title-area">
             <img src={Logo} alt="logo" />
             <div>
                 <h2>공개 SW 프로젝트</h2>
