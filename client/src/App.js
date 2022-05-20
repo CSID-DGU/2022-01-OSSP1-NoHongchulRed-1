@@ -7,7 +7,7 @@ import BookSearchPage from './view/BookSearchPage';
 import { Switch } from '@material-ui/core';
 import Header from './component/Header';
 import SetRoute from './component/SetRoute';
-import Nav from '../src/component/Nav';
+import Nav from './component/Nav';
 
 
 function App() {

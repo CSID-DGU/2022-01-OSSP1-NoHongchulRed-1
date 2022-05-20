@@ -14,21 +14,20 @@ const Spacing = styled.div`
 
 const Header = () => {
     const navigate = useNavigate();
-    const path = window.location.pathname;
-    if (path === '/' || path==='/SignUp') return null; /*로그인, 회원가입 페이지에서 헤더 숨기기 */
+
     return (
-        <div className="title-area" >
+            <div className="title-area" onClick={() => navigate('/Main')}>
             <ImportContactsIcon fontSize='large'/>
-            <div onClick={() => navigate('/Main')}>
+            <div>
                 <h2>Read</h2>
                 <h2>Lead</h2>
             </div>
             <Spacing></Spacing>
             <div><MultipleBookSearch></MultipleBookSearch></div>
             <Spacing></Spacing>
-            <div><Button variant="contained" color="default" onClick={() => navigate('/')}>log out</Button></div>
+            <div><Button variant="contained" color="default">log out</Button></div>
         </div>
     )
 };
 
-export default Header;
+export default Header; 
