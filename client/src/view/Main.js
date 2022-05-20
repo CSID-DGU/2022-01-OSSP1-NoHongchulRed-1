@@ -29,7 +29,8 @@ const Main = () => {
         <>
             <div className="main-area">
                 <div className="recommended-books">
-                    <span>★ 박철수 님을 위한 추천 도서 BEST 3 ★</span>
+                    <span>★ 박철수 </span> {/* 추가할 부분 */}
+                    <span>님을 위한 추천 도서 BEST 3 ★</span>
                     <div className="books">
                         {booksRender()}
                     </div>
@@ -37,7 +38,7 @@ const Main = () => {
                 <div className="right-box">
                     <div className="user-profile">
                         <div>
-                            <h3>박철수</h3>
+                            <h3>박철수</h3> {/* 추가할 부분 */}
                             <h3> 님</h3>
                             {/* <Button variant="contained" onClick={() => {alert("로그아웃 되었습니다");navigate('/')}}>Logout</Button> */}
                         </div>

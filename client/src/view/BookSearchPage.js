@@ -2,17 +2,15 @@ import React from 'react';
 import { useState } from 'react';
 //import { TextField, Button } from "@material-ui/core";
 import MultipleBookSearch from '../component/MultipleBookSearch';
-import Header from '../component/Header';
 import SearchResultCard from '../component/SearchResultCard';
 import styled from 'styled-components'; //CSS-IN_JS
-import Search from '../component/Search';
 import { useLocation } from 'react-router';
 
 const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     width: 70rem;
     margin: 2rem auto;
@@ -29,9 +27,18 @@ const Spacing = styled.div`
 `;
 
 function BookSearchPage() {
+  const { state } = useLocation();
+  console.log("결과페이지에서 documents[0].publisher 출력 ▼");
+  console.log(state.documents[0].publisher);
+    
     return (
 <<<<<<< HEAD
+<<<<<<< HEAD
         <div>          
+=======
+
+        <div> 
+>>>>>>> 009ba244c4e631e089b4593b0b2cbb21602b0a6b
             <Wrapper>
             <SearchResultCard thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F5416922%3Ftimestamp%3D20220512171037"
             title="달러구트 꿈 백화점" authors="이미예" publisher="하늘출판사" datetime="2020" contents="달러구트 꿈 백화점 소개글입니다" ></SearchResultCard>
@@ -46,6 +53,7 @@ function BookSearchPage() {
             </Wrapper>
         </div>
     );
+<<<<<<< HEAD
 =======
       <div>
           <Wrapper>
@@ -67,6 +75,9 @@ function BookSearchPage() {
       </div>
   )
 >>>>>>> parent of 009ba24 (Merge branch 'master' into front/main)
+=======
+
+>>>>>>> 009ba244c4e631e089b4593b0b2cbb21602b0a6b
 }
 
 /*
