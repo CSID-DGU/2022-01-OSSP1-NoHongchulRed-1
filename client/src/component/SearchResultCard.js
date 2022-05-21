@@ -7,7 +7,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const useStyles = makeStyles({
   root: {
@@ -26,12 +27,20 @@ const useStyles = makeStyles({
 });
 
 /*
-      <Link to = "/EditPage">
-        <Button size="small" color="primary"  >
-          독후감 작성
-        </Button>
-      </Link>
+  const book = {
+      bookTitle: {title},
+      bookAuthor: {authors},
+      bookPublisher: {publisher}
+    }
+
+  //"독후감 작성" 버튼 눌렀을 때 전송될 데이터 확인용코드
+  <Button size="small" color="primary" onClick = { () => {
+  console.log("보낼 책 데이터를 출력해보자");
+  console.log(book);
+  console.log({title});
+}
 */
+
 export default function SearchResultCard({thumbnail, title, authors, publisher, datetime, contents}) {
   const classes = useStyles();
 
@@ -68,7 +77,7 @@ export default function SearchResultCard({thumbnail, title, authors, publisher, 
           </Typography>
         </CardContent>
       <CardActions>
-        <Link to = "/EditPage">
+        <Link to = "/EditPage" state = {{title: {title}, authors: {authors}, publisher: {publisher}}}>
         <Button size="small" color="primary">
           독후감 작성
         </Button>
