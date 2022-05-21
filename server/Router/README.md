@@ -1,5 +1,9 @@
 # DB API Spec
 
+## DB Schema
+
+![관계도](https://user-images.githubusercontent.com/83688807/169657734-aadd6926-88fc-4d2c-aef4-d9b25fd24c1a.png)
+
 ## Endpoints
 
 ### Authentication
@@ -36,12 +40,9 @@ Example request body:
 Example request body:
 ```JSON
 {
-  "title": "harry porter",
-  "contents": "harry porter is ...",
   "isbn": "123456789 12345789",
-  "datetime": "2014-11-17T00:00:00.000+09:00",
+  "title": "harry porter",
   "authors": "abcd efgh, ijkl mnop",
-  "price": 10000,
   "publisher": "abcdef",
   "thumbnail": "https://search.daum.net/search?..."
 }
@@ -58,7 +59,7 @@ Example request body:
   "contents": "I like this book.",
   "rating": 8,
   "userid": "abcd",
-  "bookid": 123
+  "isbn": "123456789 12345789"
 }
 ```
 
@@ -78,6 +79,6 @@ returns a Book
 
 `GET /db/bookreports/:id`
 
-returns a Book report
+returns a Book report + Book data
 
 **※ Every endpoint is temporary. Database table can be changed soon.**
