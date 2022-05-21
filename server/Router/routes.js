@@ -46,6 +46,7 @@ router.post('/db/users/login', async (req,res) => {
     }
 });
 
+// 로그아웃
 router.get('/db/users/logout', async (req,res) => {
     // 로그아웃 세션 버그 있음 추후 수정
     console.log(req.session);
@@ -83,15 +84,59 @@ router.post('/db/users', async (req,res) => {
     } catch (err) {
         return res.json({issuccess: false, message: "db error"});
     }
-  
+});
+
+// Add book data
+// 책 등록
+// 내용 구현 필요
+router.post('/db/books', async (req,res) => {
+    try {
+        return res.json({message: "not implemented yet"});
+    } catch (err) {
+        return res.json({issuccess: false, message: "db error"});
+    }
+});
+
+// Create book report
+// 독후감 등록
+// 내용 구현 필요
+router.post('/db/bookreports', async (req,res) => {
+    try {
+        return res.json({message: "not implemented yet"});
+    } catch (err) {
+        return res.json({issuccess: false, message: "db error"});
+    }
 });
 
 // Get User
-router.get('/db/users/:userId', async (req, res, next) => {
+// 유저 정보 가져오기
+router.get('/db/users/:userId', async (req, res) => {
     const { userId } = req.params;
     try {
         const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [userId]);
         return res.json(data[0][0]);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+});
+
+// Get Book
+// 책 정보 가져오기
+// 내용 구현 필요
+router.get('/db/books/:isbn', async (req, res) => {
+    try {
+        return res.json({message: "not implemented yet"});
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+});
+
+// Get Book report
+// 독후감 정보 가져오기
+// 내용 구현 필요
+router.get('/db/bookreports/:isbn', async (req, res) => {
+    try {
+        return res.json({message: "not implemented yet"});
     } catch (err) {
         return res.status(500).json(err);
     }
