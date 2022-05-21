@@ -10,6 +10,10 @@ import SignUp from '../domains/sign-up/SignUp';
 import Main from '../view/Main';
 import ShortReport from '../domains/short-report/ShortReport';
 import UserEdit from '../domains/user-edit/UserEdit';
+import ViewReportPage from '../view/ViewReportPage';
+import MyBookPage from '../view/MyBookPage';
+import GatherReportPage from '../view/GatherReportPage';
+import RecommendPage from '../view/RecommendPage';
 
 //Route 관리 파일
 const SetRoute = () => {
@@ -25,7 +29,17 @@ const SetRoute = () => {
         <Route exact path="/BookSearchPage" element={<BookSearchPage />} />
         <Route exact path="/about" element={<About />} />
         <Route exact path="/LoginPage" element={<LoginPage />} />
-        <Route path = "/*" element={ <div><h2>이 페이지는 존재하지 않습니다:</h2><p>{useLocation().pathname}</p></div>}
+        <Route exact path="/ViewReportPage" element={<ViewReportPage />} />
+        <Route exact path="/MyBookPage" element={<MyBookPage />} />
+        <Route exact path="/GatherReportPage" element={<GatherReportPage />} />
+        <Route exact path="/ShortReport" element={<ShortReport />} />
+        <Route exact path="/RecommendPage" element={<RecommendPage />} />
+        <Route
+          path = "/*"
+          element={ <div>
+            <h2>이 페이지는 존재하지 않습니다:</h2>
+            <p>{useLocation().pathname}</p>
+          </div>}
         />
       </Routes>
       

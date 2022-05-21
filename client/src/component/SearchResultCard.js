@@ -7,13 +7,14 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const useStyles = makeStyles({
   root: {
     display: 'flex',
     flexDirection: 'row',
-    maxWidth: 380,
+    maxWidth: 450,
   },
   content: {
     display: 'flex',
@@ -21,17 +22,25 @@ const useStyles = makeStyles({
     width: 500,
   },
   media: {
-    maxheight: 300,
+    maxHeight: 300,
   }
 });
 
 /*
-      <Link to = "/EditPage">
-        <Button size="small" color="primary"  >
-          독후감 작성
-        </Button>
-      </Link>
+  const book = {
+      bookTitle: {title},
+      bookAuthor: {authors},
+      bookPublisher: {publisher}
+    }
+
+  //"독후감 작성" 버튼 눌렀을 때 전송될 데이터 확인용코드
+  <Button size="small" color="primary" onClick = { () => {
+  console.log("보낼 책 데이터를 출력해보자");
+  console.log(book);
+  console.log({title});
+}
 */
+
 export default function SearchResultCard({thumbnail, title, authors, publisher, datetime, contents}) {
   const classes = useStyles();
 
@@ -61,21 +70,23 @@ export default function SearchResultCard({thumbnail, title, authors, publisher, 
             출판사: {publisher}
           </Typography>
           <Typography gutterBottom variant="subtitle1" component="h3">
-            출판년도: {datetime}
+            출판년도: {datetime.substr(0, 4)}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {contents}
           </Typography>
         </CardContent>
       <CardActions>
-        <Link to = "/EditPage">
-        <Button size="small" color="primary">
-          독후감 작성
-        </Button>
+        <Link to = "/EditPage" state = {{title: {title}, authors: {authors}, publisher: {publisher}}}>
+          <Button size="small" color="primary">
+            독후감 작성
+          </Button>
         </Link>
-        <Button size="small" color="primary">
-          독후감 모아보기
-        </Button>
+        <Link to = "/GatherReportPage" state = {{thumbnail: {thumbnail}, title: {title}, authors: {authors}, publisher: {publisher}}}>
+          <Button size="small" color="primary">
+            독후감 모아보기
+          </Button>
+        </Link>
       </CardActions>
       </div>
     </Card>
