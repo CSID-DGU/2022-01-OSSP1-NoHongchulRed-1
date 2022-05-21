@@ -46,7 +46,7 @@ const Main = () => {
                             <label>3</label>
                         </div>
                         
-                        <Button variant="outlined" color="primary" onClick={() => navigate('/userEdit')}>내 정보 수정</Button>
+                        <Button variant="outlined" color="primary" onClick={() => navigate('/UserEdit')}>내 정보 수정</Button>
                     </div>
                     <div className="write-bookReport">
                         <Button variant="contained" color="secondary" onClick={() => navigate('/EditPage')}>독후감 작성하기</Button>
