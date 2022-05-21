@@ -1,24 +1,18 @@
 import React from 'react';
 import { useState } from 'react';
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, FormHelperText } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components'; //CSS-IN_JS
 import { FormControl } from '@material-ui/core';
 import Image from '../image/BookImg1.png';
 import ShortReport from '../component/ShortReport';
+import { useLocation } from 'react-router-dom';
 
-const Wrapper = styled.div`
+const Wrap = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: space-around;
-    width: 70rem;
-    margin: 2rem auto;
-    border-radius: 4px;
-    background-color: var(--white-color);
-    padding: 2rem 0.5rem 2rem;
-    overflow: hidden;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
 const Spacing = styled.div`
@@ -34,15 +28,16 @@ const LeftSide = styled.div`
 `;
 
 export default function GatherReportPage () {
+    const {state} = useLocation();
     return (
-        <Wrapper>
+        <Wrap>
             <LeftSide>
-                <img src = {Image} alt="logo-img"/>
+                <img src = {state.thumbnail.thumbnail} alt="logo-img"/>
                 <Spacing/>
                 <TextField
                         id="filled-read-only-input"
                         label="책 제목"
-                        defaultValue="달러구트 꿈 백화점"
+                        defaultValue={state.title.title}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -51,7 +46,7 @@ export default function GatherReportPage () {
                     <TextField
                         id="filled-read-only-input"
                         label="저자"
-                        defaultValue="이미예"
+                        defaultValue={state.authors.authors}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -60,7 +55,7 @@ export default function GatherReportPage () {
                     <TextField
                         id="filled-read-only-input"
                         label="출판사"
-                        defaultValue="팩토리 나인"
+                        defaultValue={state.publisher.publisher}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -77,8 +72,8 @@ export default function GatherReportPage () {
                     />
             </LeftSide>
             <div>
-                <ShortReport></ShortReport>
+                <ShortReport/>
             </div>
-        </Wrapper>
+        </Wrap>
     );
 }

@@ -4,6 +4,7 @@ import { TextField, Button } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components'; //CSS-IN_JS
 import { FormControl } from '@material-ui/core';
+import { useLocation } from 'react-router-dom';
 
 const Wrapper = styled.div`
     width: 70rem;
@@ -29,9 +30,16 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
+
+ /*
+    //받아온 정보 확인용 코드
+    console.log("현재 EditPage - SearchResultCard에서 받아온 정보:");
+    console.log(state);
+*/ 
 const EditPage = () => {
     const classes = useStyles();
-
+    const { state } = useLocation();
+    
     return(
         <Wrapper>
             <h3> 📕책정보📕</h3>
@@ -39,8 +47,9 @@ const EditPage = () => {
                 <div>
                     <TextField
                         id="filled-read-only-input"
+                        style ={{width: '98%'}} 
                         label="책 제목"
-                        defaultValue="달러구트 꿈 백화점"
+                        defaultValue={state.title.title}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -49,7 +58,7 @@ const EditPage = () => {
                     <TextField
                         id="filled-read-only-input"
                         label="저자"
-                        defaultValue="이미예"
+                        defaultValue={state.authors.authors}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -58,7 +67,7 @@ const EditPage = () => {
                     <TextField
                         id="filled-read-only-input"
                         label="출판사"
-                        defaultValue="팩토리 나인"
+                        defaultValue={state.publisher.publisher}
                         InputProps={{
                             readOnly: true,
                         }}
