@@ -69,15 +69,15 @@ Example request body:
 
 returns a User
 
-### Get book
+### Get Book
 
-`GET /db/books/:id`
+`GET /db/books/:isbn`
 
 returns a Book
 
-### Get book report
+### Get Book report
 
-`GET /db/bookreports/:id`
+`GET /db/bookreports/:isbn`
 
 returns a Book report + Book data
 
