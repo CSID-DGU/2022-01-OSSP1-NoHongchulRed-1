@@ -78,13 +78,15 @@ export default function SearchResultCard({thumbnail, title, authors, publisher, 
         </CardContent>
       <CardActions>
         <Link to = "/EditPage" state = {{title: {title}, authors: {authors}, publisher: {publisher}}}>
-        <Button size="small" color="primary">
-          독후감 작성
-        </Button>
+          <Button size="small" color="primary">
+            독후감 작성
+          </Button>
         </Link>
-        <Button size="small" color="primary">
-          독후감 모아보기
-        </Button>
+        <Link to = "/GatherReportPage" state = {{thumbnail: {thumbnail}, title: {title}, authors: {authors}, publisher: {publisher}}}>
+          <Button size="small" color="primary">
+            독후감 모아보기
+          </Button>
+        </Link>
       </CardActions>
       </div>
     </Card>
