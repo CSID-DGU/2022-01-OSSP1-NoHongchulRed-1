@@ -88,7 +88,7 @@ router.post('/db/users', async (req,res) => {
 
 // Add book data
 // 책 등록
-// 내용 구현 필요
+
 router.post('/db/books', async (req,res) => {
     try {
         return res.json({message: "not implemented yet"});
@@ -99,7 +99,7 @@ router.post('/db/books', async (req,res) => {
 
 // Create book report
 // 독후감 등록
-// 내용 구현 필요
+
 router.post('/db/bookreports', async (req,res) => {
     try {
         return res.json({message: "not implemented yet"});
@@ -122,10 +122,11 @@ router.get('/db/users/:userId', async (req, res) => {
 
 // Get Book
 // 책 정보 가져오기
-// 내용 구현 필요
 router.get('/db/books/:isbn', async (req, res) => {
+    const {isbn} = req.params;
     try {
-        return res.json({message: "not implemented yet"});
+        const bodata= await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?',[isbn]);
+        return res.json(bodata[0][0]);
     } catch (err) {
         return res.status(500).json(err);
     }
@@ -133,10 +134,12 @@ router.get('/db/books/:isbn', async (req, res) => {
 
 // Get Book report
 // 독후감 정보 가져오기
-// 내용 구현 필요
 router.get('/db/bookreports/:isbn', async (req, res) => {
+    const {isbn} = req.params; 
     try {
-        return res.json({message: "not implemented yet"});
+        const redata= await pool.query('SELECT * FROM BOOKWEB.BookReportTB WHERE isbn = ?',[isbn]);
+        const bdata = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?',[isbn]);
+        return res.json(redata[0][0],bdata[0][0]);
     } catch (err) {
         return res.status(500).json(err);
     }
