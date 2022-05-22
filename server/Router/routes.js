@@ -108,7 +108,7 @@ router.post('/db/books', async (req,res) => {
 // 독후감 등록
 router.post('/db/bookreports', async (req,res) => {
     if (req.session.userId) { // 로그인이 되어있는 상태인지 확인 안 되어 있으면 
-        await req.session.destroy(function(err){
+        await req.session.save(function(err){
             if (err) throw err;
         });
         const title = req.body.title;
