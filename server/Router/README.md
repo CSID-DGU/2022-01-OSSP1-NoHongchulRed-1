@@ -75,10 +75,25 @@ returns a User
 
 returns a Book
 
-### Get Book report
+### Get Book report 1
+
+`GET /db/bookreports/:isbn`
+
+returns a Book report + Book data
+all Book report on book
+
+### Get Book report 2
+
+`GET /db/bookreports/:userid`
+
+returns a Book report + Book data
+all Book report on user
+
+### Get Book report 3
 
 `GET /db/bookreports/:isbn/:userid`
 
 returns a Book report + Book data
+specific Book report on book and user
 
 **※ Every endpoint is temporary. Database table can be changed soon.**

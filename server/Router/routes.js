@@ -10,6 +10,15 @@ const bcrypt = require('bcrypt');
 
 const saltOrRounds = 10;
 
+// get session
+router.get('/session', async (req, res) => {
+    try {
+        return res.json(Object.assign(req.session, {issuccess: true, message: "success"}));
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+});
+
 // Authentication
 // 로그인 
 // id에 해당하는 유저가 있는지 찾고 bcrypt.compare로 비밀번호를 비교
@@ -48,14 +57,11 @@ router.post('/db/users/login', async (req,res) => {
 
 // 로그아웃
 router.get('/db/users/logout', async (req,res) => {
-    // 로그아웃 세션 버그 있음 추후 수정
-    console.log(req.session);
     if (req.session.userId) {
-        console.log("hi")
         await req.session.destroy(function(err){
             if (err) throw err;
         });
-        return res.json(Object.assign(req.session, {issuccess: true, message: "success"}));
+        return res.json({issuccess: true, message: "success"});
     } else {
         return res.json({issuccess: false, message: "not login yet"});
     }
@@ -88,7 +94,6 @@ router.post('/db/users', async (req,res) => {
 
 // Add book data
 // 책 등록
-
 router.post('/db/books', async (req,res) => {
     const isbn = req.body.isbn;
     const title = req.body.title;
@@ -98,7 +103,7 @@ router.post('/db/books', async (req,res) => {
     try {
         pool.query('INSERT INTO BOOKWEB.BookTB(isbn, title, authors, publisher, thumbnail) VALUES (?,?,?,?,?)',
         [isbn, title, authors, publisher, thumbnail]);
-        return res.json({issuccess: false, message: "add book success"});
+        return res.json({issuccess: true, message: "add book success"});
     } catch (err) {
         return res.json({issuccess: false, message: "db error"});
     }
@@ -111,12 +116,12 @@ router.post('/db/bookreports', async (req,res) => {
         const title = req.body.title;
         const contents = req.body.contents;
         const rating = req.body.rating;
-        const userId = req.body.userId;
+        const userId = req.body.userId; // 여기 나중에 req.session.userId로 바뀌어야 함
         const isbn = req.body.isbn;
         try {
             pool.query('INSERT INTO BOOKWEB.BookReportTB(title, contents, rating, userId, isbn) VALUES (?,?,?,?,?)',
             [title, contents, rating, userId, isbn]);
-            return res.json({issuccess: false, message: "독후감 추가 성공"});
+            return res.json({issuccess: true, message: "create book report success"});
         } catch (err) {
             return res.json({issuccess: false, message: "db error"});
         }
