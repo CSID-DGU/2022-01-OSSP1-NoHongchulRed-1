@@ -94,7 +94,6 @@ router.post('/db/users', async (req,res) => {
 
 // Add book data
 // 책 등록
-
 router.post('/db/books', async (req,res) => {
     const isbn = req.body.isbn;
     const title = req.body.title;
@@ -104,7 +103,7 @@ router.post('/db/books', async (req,res) => {
     try {
         pool.query('INSERT INTO BOOKWEB.BookTB(isbn, title, authors, publisher, thumbnail) VALUES (?,?,?,?,?)',
         [isbn, title, authors, publisher, thumbnail]);
-        return res.json({issuccess: false, message: "add book success"});
+        return res.json({issuccess: true, message: "add book success"});
     } catch (err) {
         return res.json({issuccess: false, message: "db error"});
     }
@@ -117,12 +116,12 @@ router.post('/db/bookreports', async (req,res) => {
         const title = req.body.title;
         const contents = req.body.contents;
         const rating = req.body.rating;
-        const userId = req.body.userId;
+        const userId = req.body.userId; // 여기 나중에 req.session.userId로 바뀌어야 함
         const isbn = req.body.isbn;
         try {
             pool.query('INSERT INTO BOOKWEB.BookReportTB(title, contents, rating, userId, isbn) VALUES (?,?,?,?,?)',
             [title, contents, rating, userId, isbn]);
-            return res.json({issuccess: false, message: "독후감 추가 성공"});
+            return res.json({issuccess: true, message: "create book report success"});
         } catch (err) {
             return res.json({issuccess: false, message: "db error"});
         }
