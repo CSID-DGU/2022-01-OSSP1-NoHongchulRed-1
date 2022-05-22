@@ -77,7 +77,7 @@ returns a Book
 
 ### Get Book report
 
-`GET /db/bookreports/:isbn`
+`GET /db/bookreports/:isbn/:userid`
 
 returns a Book report + Book data
 
