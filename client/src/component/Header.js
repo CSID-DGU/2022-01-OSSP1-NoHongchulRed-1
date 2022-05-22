@@ -14,7 +14,8 @@ const Spacing = styled.div`
 
 const Header = () => {
     const navigate = useNavigate();
-
+    const path = window.location.pathname;
+    if (path === '/' || path==='/SignUp') return null; /*로그인, 회원가입 페이지에서 헤더 숨기기 */
     return (
         <div className="title-area" >
             <ImportContactsIcon fontSize='large'/>
@@ -25,9 +26,9 @@ const Header = () => {
             <Spacing></Spacing>
             <div><MultipleBookSearch></MultipleBookSearch></div>
             <Spacing></Spacing>
-            <div><Button variant="contained" color="default">log out</Button></div>
+            <div><Button variant="contained" color="default" onClick={() => navigate('/')}>log out</Button></div>
         </div>
     )
 };
 
-export default Header; 
+export default Header;

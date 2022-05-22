@@ -4,7 +4,10 @@ import { BrowserRouter, Route, Routes, useLocation, Link } from 'react-router-do
 import EditPage from '../view/EditPage';
 import BookSearchPage from '../view/BookSearchPage';
 import About from '../About';
+import SignIn from '../view/SignIn';
+import SignUp from '../view/SignUp';
 import Main from '../view/Main';
+import UserEdit from '../view/UserEdit';
 import LoginPage from '../view/LoginPage';
 import ViewReportPage from '../view/ViewReportPage';
 import MyBookPage from '../view/MyBookPage';
@@ -18,8 +21,10 @@ const SetRoute = () => {
   return (
     
       <Routes>
-        <Route exact={true} path="/" element={<Main/>} />
+        <Route exact={true} path="/" element={<SignIn/>} />
+        <Route path = "/SignUp" element={<SignUp />} />
         <Route exact={true} path="/Main" element={<Main/>} />
+        <Route path = "/UserEdit" element={<UserEdit />} />
         <Route exact path="/EditPage" element={<EditPage />} />
         <Route exact path="/BookSearchPage" element={<BookSearchPage />} />
         <Route exact path="/about" element={<About />} />
