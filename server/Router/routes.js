@@ -10,6 +10,15 @@ const bcrypt = require('bcrypt');
 
 const saltOrRounds = 10;
 
+// get session
+router.get('/session', async (req, res) => {
+    try {
+        return res.json(Object.assign(req.session, {issuccess: true, message: "success"}));
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+});
+
 // Authentication
 // 로그인 
 // id에 해당하는 유저가 있는지 찾고 bcrypt.compare로 비밀번호를 비교
@@ -48,14 +57,11 @@ router.post('/db/users/login', async (req,res) => {
 
 // 로그아웃
 router.get('/db/users/logout', async (req,res) => {
-    // 로그아웃 세션 버그 있음 추후 수정
-    console.log(req.session);
     if (req.session.userId) {
-        console.log("hi")
         await req.session.destroy(function(err){
             if (err) throw err;
         });
-        return res.json(Object.assign(req.session, {issuccess: true, message: "success"}));
+        return res.json({issuccess: true, message: "success"});
     } else {
         return res.json({issuccess: false, message: "not login yet"});
     }
