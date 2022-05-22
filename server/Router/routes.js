@@ -107,7 +107,7 @@ router.post('/db/books', async (req,res) => {
 // Create book report
 // 독후감 등록
 router.post('/db/bookreports', async (req,res) => {
-    if (req.session.userId) { // 로그인이 되어있는 상태인지 확인 안 되어 있으면 
+    //if (req.session.userId) { // 로그인이 되어있는 상태인지 확인 안 되어 있으면 
         const title = req.body.title;
         const contents = req.body.contents;
         const rating = req.body.rating;
@@ -120,9 +120,9 @@ router.post('/db/bookreports', async (req,res) => {
         } catch (err) {
             return res.json({issuccess: false, message: "db error"});
         }
-    } else {
-        return res.json({issuccess: false, message: "not login yet"}); // 여기서 로그인하고 오라고 함
-    }
+    //} else {
+       // return res.json({issuccess: false, message: "not login yet"}); // 여기서 로그인하고 오라고 함
+    //}
 });
 
 // Get User
