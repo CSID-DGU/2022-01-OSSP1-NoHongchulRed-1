@@ -155,8 +155,7 @@ router.get('/db/bookreports/:isbn', async (req, res) => {
     const {isbn} = req.params; 
     try {
         const redata= await pool.query('SELECT * FROM BOOKWEB.BookReportTB WHERE isbn = ?',[isbn]);
-        const bdata = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?',[isbn]);
-        return res.json(redata[0][0],bdata[0][0]);
+        return res.json(redata[0][0]);
     } catch (err) {
         return res.status(500).json(err);
     }
