@@ -145,6 +145,115 @@ const Test = () => {
         }
     }
 
+    // add book data
+    const [bookInputs, setbookInputs] = useState({
+        isbn: '',
+        title: '',
+        authors: '',
+        publisher: '',
+        thumbnail: '',
+    });
+
+    const onChangeBook = (e) => {
+        const { value, name } = e.target;
+        
+        setbookInputs({
+            ...bookInputs,
+            [name]: value
+        });
+    };
+
+    const onSubmitBook = () => {
+        try {
+            // axios로 post
+            // id부터 sexuality까지를 body에 넣어 전달
+            axios.post('/db/books', {
+                isbn: bookInputs.isbn,
+                title: bookInputs.title,
+                authors: bookInputs.authors,
+                publisher: bookInputs.publisher,
+                thumbnail: bookInputs.thumbnail
+            }).then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                console.log(data);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    // get book
+    const [userId, setuserId] = useState('');
+
+    const onChangeUser = (e) => {
+        setuserId(e.target.value);
+    };
+
+    const onSubmitUser = () => {
+        try {
+          // axios로 get
+          // 파라미터 userId로 전달
+            axios.get('/db/users/' + userId)
+            .then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                console.log(data);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const [gbookInputs, setgbookInputs] = useState({
+        isbn: '',
+        title: '',
+        authors: '',
+        publisher: '',
+        thumbnail: ''
+    });
+
+    const onChangegbook = (e) => {
+        const { value, name } = e.target;
+        
+        setgbookInputs({
+            ...gbookInputs,
+            [name]: value
+        });
+    };
+
+    const onSubmitgbook = () => {
+        try {
+            axios.post('/db/books', {
+                isbn: gbookInputs.id,
+                title: gbookInputs.password,
+                authors: gbookInputs.authors,
+                publisher: gbookInputs.publisher,
+                thumbnail: gbookInputs.thumbnail
+            }).then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                // 세션을 data로 넘겨주었으므로 해당 내용으로 설정
+                console.log(data)
+                setBookSession({
+                    ...bookSession,
+                    isbn: data.id,
+                    title: data.password,
+                    authors: data.authors,
+                    publisher: data.publisher,
+                    thumbnail: data.thumbnail
+                });
+            });
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // create book report
+    // get book report
+
     // ~자를 입력하세요 등 텍스트는 임의로 설정한 것
     // 단순한 테스트를 위해 라디오버튼나 체크박스 사용 안함 (실제 개발 시 UI 내용 적용 필요)
     return (
@@ -182,6 +291,33 @@ const Test = () => {
             <input type="text" name="id" placeholder="아이디 입력" value={userId} maxLength="16" onChange={onChangeUser} />
             <button onClick={onSubmitUser}>데이터 불러오기</button>
             <br />
+            <hr />
+            <h1><font size="3">책 정보 추가</font></h1>
+            <input type="text" name="isbn" placeholder="10자" value={bookInputs.isbn} maxLength="16" onChange={onChangeBook} />
+            <br />
+            <input type="text" name="title" placeholder="제목 입력하세요" value={bookInputs.title} maxLength="16" onChange={onChangeBook} />
+            <br />
+            <input type="text" name="authors" placeholder="작가 입력하세요" value={bookInputs.authors} maxLength="10" onChange={onChangeBook} />
+            <br />
+            <input type="text" name="publisher" placeholder="출판사 입력하세요" value={bookInputs.publisher} maxLength="10" onChange={onChangeBook} />
+            <br />
+            <input type="text" name="thumbnail" placeholder="섬네일 일단 글자로" value={bookInputs.thumbnail} maxLength="10" onChange={onChangeBook} />
+            <br />
+            <button onClick={onSubmitBook}>책 등록</button>
+            <hr />
+
+            <h1><font size="3">책 등록 확인</font></h1>
+            <input type="text" name="isbn" placeholder="10자" value={gbookInputs.isbn} maxLength="16" onChange={onChangegbook} />
+            <br />
+            <input type="text" name="title" placeholder="제목 입력하세요" value={gbookInputs.title} maxLength="16" onChange={onChangegbook} />
+            <br />
+            <input type="text" name="authors" placeholder="작가 입력하세요" value={gbookInputs.authors} maxLength="10" onChange={onChangegbook} />
+            <br />
+            <button onClick={onSubmitgbook}>책 등록 확인</button>
+            <br />
+            <p>isbn: {bookSession.isbn}, title: {bookSession.title}, authors: {bookSession.authors}, publisher: {bookSession.publisher}, thumbnail: {bookSession.thumbnail}</p>
+            <br />
+
         </div>
     );
 };
