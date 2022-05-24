@@ -7,6 +7,7 @@ import { FormControl } from '@material-ui/core';
 import Image from '../image/BookImg1.png';
 import ShortReport from '../component/ShortReport';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const Wrap = styled.div`
     display: flex;
@@ -29,6 +30,21 @@ const LeftSide = styled.div`
 
 export default function GatherReportPage () {
     const {state} = useLocation();
+    const isbn = state.isbn.isbn.substr(0,10); //isbn 10
+
+    try {
+        axios.get('/db/bookreports/' + isbn)
+        .then((res) => {
+            return res.data;
+        })
+        .then((data) => {
+            console.log(data); //[data]
+        });
+    } catch (err) {
+        console.log(err);
+    }
+    //받은 독후감 목록을 ShortReport.js에 넘겨줘야될듯
+    
     return (
         <Wrap>
             <LeftSide>

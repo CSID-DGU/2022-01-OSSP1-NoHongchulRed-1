@@ -43,6 +43,7 @@ function BookSearchPage() {
                             authors= {data.authors}
                             publisher={data.publisher}
                             datetime={data.datetime}
+                            isbn={data.isbn}
                              >
                           </SearchResultCard>
                       </div>
