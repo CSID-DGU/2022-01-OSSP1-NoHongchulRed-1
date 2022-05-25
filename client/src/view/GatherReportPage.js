@@ -31,7 +31,7 @@ const LeftSide = styled.div`
 export default function GatherReportPage () {
     const {state} = useLocation();
     const isbn = state.isbn.isbn.substr(0,10); //isbn 10
-
+    console.log("GatherReportPage에서 받은 state: ", state);
     useEffect(() => {
         try {
             axios.get('/db/bookreports/' + isbn)
@@ -49,7 +49,7 @@ export default function GatherReportPage () {
     
     const example = [
         {
-            contents: "내용123",
+            contents: "임시데이터1입니다",
             date: "2022-05-23T02:46:33.000Z",
             id: 8,
             isbn: "8924045458",
@@ -58,7 +58,7 @@ export default function GatherReportPage () {
             userid: "lin"
         },
         {
-            contents: "내용456",
+            contents: "임시데이터2입니다",
             date: "2022-05-23T02:46:33.000Z",
             id: 9,
             isbn: "8924045458",

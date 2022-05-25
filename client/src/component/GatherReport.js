@@ -5,13 +5,17 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './GatherReport.css'
 import { ListItemSecondaryAction } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
 
 const GatherReport = ({contents, date, isbn, bookTitle, userid, reportTitle}) => {
     console.log("GatherReport.js isbn: ", isbn);
+    const navigate = useNavigate();
 
     return (
         <>
-            <div className="shortReport-area">
+            <div className="shortReport-area" onClick={() => {
+                navigate('/ViewReportPage', {state: {isbn: {isbn}, userid: {userid}}});  
+            }}>
                 <div className="report-box">
                     <div className="title">
                         <div className="user-info">
