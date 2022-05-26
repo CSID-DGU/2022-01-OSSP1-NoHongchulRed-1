@@ -41,7 +41,7 @@ const useStyles = makeStyles({
 }
 */
 
-export default function SearchResultCard({thumbnail, title, authors, publisher, datetime, contents}) {
+export default function SearchResultCard({thumbnail, title, authors, publisher, datetime, contents, isbn}) {
   const classes = useStyles();
 
   return (
@@ -82,7 +82,13 @@ export default function SearchResultCard({thumbnail, title, authors, publisher, 
             독후감 작성
           </Button>
         </Link>
-        <Link to = "/GatherReportPage" state = {{thumbnail: {thumbnail}, title: {title}, authors: {authors}, publisher: {publisher}}}>
+        <Link to = "/GatherReportPage" state = {{
+          thumbnail: {thumbnail}, 
+          title: {title}, 
+          authors: {authors}, 
+          publisher: {publisher}, 
+          isbn:{isbn}
+        }}>
           <Button size="small" color="primary">
             독후감 모아보기
           </Button>
