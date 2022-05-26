@@ -36,7 +36,7 @@ const Test = () => {
             // axios로 post
             // id와 password를 body에 넣어 전달
             axios.post('/db/users/login', {
-                id: loginInputs.id,
+                userid: loginInputs.id,
                 password: loginInputs.password 
             }).then((res) => {
                 return res.data;
@@ -106,7 +106,7 @@ const Test = () => {
             // axios로 post
             // id부터 sexuality까지를 body에 넣어 전달
             axios.post('/db/users', {
-                id: registerInputs.id,
+                userid: registerInputs.id,
                 password: registerInputs.password,
                 nickname: registerInputs.nickname,
                 age: registerInputs.age,
@@ -305,7 +305,7 @@ const Test = () => {
             <br />
             <hr />
             <h1><font size="3">책 정보 추가</font></h1>
-            <input type="text" name="isbn" placeholder="10자" value={bookInputs.isbn} maxLength="16" onChange={onChangeBook} />
+            <input type="text" name="isbn" placeholder="isbn 입력하세요" value={bookInputs.isbn} maxLength="16" onChange={onChangeBook} />
             <br />
             <input type="text" name="title" placeholder="제목 입력하세요" value={bookInputs.title} maxLength="16" onChange={onChangeBook} />
             <br />

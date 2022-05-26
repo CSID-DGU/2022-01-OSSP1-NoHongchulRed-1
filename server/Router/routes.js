@@ -24,18 +24,18 @@ router.get('/session', async (req, res) => {
 // id에 해당하는 유저가 있는지 찾고 bcrypt.compare로 비밀번호를 비교
 // 성공하면 세션에 유저 정보 담아서 프론트로 넘겨줌
 router.post('/db/users/login', async (req,res) => {
-    const id = req.body.id;
+    const userid = req.body.userid;
     const password = req.body.password;
 
     try {
-        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [id]);
+        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE userid = ?', [userid]);
         // id 유무 체크
         if (data[0].length != 0) {
             const userData = data[0][0];
             // password 체크
             var compare = await bcrypt.compare(password, userData.password);
             if (compare) {
-                req.session.userId = userData.id;
+                req.session.userId = userData.userid;
                 req.session.nickname = userData.nickname;
                 req.session.save(err => {
                     if (err) {
@@ -58,7 +58,7 @@ router.post('/db/users/login', async (req,res) => {
 // 로그아웃
 router.get('/db/users/logout', async (req,res) => {
     if (req.session.userId) {
-        await req.session.destroy(function(err){
+        await req.session.destroy(function(err) {
             if (err) throw err;
         });
         return res.json({issuccess: true, message: "success"});
@@ -70,7 +70,7 @@ router.get('/db/users/logout', async (req,res) => {
 // Registration
 // id가 중복인지 체크하고 없으면 데이터 값 가지고 insert
 router.post('/db/users', async (req,res) => {
-    const id = req.body.id;
+    const userid = req.body.userid;
     const password = req.body.password;
     const nickname = req.body.nickname;
     const age = req.body.age;
@@ -78,12 +78,12 @@ router.post('/db/users', async (req,res) => {
     
     const hashPassword = bcrypt.hashSync(password, saltOrRounds); // 암호화
     try {
-        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [id]);
+        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE userid = ?', [userid]);
         // id 유무 체크 (로그인과 달리 중복 id가 없어야 함)
         if (data[0].length == 0) {
-            pool.query('INSERT INTO BOOKWEB.UserTB(id, password, nickname, age, sexuality) VALUES (?,?,?,?,?)',
-            [id, hashPassword, nickname, age, sexuality]);
-            return res.json({issuccess: false, message: "register success"});
+            pool.query('INSERT INTO BOOKWEB.UserTB(userid, password, nickname, age, sexuality) VALUES (?,?,?,?,?)',
+            [userid, hashPassword, nickname, age, sexuality]);
+            return res.json({issuccess: true, message: "register success"});
         } else {
             return res.json({issuccess: false, message: "id is duplicated"});
         }
@@ -101,7 +101,7 @@ router.post('/db/books', async (req,res) => {
     const publisher = req.body.publisher;
     const thumbnail = req.body.thumbnail;
     try {
-        pool.query('INSERT INTO BOOKWEB.BookTB(isbn, title, authors, publisher, thumbnail) VALUES (?,?,?,?,?)',
+        await pool.query('INSERT INTO BOOKWEB.BookTB(isbn, title, authors, publisher, thumbnail) VALUES (?,?,?,?,?)',
         [isbn, title, authors, publisher, thumbnail]);
         return res.json({issuccess: true, message: "add book success"});
     } catch (err) {
@@ -119,7 +119,7 @@ router.post('/db/bookreports', async (req,res) => {
         const userId = req.body.userId; // 여기 나중에 req.session.userId로 바뀌어야 함
         const isbn = req.body.isbn;
         try {
-            pool.query('INSERT INTO BOOKWEB.BookReportTB(title, contents, rating, userId, isbn) VALUES (?,?,?,?,?)',
+            await pool.query('INSERT INTO BOOKWEB.BookReportTB(title, contents, rating, userId, isbn) VALUES (?,?,?,?,?)',
             [title, contents, rating, userId, isbn]);
             return res.json({issuccess: true, message: "create book report success"});
         } catch (err) {
@@ -135,7 +135,7 @@ router.post('/db/bookreports', async (req,res) => {
 router.get('/db/users/:userId', async (req, res) => {
     const { userId } = req.params;
     try {
-        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE id = ?', [userId]);
+        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE userid = ?', [userId]);
         return res.json(data[0][0]);
     } catch (err) {
         return res.status(500).json(err);
@@ -147,23 +147,36 @@ router.get('/db/users/:userId', async (req, res) => {
 router.get('/db/books/:isbn', async (req, res) => {
     const {isbn} = req.params;
     try {
-        const bodata= await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?',[isbn]);
+        const bodata = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?', [isbn]);
         return res.json(bodata[0][0]);
     } catch (err) {
         return res.status(500).json(err);
     }
 });
 
-// Get Book report
-// 독후감 정보 가져오기
+// Get Book report 1
+// 독후감 정보 가져오기(isbn 기준)
 router.get('/db/bookreports/:isbn', async (req, res) => {
     const {isbn} = req.params; 
     try {
-        const redata= await pool.query('SELECT * FROM BOOKWEB.BookReportTB WHERE isbn = ?',[isbn]);
-        return res.json(redata[0][0]);
+        const redata = await pool.query('SELECT * FROM BOOKWEB.BookReportTB WHERE isbn = ?', [isbn]);
+        return res.json(redata[0]);
     } catch (err) {
         return res.status(500).json(err);
     }
+});
+
+// Get Book report 2
+// 독후감 정보 가져오기(userid 기준)
+router.get('/db/bookreports/:userid', async (req, res) => {
+    // 내용 구현 필요
+});
+
+// Get Book report 3
+// 독후감 정보 가져오기(isbn, userid 기준 - 한 개만 선택됨)
+router.get('/db/bookreports/:isbn/:userid', async (req, res) => {
+    // 내용 구현 필요
+    // 고유한 독후감 정보를 가져오는 것은 단일 독후감 게시물을 읽을 때이므로 조회수에 해당하는 views 값을 하나 증가시켜 update해줘야 함
 });
 
 /*
