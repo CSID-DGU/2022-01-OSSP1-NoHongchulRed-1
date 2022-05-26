@@ -2,7 +2,7 @@
 
 ## DB Schema
 
-![관계도](https://user-images.githubusercontent.com/83688807/169657734-aadd6926-88fc-4d2c-aef4-d9b25fd24c1a.png)
+![관계도](https://user-images.githubusercontent.com/83688807/170421754-23952661-a6ad-4a04-a320-396674c2d459.png)
 
 ## Endpoints
 
@@ -13,7 +13,7 @@
 Example request body:
 ```JSON
 {
-  "id": "aaa",
+  "userid": "aaa",
   "password": "qwerasdf"
 }
 ```
@@ -25,7 +25,7 @@ Example request body:
 Example request body:
 ```JSON
 {
-  "id": "aaa",
+  "userid": "aaa",
   "password": "qwerasdf",
   "nickname": "nick",
   "age": 0,
