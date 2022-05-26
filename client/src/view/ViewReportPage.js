@@ -165,7 +165,7 @@ const ViewReportPage = () => {
                 />
                 <TextField
                     id="outlined-number"
-                    label="별점(1~5)"
+                    label="별점(1~10)"
                     type="number"
                     value={exampleReport.rating}
                     InputProps={{
