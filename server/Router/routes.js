@@ -132,11 +132,25 @@ router.post('/db/bookreports', async (req,res) => {
 
 // Get User
 // 유저 정보 가져오기
+
 router.get('/db/users/:userid', async (req, res) => {
     const { userid } = req.params;
     try {
         const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE userid = ?', [userid]);
         return res.json(data[0][0]);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+});
+
+// Get Book report 2
+// 독후감 정보 가져오기(userid 기준)
+
+router.get('/db/bookreports/:userid', async (req, res) => {
+    const { userid } = req.params;
+    try {
+        const data = await pool.query('SELECT * FROM BOOKWEB.BookReportTB WHERE userid = ?', [userid]);
+        return res.json(data[0]);
     } catch (err) {
         return res.status(500).json(err);
     }
@@ -166,18 +180,7 @@ router.get('/db/bookreports/:isbn', async (req, res) => {
     }
 });
 
-// Get Book report 2
-// 독후감 정보 가져오기(userid 기준)
 
-router.get('/db/bookreports/:userid', async (req, res) => {
-    const { userid } = req.params;
-    try {
-        const iibdata = await pool.query('SELECT * FROM BOOKWEB.BookReportTB WHERE userid = ?', [userid]);
-        return res.json(iibdata[0]);
-    } catch (err) {
-        return res.status(500).json(err);
-    }
-});
 // Get Book report 3
 // 독후감 정보 가져오기(isbn, userid 기준 - 한 개만 선택됨)
 //router.get('/db/bookreports/:isbn/:userid', async (req, res) => {
