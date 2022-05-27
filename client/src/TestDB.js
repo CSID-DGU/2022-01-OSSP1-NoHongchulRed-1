@@ -267,13 +267,13 @@ const Test = () => {
 
     //get book report 2 (userid)
 
-    /*const onChangebruserid = (e) => {
-        setuserId(e.target.value);
+    const onChangebruser = (e) => {
+        setuserid(e.target.value);
     };
 
-    const onSubmitbruserid = () => {
+    const onSubmitbruser = () => {
         try {
-            axios.get('/db/bookreports/' + userId)
+            axios.get('/db/bookreports/' + userid)
             .then((res) => {
                 return res.data;
             })
@@ -284,7 +284,7 @@ const Test = () => {
             console.log(err);
         }
     }
-*/
+    
     // ~자를 입력하세요 등 텍스트는 임의로 설정한 것
     // 단순한 테스트를 위해 라디오버튼나 체크박스 사용 안함 (실제 개발 시 UI 내용 적용 필요)
     return (
@@ -357,10 +357,12 @@ const Test = () => {
             <h1><font size="3">독후감추가 확인(isbn)</font></h1>
             <input type="text" name="isbn" placeholder="isbn 입력" value={isbn} maxLength="20" onChange={onChangebrisbn} />
             <button onClick={onSubmitbrisbn}>독후감 등록 확인(isbn)</button>
-            
+            <hr />
+            <h1><font size="3">독후감추가 확인(userid)</font></h1>
+            <input type="text" name="userid" placeholder="아이디 입력" value={userid} maxLength="20" onChange={onChangebruser} />
+            <button onClick={onSubmitbruser}>독후감 등록 확인(userid)</button>
             <br />
             
-
         </div>
     );
 };

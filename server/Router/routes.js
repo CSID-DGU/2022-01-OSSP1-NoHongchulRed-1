@@ -168,23 +168,22 @@ router.get('/db/bookreports/:isbn', async (req, res) => {
 
 // Get Book report 2
 // 독후감 정보 가져오기(userid 기준)
-/*router.get('/db/bookreports/:userid', async (req, res) => {
-    const {userid} = req.params;
+
+router.get('/db/bookreports/:userid', async (req, res) => {
+    const { userid } = req.params;
     try {
-        const ibdata = await pool.query('SELECT * FROM BOOKWEB.BookReportTB WHERE userid = ?',[userid]);
-        return res.json(ibdata[0]);
-    }catch(err) {
+        const iibdata = await pool.query('SELECT * FROM BOOKWEB.BookReportTB WHERE userid = ?', [userid]);
+        return res.json(iibdata[0]);
+    } catch (err) {
         return res.status(500).json(err);
     }
-    
-});*/
-
+});
 // Get Book report 3
 // 독후감 정보 가져오기(isbn, userid 기준 - 한 개만 선택됨)
-router.get('/db/bookreports/:isbn/:userid', async (req, res) => {
+//router.get('/db/bookreports/:isbn/:userid', async (req, res) => {
     // 내용 구현 필요
     // 고유한 독후감 정보를 가져오는 것은 단일 독후감 게시물을 읽을 때이므로 조회수에 해당하는 views 값을 하나 증가시켜 update해줘야 함
-});
+//});
 
 /*
 router.get('*', (req, res) => {
