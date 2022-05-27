@@ -149,7 +149,7 @@ router.get('/db/users/:userid', async (req, res) => {
 router.get('/db/bookreports/:userid', async (req, res) => {
     const { userid } = req.params;
     try {
-        const data = await pool.query('SELECT * FROM BOOKWEB.BookReportTB WHERE userid = ?', [userid]);
+        const data = await pool.query('SELECT *, R.title AS ReportTITLE FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ?', [userid]);
         return res.json(data[0]);
     } catch (err) {
         return res.status(500).json(err);
