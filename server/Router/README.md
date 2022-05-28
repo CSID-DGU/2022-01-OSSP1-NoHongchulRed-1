@@ -65,7 +65,7 @@ Example request body:
 
 ### Get User
 
-`GET /db/users/:id`
+`GET /db/users/:userid`
 
 returns a User
 
@@ -77,14 +77,14 @@ returns a Book
 
 ### Get Book report 1
 
-`GET /db/bookreports/:isbn`
+`GET /db/books/bookreports/:isbn`
 
 returns a Book report + Book data
 all Book report on book
 
 ### Get Book report 2
 
-`GET /db/bookreports/:userid`
+`GET /db/users/bookreports/:userid`
 
 returns a Book report + Book data
 all Book report on user

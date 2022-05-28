@@ -253,12 +253,12 @@ const Test = () => {
 
     const onSubmitbrisbn = () => {
         try {
-            axios.get('/db/bookreports/' + isbn)
+            axios.get('/db/books/bookreports/' + isbn)
             .then((res) => {
                 return res.data;
             })
             .then((data) => {
-                console.log([data]);
+                console.log(data);
             });
         } catch (err) {
             console.log(err);
@@ -273,12 +273,12 @@ const Test = () => {
 
     const onSubmitbruser = () => {
         try {
-            axios.get('/db/bookreports/' + userid)
+            axios.get('/db/users/bookreports/' + userid)
             .then((res) => {
                 return res.data;
             })
             .then((data) => {
-                console.log([data]);
+                console.log(data);
             });
         } catch (err) {
             console.log(err);
@@ -286,19 +286,14 @@ const Test = () => {
     }
     
     // get book report 3
-    const onChangeisid = (e) => {
-        setuserid(e.target.value);
-        setisbn(e.target.value);
-    };
-
     const onSubmitisid = () => {
         try {
-            axios.get('/db/bookreports/' + [userid, isbn])
+            axios.get('/db/bookreports/' + isbn + '/' + userid)
             .then((res) => {
                 return res.data;
             })
             .then((data) => {
-                console.log([data]);
+                console.log(data);
             });
         } catch (err) {
             console.log(err);
@@ -384,7 +379,7 @@ const Test = () => {
             <hr />
             <h1><font size="3">하나의 독후감추가 확인(userid+isbn)</font></h1>
             <input type="text" name="userid" placeholder="아이디 입력" value={userid} maxLength="20" onChange={onChangebruser} />
-            <input type="text" name="isbn" placeholder="isbn 입력" valuer={isbn} maxLength="20" onChange={onChangeisid} />
+            <input type="text" name="isbn" placeholder="isbn 입력" valuer={isbn} maxLength="20" onChange={onChangebrisbn} />
             <button onClick={onSubmitisid}>독후감 등록 확인(userid+isbn)</button>
             <br />
             
