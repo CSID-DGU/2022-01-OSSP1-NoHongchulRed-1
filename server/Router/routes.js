@@ -132,7 +132,6 @@ router.post('/db/bookreports', async (req,res) => {
 
 // Get User
 // 유저 정보 가져오기
-
 router.get('/db/users/:userid', async (req, res) => {
     const { userid } = req.params;
     try {
@@ -143,10 +142,33 @@ router.get('/db/users/:userid', async (req, res) => {
     }
 });
 
+// Get Book
+// 책 정보 가져오기
+router.get('/db/books/:isbn', async (req, res) => {
+    const {isbn} = req.params;
+    try {
+        const data = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?', [isbn]);
+        return res.json(data[0][0]);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+});
+
+// Get Book report 1
+// 독후감 정보 가져오기(isbn 기준)
+router.get('/db/books/bookreports/:isbn', async (req, res) => {
+    const {isbn} = req.params; 
+    try {
+        const data = await pool.query('SELECT *, R.title AS ReportTITLE FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.isbn = ?', [isbn]);
+        return res.json(data[0]);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+});
+
 // Get Book report 2
 // 독후감 정보 가져오기(userid 기준)
-
-router.get('/db/bookreports/:userid', async (req, res) => {
+router.get('/db/users/bookreports/:userid', async (req, res) => {
     const { userid } = req.params;
     try {
         const data = await pool.query('SELECT *, R.title AS ReportTITLE FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ?', [userid]);
@@ -162,39 +184,13 @@ router.get('/db/bookreports/:isbn/:userid', async (req, res) => {
     const {userid} = req.params;
     const {isbn} = req.params;
     try {
-        const iudata= await pool.query('UPDATE BOOKWEB.BookReportTB SET views = views+1 WHERE (SELECT * FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?)', [userid, isbn]);
-        return res.json(iudata[0]);
+        const data = await pool.query('UPDATE BOOKWEB.BookReportTB SET views = views+1 WHERE (SELECT * FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?)', [userid, isbn]);
+        return res.json(data[0]);
     } catch(err) {
         return res.status(500).json(err);
     }
     // 고유한 독후감 정보를 가져오는 것은 단일 독후감 게시물을 읽을 때이므로 조회수에 해당하는 views 값을 하나 증가시켜 update해줘야 함
 });
-
-// Get Book
-// 책 정보 가져오기
-router.get('/db/books/:isbn', async (req, res) => {
-    const {isbn} = req.params;
-    try {
-        const bodata = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?', [isbn]);
-        return res.json(bodata[0][0]);
-    } catch (err) {
-        return res.status(500).json(err);
-    }
-});
-
-// Get Book report 1
-// 독후감 정보 가져오기(isbn 기준)
-router.get('/db/bookreports/:isbn', async (req, res) => {
-    const {isbn} = req.params; 
-    try {
-        const redata = await pool.query('SELECT *, R.title AS ReportTITLE FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.isbn = ?', [isbn]);
-        return res.json(redata[0]);
-    } catch (err) {
-        return res.status(500).json(err);
-    }
-});
-
-
 
 /*
 router.get('*', (req, res) => {
