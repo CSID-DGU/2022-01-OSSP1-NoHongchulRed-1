@@ -285,6 +285,26 @@ const Test = () => {
         }
     }
     
+    // get book report 3
+    const onChangeisid = (e) => {
+        setuserid(e.target.value);
+        setisbn(e.target.value);
+    };
+
+    const onSubmitisid = () => {
+        try {
+            axios.get('/db/bookreports/' + [userid, isbn])
+            .then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                console.log([data]);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     // ~자를 입력하세요 등 텍스트는 임의로 설정한 것
     // 단순한 테스트를 위해 라디오버튼나 체크박스 사용 안함 (실제 개발 시 UI 내용 적용 필요)
     return (
@@ -361,6 +381,11 @@ const Test = () => {
             <h1><font size="3">독후감추가 확인(userid)</font></h1>
             <input type="text" name="userid" placeholder="아이디 입력" value={userid} maxLength="20" onChange={onChangebruser} />
             <button onClick={onSubmitbruser}>독후감 등록 확인(userid)</button>
+            <hr />
+            <h1><font size="3">하나의 독후감추가 확인(userid+isbn)</font></h1>
+            <input type="text" name="userid" placeholder="아이디 입력" value={userid} maxLength="20" onChange={onChangebruser} />
+            <input type="text" name="isbn" placeholder="isbn 입력" valuer={isbn} maxLength="20" onChange={onChangeisid} />
+            <button onClick={onSubmitisid}>독후감 등록 확인(userid+isbn)</button>
             <br />
             
         </div>
