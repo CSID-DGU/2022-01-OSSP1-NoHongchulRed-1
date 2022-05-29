@@ -55,16 +55,15 @@ const Test = () => {
         }
     }
 
-    const onSubmitLoout = () => {
+    const onSubmitLogout = () => {
         try {
-            // axios로 post
-            // id와 password를 body에 넣어 전달
+            // axios로 get
             axios.get('/db/users/logout')
             .then((res) => {
                 return res.data;
             })
             .then((data) => {
-                // 세션을 data로 넘겨주었으므로 해당 내용으로 설정
+                // 세션을 data로 넘겨주었으므로 해당 내용으로 설정 (세션 파괴되었으므로 내용 없음)
                 console.log(data)
                 setUserSession({
                     ...userSession,
@@ -314,7 +313,7 @@ const Test = () => {
             <br />
             <p>id: {userSession.id}, nickname: {userSession.nickname}</p>
             <br />
-            <button onClick={onSubmitLoout}>로그아웃</button>
+            <button onClick={onSubmitLogout}>로그아웃</button>
 
             <hr />
 
