@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const pool = require('../pool');
+const spawn = require('child_process').spawn;
 
 const router = express.Router();
 
@@ -9,6 +10,23 @@ const bcrypt = require('bcrypt');
 //const index = path.join(__dirname, '../client/build/index.html');
 
 const saltOrRounds = 10;
+
+// get recommend data
+router.get('/recommend', (req, res) => {
+    var result;
+    const process = spawn('python', ['python/main.py']);
+    process.stdout.on('data', function (data) {
+        //console.log("stdout: " + data.toString());
+        result = data.toString();
+        return res.json(result);
+    });
+
+    process.stderr.on('data', function(data) {
+        //console.log("stderr: " + data.toString());
+        result = data.toString();
+        return res.json(result);
+    });
+});
 
 // get session
 router.get('/session', async (req, res) => {

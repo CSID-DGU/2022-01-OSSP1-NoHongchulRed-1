@@ -299,6 +299,20 @@ const Test = () => {
         }
     }
 
+    const onButtonRunPy = () => {
+        try {
+            axios.get('/recommend')
+            .then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                console.log(data);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     // ~자를 입력하세요 등 텍스트는 임의로 설정한 것
     // 단순한 테스트를 위해 라디오버튼나 체크박스 사용 안함 (실제 개발 시 UI 내용 적용 필요)
     return (
@@ -380,8 +394,10 @@ const Test = () => {
             <input type="text" name="userid" placeholder="아이디 입력" value={userid} maxLength="20" onChange={onChangebruser} />
             <input type="text" name="isbn" placeholder="isbn 입력" valuer={isbn} maxLength="20" onChange={onChangebrisbn} />
             <button onClick={onSubmitisid}>독후감 등록 확인(userid+isbn)</button>
+            <hr />
             <br />
-            
+            <h1><font size="3">파이썬 실행 확인</font></h1>
+            <button onClick={onButtonRunPy}>파이썬 실행하기</button>
         </div>
     );
 };
