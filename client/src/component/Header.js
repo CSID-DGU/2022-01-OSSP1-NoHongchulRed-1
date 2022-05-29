@@ -1,11 +1,12 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
-import './Header.css'
 import MultipleBookSearch from './MultipleBookSearch';
 import { Button } from "@material-ui/core";
 import styled from 'styled-components'; //CSS-IN_JS
+import './Header.css'
 
 //background-color: yellow;
 const Spacing = styled.div`
@@ -15,17 +16,12 @@ const Spacing = styled.div`
 
 const Header = () => {
     const navigate = useNavigate();
-    const path = window.location.pathname;
-    if (path === '/' || path==='/SignUp') return null; /*로그인, 회원가입 페이지에서 헤더 숨기기 */
 
-    const onSubmitLogout = () => {
-        try {
-            axios.get('/db/users/logout');
-        } catch (err) {
-            console.log(err)
-        }
-        navigate('/');
-    }
+    // eslint-disable-next-line
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+
+    const path = window.location.pathname;
+    if (path === '/' || path==='/SignUp') return null; /*로그인, 회원가입 페이지에서 Nav 숨기기 */
 
     return (
         <div className="title-area" >
@@ -34,12 +30,32 @@ const Header = () => {
                 <h2>Read</h2>
                 <h2>Lead</h2>
             </div>
-            <Spacing></Spacing>
-            <div><MultipleBookSearch></MultipleBookSearch></div>
-            <Spacing></Spacing>
-            <div><Button variant="contained" color="default" onClick={onSubmitLogout}>log out</Button></div>
+            <Spacing />
+            <div>
+                <MultipleBookSearch />
+            </div>
+            <Spacing />
+            <Button variant="contained" onClick={() => {
+
+                axios.get('/db/users/logout')
+                    .then((res) => {
+                        return res.data;
+                    })
+                    .then((data) => {
+                        // 세션을 data로 넘겨주었으므로 해당 내용으로 설정
+                        console.log(data)
+                        alert("로그아웃 되었습니다");
+                        navigate('/');
+                        removeCookie('user');
+                    }).catch((e) => {
+                        console.log(e)
+                        alert('로그아웃에 실패했습니다.')
+                    })
+
+                }}>로그아웃</Button>
+            {/* <div><Button variant="contained" color="default">log out</Button></div> */}
         </div>
     )
 };
 
-export default Header;
+export default Header; 

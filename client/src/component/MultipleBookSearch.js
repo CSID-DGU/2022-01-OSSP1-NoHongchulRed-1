@@ -18,9 +18,11 @@ const Search = () => {
     const SendData = () => {
         fetch('/kakao/search/multiple/' + text)
             .then((res) => {
+                console.log(res)
                 return res.json();
             })
             .then((data) => {
+                console.log({state: data})
                 navigate('/BookSearchPage', {state: data});               
             });
     }

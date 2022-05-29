@@ -30,6 +30,7 @@
     width: 600px;
     height: auto;
     border: 1px solid #808080;
+    border-radius: 12px;
 }
 .login-box div.flex-horizontal{
     display: flex;
@@ -51,8 +52,8 @@
     width: 200px;
 }
 .login-box button{
-    width: 200px;
-    height: 80px;
+    width: 140px;
+    height: 100px;
 }
 .login-box .flex-horizontal > label{
     cursor: pointer;

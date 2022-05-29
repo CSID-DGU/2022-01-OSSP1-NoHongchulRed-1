@@ -9,21 +9,21 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import Title from '../component/Title'
+import axios from 'axios';
 import './SignUp.css'
 
-const START_AGE = 1;
+const START_AGE = 10;
 const END_AGE = 100;
 
 const MenuProps = {
     PaperProps: {
-      style: {
-        // maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        maxWidth: 60,
-        maxHeight: 240,
-      },
+        style: {
+            // maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            maxWidth: 60,
+            maxHeight: 240,
+        },
     },
-  };
+};
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -33,15 +33,15 @@ const SignUp = () => {
     const [pw, setPw] = useState('');
     const [pwConfirm, setPwConfirm] = useState('');
 
-    const [age, setAge] = useState(0);
+    const [age, setAge] = useState('');
     const [gender, setGender] = useState('male');
 
-    const onChangeId = (e) => {setId(e.target.value)}
-    const onChangeNickName = (e) => {setNickName(e.target.value)}
-    const onChangePw = (e) => {setPw(e.target.value)}
-    const onChangePwConfirm = (e) => {setPwConfirm(e.target.value)}
-    const handleAgeChange = (e) => {setAge(e.target.value)};
-    const handleGenderChange = (e) => {setGender(e.target.value)};
+    const onChangeId = (e) => { setId(e.target.value) }
+    const onChangeNickName = (e) => { setNickName(e.target.value) }
+    const onChangePw = (e) => { setPw(e.target.value) }
+    const onChangePwConfirm = (e) => { setPwConfirm(e.target.value) }
+    const handleAgeChange = (e) => { setAge(e.target.value) };
+    const handleGenderChange = (e) => { setGender(e.target.value) };
 
     const ageRender = () => {
         const renderResult = [];
@@ -51,57 +51,83 @@ const SignUp = () => {
         return renderResult;
     }
 
+    const checkId = () => { return id !== "" ? (3 < id.length) && (id.length < 17) ? false : true : false; }
+    const checkNick = () => { return nickName !== "" ? (1 < nickName.length) && (nickName.length < 11) ? false : true : false; }
+    const checkPw = () => { return pw !== "" ? (7 < pw.length) && (pw.length < 17) ? false : true : false; }
+
+
     const onClickSignUp = () => {
-        if(id === ""){
+        if (id === "" || checkId()) {
             alert("아이디를 입력해주세요.")
         }
-        else if(nickName === ""){
+        else if (nickName === "" || checkNick()) {
             alert("닉네임을 입력해주세요.")
         }
-        else if(pw === ""){
+        else if (pw === "" || checkPw()) {
             alert("비밀번호를 입력해주세요.")
         }
-        else if(pwConfirm === ""){
+        else if (pwConfirm === "") {
             alert("비밀번호를 확인을 입력해주세요.")
         }
-        else if(pw !== pwConfirm){
+        else if (pw !== pwConfirm) {
             alert("비밀번호를 확인해주세요.")
         }
-        else if(!age){
+        else if (!age) {
             alert("나이를 선택해주세요.")
         }
-        else{
-            // 이쪽에 Axios 하시면됩니다.
-            // Axios.get('/api', {
-            //     params: {
-            //         id: id,
-            //         pw: pw,
-            //         nickName: nickName,
-            //         age: age,
-            //         gender: gender
-            //     }
-            // }).then(function (response) {
-            //     console.log(response);
-            //     navigate('/');
-            // }).catch((err) => { console.log(err) });
+        else {
+            function convertAgeRange(age) {
+                if (age < 20) { return 0 }
+                else if (age < 30) { return 1 }
+                else if (age < 40) { return 2 }
+                else if (age < 50) { return 3 }
+                else if (age < 60) { return 4 }
+                else { return 5 }
+            }
+            // id부터 sexuality까지를 body에 넣어 전달
+            axios.post('/db/users', {
+                userid: id,
+                password: pw,
+                nickname: nickName,
+                age: convertAgeRange(age),
+                sexuality: gender
+            }).then((res) => {
+                console.log(res.data)
+                if (res.data.issuccess) {
+                    alert("회원가입 되었습니다! 다시 로그인해주세요.")
+                    navigate('/');
+                }
+                else {
+                    alert(res.data.message)
+                }
+            }).catch((e) => {
+                console.log(e)
+                alert("회원가입 중 오류가 발생했습니다.")
+            })
         }
     }
-
+    checkNick()
     return (
         <>
-            <Title />
+            {/* <Header /> */}
             <div className="signup-area">
                 <div className="flex-vertical left_box">
                     <h3>필수정보</h3>
-                    <TextField id="standard-basic" label="아이디" onChange={onChangeId} />
-                    <TextField id="standard-basic" label="닉네임" onChange={onChangeNickName} />
-                    <TextField id="standard-basic" type="password" label="패스워드" onChange={onChangePw} />
-                    <TextField 
-
-                    error={pwConfirm !== "" ? pw === pwConfirm ? false : true : false}
-                    helperText = {pwConfirm !== "" ? pw === pwConfirm ? '' : '패스워드를 확인해주세요' : ''}
-                    
-                    id="standard-basic" type="password" label="패스워드 확인" onChange={onChangePwConfirm} />
+                    <TextField
+                        error={checkId()}
+                        helperText={checkId() ? '4~16자 사이로 입력해주세요' : ''}
+                        label="아이디" onChange={onChangeId} />
+                    <TextField label="닉네임" onChange={onChangeNickName}
+                        error={checkNick()}
+                        helperText={checkNick() ? '2~10자 사이로 입력해주세요' : ''} />
+                    <TextField type="password" label="패스워드" onChange={onChangePw}
+                        error={checkPw()}
+                        helperText={checkPw() ? '8~16자 사이로 입력해주세요' : ''} />
+                    <TextField
+                        error={pwConfirm !== "" ? pw === pwConfirm ? false : true : false}
+                        helperText={pwConfirm !== "" ? pw === pwConfirm ? '' : '패스워드를 확인해주세요' : ''}
+                        type="password" label="패스워드 확인" onChange={onChangePwConfirm}
+                    />
                 </div>
 
                 <div className="flex-vertical right_box">
@@ -121,8 +147,8 @@ const SignUp = () => {
 
                     <h4>성별</h4>
                     <RadioGroup className="gender-box" aria-label="gender" name="gender1" value={gender} onChange={handleGenderChange}>
-                        <FormControlLabel value="male" control={<Radio />} labelPlacement="start" label="남자" />
-                        <FormControlLabel value="female" control={<Radio />} labelPlacement="start" label="여자" />
+                        <FormControlLabel value="M" control={<Radio />} labelPlacement="start" label="남자" />
+                        <FormControlLabel value="F" control={<Radio />} labelPlacement="start" label="여자" />
                     </RadioGroup>
 
                     <Button variant="contained" color="primary" onClick={onClickSignUp}>회원가입</Button>
