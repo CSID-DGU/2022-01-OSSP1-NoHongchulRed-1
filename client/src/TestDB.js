@@ -57,14 +57,13 @@ const Test = () => {
 
     const onSubmitLoout = () => {
         try {
-            // axios로 post
-            // id와 password를 body에 넣어 전달
+            // axios로 get
             axios.get('/db/users/logout')
             .then((res) => {
                 return res.data;
             })
             .then((data) => {
-                // 세션을 data로 넘겨주었으므로 해당 내용으로 설정
+                // 세션을 data로 넘겨주었으므로 해당 내용으로 설정 (세션 파괴되었으므로 내용 없음)
                 console.log(data)
                 setUserSession({
                     ...userSession,
