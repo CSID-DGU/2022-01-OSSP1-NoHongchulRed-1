@@ -55,7 +55,7 @@ const Test = () => {
         }
     }
 
-    const onSubmitLoout = () => {
+    const onSubmitLogout = () => {
         try {
             // axios로 get
             axios.get('/db/users/logout')
@@ -313,7 +313,7 @@ const Test = () => {
             <br />
             <p>id: {userSession.id}, nickname: {userSession.nickname}</p>
             <br />
-            <button onClick={onSubmitLoout}>로그아웃</button>
+            <button onClick={onSubmitLogout}>로그아웃</button>
 
             <hr />
 
