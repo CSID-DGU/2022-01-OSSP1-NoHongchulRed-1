@@ -8,7 +8,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 
 const useStyles = makeStyles({
   root: {
@@ -77,18 +76,12 @@ export default function SearchResultCard({thumbnail, title, authors, publisher, 
           </Typography>
         </CardContent>
       <CardActions>
-        <Link to = "/EditPage" state = {{title: {title}, authors: {authors}, publisher: {publisher}}}>
+        <Link to = "/EditPage" state = {{isbn: parseInt(isbn.split(' ')[0]), title, authors, publisher}}>
           <Button size="small" color="primary">
             독후감 작성
           </Button>
         </Link>
-        <Link to = "/GatherReportPage" state = {{
-          thumbnail: {thumbnail}, 
-          title: {title}, 
-          authors: {authors}, 
-          publisher: {publisher}, 
-          isbn:{isbn}
-        }}>
+        <Link to = "/GatherReportPage" state = {{isbn: parseInt(isbn.split(' ')[0]), thumbnail, title, authors, publisher}}>
           <Button size="small" color="primary">
             독후감 모아보기
           </Button>

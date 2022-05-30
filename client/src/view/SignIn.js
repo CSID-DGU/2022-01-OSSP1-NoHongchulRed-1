@@ -1,62 +1,66 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios';
 import { Button } from '@material-ui/core';
+import { useCookies } from 'react-cookie';
 import TextField from '@material-ui/core/TextField';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import Logo from '../image/logo.png'
+import axios from 'axios';
 import './SignIn.css'
 
 const SignIn = () => {
     const navigate = useNavigate();
-
-    const [loginData, setLoginData] = useState({
-        userid: '',
-        password: ''
-    });
-
-    const onChangeLoginData = (e) => {
-        const { value, name } = e.target;
-        
-        setLoginData({
-            ...loginData,
-            [name]: value
-        });
-    };
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    
+    const [id, setId] = useState('')
+    const [pw, setPw] = useState('')
+    
+    const onChangeId = (e) => {setId(e.target.value)}
+    const onChangePw = (e) => {setPw(e.target.value)}
 
     const onClickButton = () => {
-        if (loginData.userid === "") {
-            alert("아이디를 입력해주세요.");
-        }
-        else if (loginData.password === "") {
-            alert("비밀번호를 입력해주세요");
-        }
-        else {
-            try {
-                // axios로 post
-                // userid와 password를 body에 넣어 전달
-                axios.post('/db/users/login', {
-                    userid: loginData.userid,
-                    password: loginData.password 
-                }).then((res) => {
-                    return res.data;
-                })
-                .then((data) => {
-                    // 세션을 data로 넘겨줌
-                    if (data.issuccess) {
-                        navigate('/Main');
-                    } else {
-                        alert("로그인 실패");
-                    }
-                });
-            } catch (err) {
-                console.log(err);
-            }
+        if(id === ""){ alert("아이디를 입력해주세요.") }
+        else if(pw === ""){ alert("비밀번호를 입력해주세요") }
+        else{
+            axios.post('/db/users/login', {
+                userid: id,
+                password: pw 
+            }).then((res) => {
+                console.log(res)
+                if(res.data.issuccess){
+
+                    const after1 = new Date();
+                    after1.setMinutes(after1.getMinutes() +1);
+
+                    setCookie(
+                        'user', 
+                        { userId: res.data.userId, nickName: res.data.nickname},
+                        { path:'/', expires: new Date(res.data.cookie.expires) }
+                        // { path:'/', expires: after1 }
+                    );
+
+                    setTimeout(function() {
+                        navigate("/main");
+                    }, 0)
+                    alert(res.data.nickname + "님 환영합니다!")
+                    
+                }
+                else{ alert("아이디, 비밀번호가 틀렸습니다.") }
+            }).catch((err) => {
+                console.log(err)
+                alert("로그인 시도 중 장애가 발생했습니다.")
+            })
         }
     }
 
     const onClickSignUp = () => {
         navigate('/SignUp');
+    }
+
+    const onKeyDownInput = (e) => {
+        if(e.keyCode == 13){
+            onClickButton();
+         }
     }
 
     return (
@@ -72,8 +76,8 @@ const SignIn = () => {
                 <div className="flex-vertical">
                     <div className="flex-horizontal text-fild">
                         <div className="login-text flex-vertical">
-                            <TextField className="standard-basic" label="ID" name="userid" value={loginData.userid} onChange={onChangeLoginData} />
-                            <TextField className="standard-basic" type="password" label="PW" name="password" value={loginData.password} onChange={onChangeLoginData} />
+                            <TextField label="ID" onChange={onChangeId} onKeyDown={onKeyDownInput} />
+                            <TextField type="password" label="PW" onChange={onChangePw} onKeyDown={onKeyDownInput} />
                         </div>
                         <Button variant="contained" color="primary" onClick={onClickButton}>Login</Button>
                     </div>

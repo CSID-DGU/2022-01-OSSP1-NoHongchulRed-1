@@ -1,13 +1,8 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { TextField, Button, FormHelperText } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
+import { TextField } from "@material-ui/core";
 import styled from 'styled-components'; //CSS-IN_JS
-import { FormControl } from '@material-ui/core';
-import Image from '../image/BookImg1.png';
-import GatherReport from '../component/GatherReport';
+import ShortReport from '../component/ShortReport';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
 
 const Wrap = styled.div`
     display: flex;
@@ -30,50 +25,13 @@ const LeftSide = styled.div`
 
 export default function GatherReportPage () {
     const {state} = useLocation();
-    const isbn = state.isbn.isbn.substr(0,10); //isbn 10
-    console.log("GatherReportPage에서 받은 state: ", state);
-    useEffect(() => {
-        try {
-            axios.get('/db/bookreports/' + isbn)
-            .then((res) => {
-                return res.data;
-            })
-            .then((data) => {
-                console.log("[data]: ", [data]); //data
-                //console.log(data[0].userid); (data가 arraylist가 아직 아니라서)
-            });
-        } catch (err) {
-            console.log(err);
-        }
-    }, [])
-    
-    const example = [
-        {
-            contents: "임시데이터1입니다",
-            date: "2022-05-23T02:46:33.000Z",
-            id: 8,
-            isbn: "8924045458",
-            rating: 4,
-            title: "시간의 시집을 읽고",
-            userid: "lin"
-        },
-        {
-            contents: "임시데이터2입니다",
-            date: "2022-05-23T02:46:33.000Z",
-            id: 9,
-            isbn: "8924045458",
-            rating: 5,
-            title: "독후감제목입니다",
-            userid: "hi000"
-        }       
-    ]
 
     return (
         <Wrap>
             <LeftSide>
-                <img src = {state.thumbnail.thumbnail} alt="logo-img"/>
+                <img src = {state.thumbnail} alt="logo-img"/>
                 <Spacing/>
-                <TextField
+                    <TextField
                         id="filled-read-only-input"
                         label="책 제목"
                         defaultValue={state.title.title}
@@ -85,7 +43,7 @@ export default function GatherReportPage () {
                     <TextField
                         id="filled-read-only-input"
                         label="저자"
-                        defaultValue={state.authors.authors}
+                        defaultValue={state.authors}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -94,7 +52,7 @@ export default function GatherReportPage () {
                     <TextField
                         id="filled-read-only-input"
                         label="출판사"
-                        defaultValue={state.publisher.publisher}
+                        defaultValue={state.publisher}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -111,24 +69,9 @@ export default function GatherReportPage () {
                     />
             </LeftSide>
             <div>
-                {example.map((data, index) => {
-                  return (
-                      <div key={index}>
-                          <GatherReport
-                            contents = {data.contents}
-                            date={data.date} 
-                            isbn={isbn} 
-                            bookTitle={state.title.title} 
-                            userid={data.userid} 
-                            reportTitle={data.title}
-                             >
-                          </GatherReport>
-                      </div>
-                  )
-              })}
+                <ShortReport
+                isbn={ state.isbn } />
             </div>
         </Wrap>
     );
 }
-//<h2>(gatherReportPage)isbn: {isbn}, title: {state.title.title}</h2>
-//<GatherReport isbn={isbn} title={state.title.title}/>

@@ -9,10 +9,10 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import Title from '../component/Title'
+//import Title from '../common/Title'
 import './UserEdit.css'
 
-const START_AGE = 1;
+const START_AGE = 10;
 const END_AGE = 100;
 
 const MenuProps = {
@@ -33,7 +33,7 @@ const UserEdit = () => {
     const [pw, setPw] = useState('');
     const [pwConfirm, setPwConfirm] = useState('');
 
-    const [age, setAge] = useState(0);
+    const [age, setAge] = useState('');
     const [gender, setGender] = useState('male');
 
     useEffect(() => {
@@ -110,15 +110,15 @@ const UserEdit = () => {
             <div className="userEdit-area">
                 <div className="flex-vertical left_box">
                     <h3>필수정보</h3>
-                    <TextField id="standard-basic" label="아이디" onChange={onChangeId} />
-                    <TextField id="standard-basic" label="닉네임" onChange={onChangeNickName} />
-                    <TextField id="standard-basic" type="password" label="패스워드" onChange={onChangePw} />
+                    <TextField label="아이디" onChange={onChangeId} />
+                    <TextField label="닉네임" onChange={onChangeNickName} />
+                    <TextField type="password" label="패스워드" onChange={onChangePw} />
                     <TextField 
 
                     error={pwConfirm !== "" ? pw === pwConfirm ? false : true : false}
                     helperText = {pwConfirm !== "" ? pw === pwConfirm ? '' : '패스워드를 확인해주세요' : ''}
                     
-                    id="standard-basic" type="password" label="패스워드 확인" onChange={onChangePwConfirm} />
+                    type="password" label="패스워드 확인" onChange={onChangePwConfirm} />
                 </div>
 
                 <div className="flex-vertical right_box">
