@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './ShortReport.css'
+
 
 const Main = (props) => {
     // eslint-disable-next-line
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
-    const [reportList, setReportList] = useState([])
+    const [reportList, setReportList] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get('/db/books/bookreports/' + props.isbn)
@@ -23,10 +26,12 @@ const Main = (props) => {
     }, [])
 
     return (
-        <div className="shortReport-area">
+        <div className="shortReport-area" >
             {reportList.length ? reportList.map((data, index) => {
                 return (
-                    <div className="report-box" key={index}>
+                    <div className="report-box" key={index} onClick = {() => {
+                        navigate('/ViewReportPage', {state: {isbn: props.isbn, userid: data.userid}});
+                    }}>
                         <div className="title">
                             <p className="bookTitle">{data.title}</p>
                             <p className="reportTitle">{data.ReportTitle}</p>

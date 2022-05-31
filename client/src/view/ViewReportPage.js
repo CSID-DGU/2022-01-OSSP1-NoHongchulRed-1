@@ -1,9 +1,11 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField, Button } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components'; //CSS-IN_JS
 import { FormControl } from '@material-ui/core';
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const Wrapper = styled.div`
     width: 70rem;
@@ -29,8 +31,89 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const EditPage = () => {
+//isbn과 userid를 받아 책 정보와 독후감 정보를 출력함
+const ViewReportPage = () => {
     const classes = useStyles();
+    const { state } = useLocation(); //isbn과 userid를 받아옴
+
+    const [bookInfo, setBookInfo] = useState({
+        authors: '',
+        isbn: '',
+        publisher: '',
+        thumbnail: '',
+        title: ''
+    });
+
+    const [ReportInfo, setReportInfo] = useState({
+        contents: '',
+        isbn: '',
+        rating: '',
+        ReportTitle: '',
+        views: '',
+        date: '',
+        userid: ''
+    });
+
+    const onSetBookInfo = (data) => {
+        setBookInfo({
+             authors: data.authors,
+             isbn: data.isbn,
+             publisher: data.publisher,
+             thumbnail: data.thumbnail,
+             title: data.title
+        })
+    };
+
+    const onSetReportInfo = (data) => {
+        setReportInfo({
+            contents: data.contents,
+            isbn: data.isbn,
+            rating: data.rating,
+            ReportTitle: data.ReportTitle,
+            views: data.views,
+            date: data.date,
+            userid: data.userid
+        })
+    };
+
+    //console.log("독후감정보확인 페이지에서 state 출력: ", state);
+
+    //isbn, userid로 독후감 데이터를 받아옴
+    useEffect(() => {
+        try {
+            axios.get('/db/bookreports/' + state.isbn + '/' + state.userid)
+            .then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                //console.log(data);
+                onSetReportInfo(data);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }, [])
+
+    //console.log(state.isbn.isbn);
+    const bookIsbn = state.isbn;
+
+    //isbn으로 책 데이터를 받아옴
+    useEffect(() => {
+        try {
+            axios.get('/db/books/' + bookIsbn)
+            .then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                //console.log("data: ", data);
+                onSetBookInfo(data);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }, [])
+
+    const dateFormat = ReportInfo.date;
 
     return(
         <Wrapper>
@@ -40,7 +123,8 @@ const EditPage = () => {
                     <TextField
                         id="filled-read-only-input"
                         label="책 제목"
-                        value="달러구트 꿈 백화점"
+                        style ={{width: '98%'}} 
+                        value={bookInfo.title}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -49,7 +133,7 @@ const EditPage = () => {
                     <TextField
                         id="filled-read-only-input"
                         label="저자"
-                        defaultValue="이미예"
+                        value={bookInfo.authors}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -58,7 +142,7 @@ const EditPage = () => {
                     <TextField
                         id="filled-read-only-input"
                         label="출판사"
-                        defaultValue="팩토리 나인"
+                        value={bookInfo.publisher}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -68,30 +152,26 @@ const EditPage = () => {
                 <h3> 📖독후감 정보📖</h3>
                 <div>
                 <TextField 
-                    id="outlined-search" 
+                    id="outlined-basic" 
                     label="독후감 제목" 
-                    type="search"
                     style ={{width: '98%'}} 
-                    value="달러구트 꿈 백화점을 읽고 ..." 
+                    value={ReportInfo.ReportTitle}
                     variant="outlined" />
-                <TextField
-                    id="datetime-local"
-                    label="작성 날짜"
-                    type="datetime-local"
-                    defaultValue="2022-05-13T10:30"
-                    className={classes.textField}
-                    InputProps={{
-                        readOnly: true,
-                    }}
-                    InputLabelProps={{
-                    shrink: true,
-                    }}
-                />
+                <TextField 
+                    id="outlined-basic" 
+                    label="작성자" 
+                    value={ReportInfo.userid}
+                    variant="outlined" />
+                <TextField 
+                    id="outlined-basic" 
+                    label="작성 날짜" 
+                    value={dateFormat}
+                    variant="outlined" />
                 <TextField
                     id="outlined-number"
                     label="별점(1~10)"
                     type="number"
-                    value="9"
+                    value={ReportInfo.rating}
                     InputProps={{
                         readOnly: true,
                     }}
@@ -100,6 +180,11 @@ const EditPage = () => {
                     }}
                     variant="outlined"
                 />
+                <TextField 
+                    id="outlined-basic" 
+                    label="조회수" 
+                    value={ReportInfo.views}
+                    variant="outlined" />
                 </div>
                 <h3>📌내용📌</h3>
                 <div>
@@ -111,7 +196,7 @@ const EditPage = () => {
                     }}
                     multiline
                     placeholder="자유롭게 작성해 주세요" 
-                    value="달러구트 꿈 백화점을 읽고 ..."
+                    value={ReportInfo.contents}
                     variant="outlined" 
                     />
                 </div>
@@ -121,4 +206,4 @@ const EditPage = () => {
     );
 }
 
-export default EditPage;
+export default ViewReportPage;
