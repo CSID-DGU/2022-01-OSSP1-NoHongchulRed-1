@@ -67,47 +67,47 @@ Example request body:
 
 `GET /db/users/:userid`
 
-returns a User
+returns a User.
 
 ### Get Book
 
 `GET /db/books/:isbn`
 
-returns a Book
+returns a Book.
 
 ### Get Book report 1
 
 `GET /db/bookreports/new`
 
-returns a Book report + Book data
+returns a Book report + Book data.  
 all Book report (ordered by latest date)
 
 ### Get Book report 2
 
 `GET /db/bookreports/view`
 
-returns a Book report + Book data
+returns a Book report + Book data.  
 all Book report (ordered by view)
 
 ### Get Book report 3
 
 `GET /db/books/bookreports/:isbn`
 
-returns Book reports + Book datas
+returns Book reports + Book datas.  
 all Book report on book (ordered by latest date)
 
 ### Get Book report 4
 
 `GET /db/users/bookreports/:userid`
 
-returns a Book reports + Book datas
+returns a Book reports + Book datas.  
 all Book report on user (ordered by latest date)
 
 ### Get Book report 5
 
 `GET /db/bookreports/:isbn/:userid`
 
-returns a Book report + Book data
+returns a Book report + Book data.  
 specific Book report on book and user
 
 ## Endpoints (Server resource)

@@ -318,9 +318,23 @@ const Test = () => {
         }
     }
 
-    const onButtonAllReport = () => {
+    const onButtonAllNewReport = () => {
         try {
-            axios.get('/db/bookreports')
+            axios.get('/db/bookreports/new')
+            .then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                console.log(data);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const onButtonAllHotReport = () => {
+        try {
+            axios.get('/db/bookreports/view')
             .then((res) => {
                 return res.data;
             })
@@ -421,7 +435,8 @@ const Test = () => {
                 <hr />
                 <br />
                 <h1><font size="3">모든 독후감 확인</font></h1>
-                <button onClick={onButtonAllReport}>모든 독후감 가져오기</button>
+                <button onClick={onButtonAllNewReport}>모든 독후감 가져오기(최신순)</button>
+                <button onClick={onButtonAllHotReport}>모든 독후감 가져오기(조회수순)</button>
             </div>
         </Wrap>
     );
