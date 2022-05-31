@@ -180,7 +180,7 @@ router.get('/db/books/:isbn', async (req, res) => {
     }
 });
 
-// Get Book report 1
+// Get Book report 3
 // 독후감 정보 가져오기(isbn 기준)
 router.get('/db/books/bookreports/:isbn', async (req, res) => {
     const {isbn} = req.params; 
@@ -198,7 +198,7 @@ router.get('/db/books/bookreports/:isbn', async (req, res) => {
     }
 });
 
-// Get Book report 2
+// Get Book report 4
 // 독후감 정보 가져오기(userid 기준)
 router.get('/db/users/bookreports/:userid', async (req, res) => {
     const { userid } = req.params;
@@ -216,7 +216,7 @@ router.get('/db/users/bookreports/:userid', async (req, res) => {
     }
 });
 
-// Get Book report 3
+// Get Book report 5
 // 독후감 정보 가져오기(isbn, userid 기준 - 한 개만 선택됨)
 router.get('/db/bookreports/:isbn/:userid', async (req, res) => {
     const {userid} = req.params;
@@ -235,7 +235,7 @@ router.get('/db/bookreports/:isbn/:userid', async (req, res) => {
     }
 });
 
-// Get Book report 4
+// Get Book report 1
 // 독후감 정보 가져오기(모든 정보)
 router.get('/db/bookreports', async (req, res) => {
     const {isbn} = req.params; 

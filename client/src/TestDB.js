@@ -1,6 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import { useState } from 'react';
+import styled from 'styled-components';
+const Wrap = styled.div`
+    text-align: left;
+`;
 
 const Test = () => {
     // 세션 쿠키 보려면 build하고 localhost:5000 에서 확인해야 함
@@ -331,93 +335,95 @@ const Test = () => {
     // ~자를 입력하세요 등 텍스트는 임의로 설정한 것
     // 단순한 테스트를 위해 라디오버튼나 체크박스 사용 안함 (실제 개발 시 UI 내용 적용 필요)
     return (
-        <div>
-            <h1><font size="3">로그인</font></h1>
-            <input type="text" name="id" placeholder="아이디" value={loginInputs.id} maxLength="20" onChange={onChangeLogin} />
-            <br />
-            <input type="password" name="password" placeholder="비밀번호" value={loginInputs.password} maxLength="20" onChange={onChangeLogin} />
-            <br />
-            <button onClick={onSubmitLogin}>로그인</button>
-            <button onClick={onResetLogin}>취소</button>
-            <br />
-            <p>id: {userSession.id}, nickname: {userSession.nickname}</p>
-            <br />
-            <button onClick={onSubmitLoout}>로그아웃</button>
+        <Wrap>
+            <div>
+                <h1><font size="3">로그인</font></h1>
+                <input type="text" name="id" placeholder="아이디" value={loginInputs.id} maxLength="20" onChange={onChangeLogin} />
+                <br />
+                <input type="password" name="password" placeholder="비밀번호" value={loginInputs.password} maxLength="20" onChange={onChangeLogin} />
+                <br />
+                <button onClick={onSubmitLogin}>로그인</button>
+                <button onClick={onResetLogin}>취소</button>
+                <br />
+                <p>id: {userSession.id}, nickname: {userSession.nickname}</p>
+                <br />
+                <button onClick={onSubmitLoout}>로그아웃</button>
 
-            <hr />
+                <hr />
 
-            <h1><font size="3">회원가입</font></h1>
-            <input type="text" name="id" placeholder="아이디는 4~16자를 입력하세요" value={registerInputs.id} maxLength="16" onChange={onChangeRegister} />
-            <br />
-            <input type="password" name="password" placeholder="비밀번호는 8~16자를 입력하세요" value={registerInputs.password} maxLength="16" onChange={onChangeRegister} />
-            <br />
-            <input type="text" name="nickname" placeholder="닉네임은 2~10자를 입력하세요" value={registerInputs.nickname} maxLength="10" onChange={onChangeRegister} />
-            <br />
-            <input type="text" name="age" placeholder="10대-0, 20대-1, 30대-2, 40대-3, 50대-4, 60대 이상-5" value={registerInputs.age} maxLength="10" onChange={onChangeRegister} />
-            <br />
-            <input type="text" name="sexuality" placeholder="M/F" value={registerInputs.sexuality} maxLength="10" onChange={onChangeRegister} />
-            <br />
-            <button onClick={onSubmitRegister}>회원가입</button>
-            <button onClick={onResetRegister}>취소</button>
+                <h1><font size="3">회원가입</font></h1>
+                <input type="text" name="id" placeholder="아이디는 4~16자를 입력하세요" value={registerInputs.id} maxLength="16" onChange={onChangeRegister} />
+                <br />
+                <input type="password" name="password" placeholder="비밀번호는 8~16자를 입력하세요" value={registerInputs.password} maxLength="16" onChange={onChangeRegister} />
+                <br />
+                <input type="text" name="nickname" placeholder="닉네임은 2~10자를 입력하세요" value={registerInputs.nickname} maxLength="10" onChange={onChangeRegister} />
+                <br />
+                <input type="text" name="age" placeholder="10대-0, 20대-1, 30대-2, 40대-3, 50대-4, 60대 이상-5" value={registerInputs.age} maxLength="10" onChange={onChangeRegister} />
+                <br />
+                <input type="text" name="sexuality" placeholder="M/F" value={registerInputs.sexuality} maxLength="10" onChange={onChangeRegister} />
+                <br />
+                <button onClick={onSubmitRegister}>회원가입</button>
+                <button onClick={onResetRegister}>취소</button>
 
-            <hr />
-            <h1><font size="3">유저 정보</font></h1>
-            <input type="text" name="id" placeholder="아이디 입력" value={userid} maxLength="16" onChange={onChangeUser} />
-            <button onClick={onSubmitUser}>데이터 불러오기</button>
-            <br />
-            <hr />
-            <h1><font size="3">책 정보 추가</font></h1>
-            <input type="text" name="isbn" placeholder="isbn 입력하세요" value={bookInputs.isbn} maxLength="16" onChange={onChangeBook} />
-            <br />
-            <input type="text" name="title" placeholder="제목 입력하세요" value={bookInputs.title} maxLength="16" onChange={onChangeBook} />
-            <br />
-            <input type="text" name="authors" placeholder="작가 입력하세요" value={bookInputs.authors} maxLength="10" onChange={onChangeBook} />
-            <br />
-            <input type="text" name="publisher" placeholder="출판사 입력하세요" value={bookInputs.publisher} maxLength="10" onChange={onChangeBook} />
-            <br />
-            <input type="text" name="thumbnail" placeholder="섬네일 일단 글자로" value={bookInputs.thumbnail} maxLength="10" onChange={onChangeBook} />
-            <br />
-            <button onClick={onSubmitBook}>책 등록</button>
-            <hr />
-            <h1><font size="3">책 등록 확인</font></h1>
-            <input type="text" name="isbn" placeholder="isbn 입력" value={isbn} maxLength="16" onChange={onChangeisbn} />
-            <button onClick={onSubmitisbn}>책 등록 확인</button>
-            <br />
-            <hr />
-            <h1><font size="3">독후감 추가</font></h1>
-            <input type="text" name="title" placeholder="제목 입력하세요" value={bookreportInputs.title} maxLength="16" onChange={onChangeBookReport} />
-            <br />
-            <input type="text" name="contents" placeholder="내용 입력하세요" value={bookreportInputs.contents} maxLength="16" onChange={onChangeBookReport} />
-            <br />
-            <input type="number" name="rating" placeholder="rating 입력하세요" value={bookreportInputs.rating} maxLength="10" onChange={onChangeBookReport} />
-            <br />
-            <input type="text" name="userid" placeholder="유저 아이디 입력하세요" value={bookreportInputs.userid} maxLength="10" onChange={onChangeBookReport} />
-            <br />
-            <input type="text" name="isbn" placeholder="isbn 입력하세요" value={bookreportInputs.isbn} maxLength="10" onChange={onChangeBookReport} />
-            <br />
-            <button onClick={onSubmitBookReport}>독후감 등록</button>
-            <hr />
-            <h1><font size="3">독후감추가 확인(isbn)</font></h1>
-            <input type="text" name="isbn" placeholder="isbn 입력" value={isbn} maxLength="20" onChange={onChangebrisbn} />
-            <button onClick={onSubmitbrisbn}>독후감 등록 확인(isbn)</button>
-            <hr />
-            <h1><font size="3">독후감추가 확인(userid)</font></h1>
-            <input type="text" name="userid" placeholder="아이디 입력" value={userid} maxLength="20" onChange={onChangebruser} />
-            <button onClick={onSubmitbruser}>독후감 등록 확인(userid)</button>
-            <hr />
-            <h1><font size="3">하나의 독후감추가 확인(userid+isbn)</font></h1>
-            <input type="text" name="userid" placeholder="아이디 입력" value={userid} maxLength="20" onChange={onChangebruser} />
-            <input type="text" name="isbn" placeholder="isbn 입력" valuer={isbn} maxLength="20" onChange={onChangebrisbn} />
-            <button onClick={onSubmitisid}>독후감 등록 확인(userid+isbn)</button>
-            <hr />
-            <br />
-            <h1><font size="3">파이썬 실행 확인</font></h1>
-            <button onClick={onButtonRunPy}>파이썬 실행하기</button>
-            <hr />
-            <br />
-            <h1><font size="3">모든 독후감 확인</font></h1>
-            <button onClick={onButtonAllReport}>모든 독후감 가져오기</button>
-        </div>
+                <hr />
+                <h1><font size="3">유저 정보</font></h1>
+                <input type="text" name="id" placeholder="아이디 입력" value={userid} maxLength="16" onChange={onChangeUser} />
+                <button onClick={onSubmitUser}>데이터 불러오기</button>
+                <br />
+                <hr />
+                <h1><font size="3">책 정보 추가</font></h1>
+                <input type="text" name="isbn" placeholder="isbn 입력하세요" value={bookInputs.isbn} maxLength="16" onChange={onChangeBook} />
+                <br />
+                <input type="text" name="title" placeholder="제목 입력하세요" value={bookInputs.title} maxLength="16" onChange={onChangeBook} />
+                <br />
+                <input type="text" name="authors" placeholder="작가 입력하세요" value={bookInputs.authors} maxLength="10" onChange={onChangeBook} />
+                <br />
+                <input type="text" name="publisher" placeholder="출판사 입력하세요" value={bookInputs.publisher} maxLength="10" onChange={onChangeBook} />
+                <br />
+                <input type="text" name="thumbnail" placeholder="섬네일 일단 글자로" value={bookInputs.thumbnail} maxLength="10" onChange={onChangeBook} />
+                <br />
+                <button onClick={onSubmitBook}>책 등록</button>
+                <hr />
+                <h1><font size="3">책 등록 확인</font></h1>
+                <input type="text" name="isbn" placeholder="isbn 입력" value={isbn} maxLength="16" onChange={onChangeisbn} />
+                <button onClick={onSubmitisbn}>책 등록 확인</button>
+                <br />
+                <hr />
+                <h1><font size="3">독후감 추가</font></h1>
+                <input type="text" name="title" placeholder="제목 입력하세요" value={bookreportInputs.title} maxLength="16" onChange={onChangeBookReport} />
+                <br />
+                <input type="text" name="contents" placeholder="내용 입력하세요" value={bookreportInputs.contents} maxLength="16" onChange={onChangeBookReport} />
+                <br />
+                <input type="number" name="rating" placeholder="rating 입력하세요" value={bookreportInputs.rating} maxLength="10" onChange={onChangeBookReport} />
+                <br />
+                <input type="text" name="userid" placeholder="유저 아이디 입력하세요" value={bookreportInputs.userid} maxLength="10" onChange={onChangeBookReport} />
+                <br />
+                <input type="text" name="isbn" placeholder="isbn 입력하세요" value={bookreportInputs.isbn} maxLength="10" onChange={onChangeBookReport} />
+                <br />
+                <button onClick={onSubmitBookReport}>독후감 등록</button>
+                <hr />
+                <h1><font size="3">독후감추가 확인(isbn)</font></h1>
+                <input type="text" name="isbn" placeholder="isbn 입력" value={isbn} maxLength="20" onChange={onChangebrisbn} />
+                <button onClick={onSubmitbrisbn}>독후감 등록 확인(isbn)</button>
+                <hr />
+                <h1><font size="3">독후감추가 확인(userid)</font></h1>
+                <input type="text" name="userid" placeholder="아이디 입력" value={userid} maxLength="20" onChange={onChangebruser} />
+                <button onClick={onSubmitbruser}>독후감 등록 확인(userid)</button>
+                <hr />
+                <h1><font size="3">하나의 독후감추가 확인(userid+isbn)</font></h1>
+                <input type="text" name="userid" placeholder="아이디 입력" value={userid} maxLength="20" onChange={onChangebruser} />
+                <input type="text" name="isbn" placeholder="isbn 입력" valuer={isbn} maxLength="20" onChange={onChangebrisbn} />
+                <button onClick={onSubmitisid}>독후감 등록 확인(userid+isbn)</button>
+                <hr />
+                <br />
+                <h1><font size="3">파이썬 실행 확인</font></h1>
+                <button onClick={onButtonRunPy}>파이썬 실행하기</button>
+                <hr />
+                <br />
+                <h1><font size="3">모든 독후감 확인</font></h1>
+                <button onClick={onButtonAllReport}>모든 독후감 가져오기</button>
+            </div>
+        </Wrap>
     );
 };
 
