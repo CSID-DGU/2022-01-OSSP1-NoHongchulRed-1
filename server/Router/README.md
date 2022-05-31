@@ -1,10 +1,10 @@
-# DB API Spec
+# API Spec
 
 ## DB Schema
 
 ![관계도](https://user-images.githubusercontent.com/83688807/170421754-23952661-a6ad-4a04-a320-396674c2d459.png)
 
-## Endpoints
+## Endpoints (DB resource)
 
 ### Authentication
 
@@ -67,33 +67,61 @@ Example request body:
 
 `GET /db/users/:userid`
 
-returns a User
+returns a User.
 
 ### Get Book
 
 `GET /db/books/:isbn`
 
-returns a Book
+returns a Book.
 
 ### Get Book report 1
 
-`GET /db/books/bookreports/:isbn`
+`GET /db/bookreports/new`
 
-returns a Book report + Book data
-all Book report on book
+returns a Book report + Book data.  
+all Book report (ordered by latest date)
 
 ### Get Book report 2
 
-`GET /db/users/bookreports/:userid`
+`GET /db/bookreports/view`
 
-returns a Book report + Book data
-all Book report on user
+returns a Book report + Book data.  
+all Book report (ordered by view)
 
 ### Get Book report 3
 
+`GET /db/books/bookreports/:isbn`
+
+returns Book reports + Book datas.  
+all Book report on book (ordered by latest date)
+
+### Get Book report 4
+
+`GET /db/users/bookreports/:userid`
+
+returns a Book reports + Book datas.  
+all Book report on user (ordered by latest date)
+
+### Get Book report 5
+
 `GET /db/bookreports/:isbn/:userid`
 
-returns a Book report + Book data
+returns a Book report + Book data.  
 specific Book report on book and user
+
+## Endpoints (Server resource)
+
+### Get Session data
+
+`GET /session`
+
+returns a session data (userid + nickname + others)
+
+### Get Recommend data
+
+`GET /recommend`
+
+returns a recommend data
 
 **※ Every endpoint is temporary. Database table can be changed soon.**
