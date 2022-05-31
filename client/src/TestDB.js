@@ -314,6 +314,20 @@ const Test = () => {
         }
     }
 
+    const onButtonAllReport = () => {
+        try {
+            axios.get('/db/bookreports')
+            .then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                console.log(data);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     // ~자를 입력하세요 등 텍스트는 임의로 설정한 것
     // 단순한 테스트를 위해 라디오버튼나 체크박스 사용 안함 (실제 개발 시 UI 내용 적용 필요)
     return (
@@ -399,6 +413,10 @@ const Test = () => {
             <br />
             <h1><font size="3">파이썬 실행 확인</font></h1>
             <button onClick={onButtonRunPy}>파이썬 실행하기</button>
+            <hr />
+            <br />
+            <h1><font size="3">모든 독후감 확인</font></h1>
+            <button onClick={onButtonAllReport}>모든 독후감 가져오기</button>
         </div>
     );
 };

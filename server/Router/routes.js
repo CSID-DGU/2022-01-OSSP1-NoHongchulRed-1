@@ -235,6 +235,25 @@ router.get('/db/bookreports/:isbn/:userid', async (req, res) => {
     }
 });
 
+// Get Book report 4
+// 독후감 정보 가져오기(모든 정보)
+router.get('/db/bookreports', async (req, res) => {
+    const {isbn} = req.params; 
+    try {
+        // 시간 순 정렬 필요
+        const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn');
+        if (data[0].length != 0) {
+            const jsonData = new Object();
+            jsonData.data = data[0];
+            return res.json(Object.assign(jsonData, {issuccess: true, message: "success"}));
+        } else {
+            return res.json({issuccess: false, message: "no data"});
+        }
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+});
+
 /*
 router.get('*', (req, res) => {
     res.sendFile(index);
