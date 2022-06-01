@@ -42,6 +42,7 @@ const useStyles = makeStyles({
 
 export default function SearchResultCard({thumbnail, title, authors, publisher, datetime, contents, isbn}) {
   const classes = useStyles();
+  //console.log("카드에서isbn:::::",isbn);
 
   return (
     <Card className={classes.root}>
@@ -76,12 +77,12 @@ export default function SearchResultCard({thumbnail, title, authors, publisher, 
           </Typography>
         </CardContent>
       <CardActions>
-        <Link to = "/EditPage" state = {{isbn: parseInt(isbn.split(' ')[0]), title, authors, publisher}}>
+        <Link to = "/EditPage" state = {{isbn, title, authors, publisher}}>
           <Button size="small" color="primary">
             독후감 작성
           </Button>
         </Link>
-        <Link to = "/GatherReportPage" state = {{isbn: parseInt(isbn.split(' ')[0]), thumbnail, title, authors, publisher}}>
+        <Link to = "/GatherReportPage" state = {{isbn: isbn, thumbnail, title, authors, publisher}}>
           <Button size="small" color="primary">
             독후감 모아보기
           </Button>
@@ -91,3 +92,5 @@ export default function SearchResultCard({thumbnail, title, authors, publisher, 
     </Card>
   );
 }
+//isbn10만을 사용할 때
+//isbn: parseInt(isbn.split(' ')[0])

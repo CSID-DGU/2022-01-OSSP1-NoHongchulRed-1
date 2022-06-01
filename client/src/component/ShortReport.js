@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
+//import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './ShortReport.css'
@@ -7,7 +7,7 @@ import './ShortReport.css'
 
 const Main = (props) => {
     // eslint-disable-next-line
-    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    //const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const [reportList, setReportList] = useState([]);
     const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ const Main = (props) => {
                         <div className="title">
                             <p className="bookTitle">{data.title}</p>
                             <p className="reportTitle">{data.ReportTitle}</p>
-                            <p className="nickName">{cookies?.user?.nickName}</p>
+                            <p className="nickName">{data.userid}</p>
                             <p className="date">{data.date}</p>
                         </div>
                         <div className="content">

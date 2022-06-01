@@ -399,7 +399,7 @@ const Test = () => {
                 <button onClick={onSubmitBook}>책 등록</button>
                 <hr />
                 <h1><font size="3">책 등록 확인</font></h1>
-                <input type="text" name="isbn" placeholder="isbn 입력" value={isbn} maxLength="16" onChange={onChangeisbn} />
+                <input type="text" name="isbn" placeholder="isbn 입력" value={isbn} maxLength="25" onChange={onChangeisbn} />
                 <button onClick={onSubmitisbn}>책 등록 확인</button>
                 <br />
                 <hr />
