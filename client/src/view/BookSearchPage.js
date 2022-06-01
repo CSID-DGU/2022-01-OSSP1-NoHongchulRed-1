@@ -1,7 +1,7 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 //import { TextField, Button } from "@material-ui/core";
-import MultipleBookSearch from '../component/MultipleBookSearch';
+// import MultipleBookSearch from '../component/MultipleBookSearch';
 import SearchResultCard from '../component/SearchResultCard';
 import styled from 'styled-components'; //CSS-IN_JS
 import { useLocation } from 'react-router-dom';
@@ -21,20 +21,26 @@ const Wrapper = styled.div`
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
-const Spacing = styled.div`
-    width: 100%;
-    height: 30px;
-`;
+// const Spacing = styled.div`
+//     width: 100%;
+//     height: 30px;
+// `;
 
 function BookSearchPage() {
   const { state } = useLocation();
-  console.log("결과페이지에서 documents[0].publisher 출력 ▼");
-  console.log(state.documents[0].publisher);
+  const [books, setBooks] = useState([])
+
+  useEffect(() => {
+    setBooks(state?.documents ? state.documents : [])
+  }, [state])
+
+  // console.log("결과페이지에서 documents[0].publisher 출력 ▼");
+  // console.log(state.documents[0].publisher);
     
     return (
       <div>
           <Wrapper>
-              {state.documents.map((data, index) => {
+              {books.length ? books.map((data, index) => {
                   return (
                       <div key={index}>
                           <SearchResultCard 
@@ -48,7 +54,7 @@ function BookSearchPage() {
                           </SearchResultCard>
                       </div>
                   )
-              })}
+              }) : "검색된 책이 없습니다."}
           </Wrapper>
       </div>
   )
