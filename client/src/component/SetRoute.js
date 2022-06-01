@@ -23,7 +23,7 @@ import TestDB from '../TestDB';
 
 //Route 관리 파일
 const SetRoute = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -32,8 +32,14 @@ const SetRoute = () => {
 
   if (!(path === '/' || path === '/SignUp')){
     if (!cookies?.user?.userId) {
-      // window.location.href = '/';
-      navigate('/');
+      // if(path === '/Main' || path === '/main'){
+      //   console.log(path + " pass")
+      // }
+      // else{
+      //   window.location.href = '/';  
+      //   // navigate('/');
+      // }
+      window.location.href = '/'; 
     }
   }
   
