@@ -34,7 +34,7 @@ export default function GatherReportPage () {
                     <TextField
                         id="filled-read-only-input"
                         label="책 제목"
-                        defaultValue={state.title.title}
+                        defaultValue={state.title}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -61,7 +61,7 @@ export default function GatherReportPage () {
                     <TextField
                         id="filled-read-only-input"
                         label="평점"
-                        defaultValue="4.8"
+                        defaultValue="4.8" // dummy data
                         InputProps={{
                             readOnly: true,
                         }}

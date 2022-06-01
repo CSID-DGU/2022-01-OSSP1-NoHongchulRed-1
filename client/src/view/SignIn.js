@@ -36,6 +36,7 @@ const SignIn = () => {
                         'user', 
                         { userId: res.data.userId, nickName: res.data.nickname},
                         { path:'/', expires: new Date(res.data.cookie.expires) }
+                        // Dev: 추가 구현, 9번 항목 쿠키 유효 시간
                         // { path:'/', expires: after1 }
                     );
 

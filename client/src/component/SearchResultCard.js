@@ -60,8 +60,8 @@ export default function SearchResultCard({thumbnail, title, authors, publisher, 
       
       <div className={classes.content}>
         <CardContent>
-          <Typography gutterBottom variant="h6" component="h2">
-            {title}
+          <Typography gutterBottom variant="subtitle1" component="h2">
+            책 제목: {title}
           </Typography>
           <Typography gutterBottom variant="subtitle1" component="h3">
             저자: {authors}
