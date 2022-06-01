@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
-import { TextField, IconButton, Button } from "@material-ui/core";
-import BookSearchPage from '../view/BookSearchPage';
+import { TextField, Button } from "@material-ui/core";
+// import BookSearchPage from '../view/BookSearchPage';
 import { useNavigate } from 'react-router-dom';
 
 import SearchIcon from '@material-ui/icons/Search';
@@ -14,27 +14,38 @@ const Search = () => {
     const onChange = (e) => {
         setText(e.target.value);
     };
+    const onKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            SendData();
+          }      
+    }
 
     const SendData = () => {
-        fetch('/kakao/search/multiple/' + text)
-            .then((res) => {
-                console.log(res)
-                return res.json();
-            })
-            .then((data) => {
-                console.log({state: data})
-                navigate('/BookSearchPage', {state: data});               
-            });
+        if(text === ""){
+            alert("책 제목을 입력해주세요.")
+        }
+        else{
+            fetch('/kakao/search/multiple/' + text)
+                .then((res) => {
+                    console.log(res)
+                    return res.json();
+                })
+                .then((data) => {
+                    console.log({state: data})
+                    navigate('/BookSearchPage', {state: data});               
+                });
+        }
     }
 
     return (
-        <form>
+        <form onSubmit={e => { e.preventDefault(); }}>
             <TextField 
                 style={{ background: 'white', borderRadius: '4px' }} 
                 label="책 제목으로 검색" 
                 variant="outlined" 
                 size="small" 
                 onChange={onChange}
+                onKeyDown={onKeyDown}
                 />
             <Button 
                 style={{ background: 'white', height: '40px' }} 
