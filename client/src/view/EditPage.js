@@ -170,6 +170,7 @@ const EditPage = () => {
                     <TextField
                         id="filled-read-only-input"
                         label="책 제목"
+                        style ={{width: '57%'}} 
                         defaultValue={bookInfo.title}
                         InputProps={{
                             readOnly: true,
@@ -200,6 +201,7 @@ const EditPage = () => {
                 <TextField 
                     id="outlined-search" 
                     label="독후감 제목" 
+                    style ={{width: '98%'}} 
                     type="search" 
                     variant="outlined" 
                     onChange={onChangeTitle}
