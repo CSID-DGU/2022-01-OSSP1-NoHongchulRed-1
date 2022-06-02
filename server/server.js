@@ -19,17 +19,17 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    rolling : true,
     
     store: new MemoryStore({
         checkPeriod: 1000 * 60 * 60 // 1시간 유효
     }),
     cookie : {
         httpOnly : true,
-        maxAge : 1000 * 60 * 60, // 1시간 유효
+        maxAge : 1000 * 60 * 60 // 1시간 유효
         // localhost 접근이 https가 아닌 https이므로 동작하지 않음, 현시점에서는 보류
         //sameSite : 'none', 
         //secure : true,
-        rolling : true
     }
 }));
 

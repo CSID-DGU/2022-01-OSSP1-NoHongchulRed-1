@@ -16,6 +16,15 @@ router.get('/recommend', (req, res) => {
     // 여기에 모든 유저(현재 세션의 유저는 제외) 평점 정보 가져오는 쿼리문 필요 (userid, isbn 순으로 정렬)
     // 현재 세션의 유저는 별도로 가져와서 앞선 모든 유저 배열 마지막에 추가
     // json 형태로 만들어서 파이썬 파일에 넘겨주면 됨
+
+    // 즉, 앞서 정렬된 순으로 isbn 정보만 저장하여 별도의 배열을 만들고
+    // userid-isbn 순으로 정렬된 평점 데이터 배열(현재 세션의 유저 제외)를 넘겨줘야 함
+    // isbn 배열 예시 : ["123456789 1234589789", "567891234 7894546213", ...]
+    // userid-isbn 유저 평점 배열 예시 : [[0,5,6,7,10,0,0], [8,0,2,0,0,6,7], ...]
+    // isbn 배열은 후처리에 사용할 예정이고, userid-isbn 유저 평점 배열은 json 형태로 변환하여 파이썬으로 전달
+    // userid-isbn 유저 평점 배열 내부의 배열은 각 isbn에 대한 유저의 평점 데이터를 의미함
+    // 즉, [0,5,6,7,10,0,0]이 유저1의 평점 정보, [8,0,2,0,0,6,7]이 유저2의 평점 정보... 와 같은 것
+    // 설명 어려우니 모르면 물어볼 것
     var result;
     const process = spawn('python', ['python/main.py']);
     process.stdout.on('data', function (data) {
@@ -186,10 +195,9 @@ router.get('/db/books/:isbn', async (req, res) => {
 });
 
 // Get Book report 1
-// 독후감 정보 가져오기(모든 정보) date
+// 독후감 정보 가져오기(모든 정보, 최신순 정렬)
 router.get('/db/bookreports/new', async (req, res) => {
     try {
-        // 시간 순 정렬 필요
         const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn ORDER BY date DESC');
         if (data[0].length != 0) {
             const jsonData = new Object();
@@ -204,10 +212,9 @@ router.get('/db/bookreports/new', async (req, res) => {
 });
 
 // Get Book report 2
-// 독후감 정보 가져오기(모든 정보) views
+// 독후감 정보 가져오기(모든 정보, 조회수순 정렬)
 router.get('/db/bookreports/view', async (req, res) => {
     try {
-        // 조회수 순 정렬 필요
         const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn ORDER BY views DESC');
         if (data[0].length != 0) {
             const jsonData = new Object();
@@ -222,11 +229,10 @@ router.get('/db/bookreports/view', async (req, res) => {
 });
 
 // Get Book report 3
-// 독후감 정보 가져오기(isbn 기준)
+// 독후감 정보 가져오기(isbn 기준, 최신순 정렬)
 router.get('/db/books/bookreports/:isbn', async (req, res) => {
     const {isbn} = req.params; 
     try {
-        // 시간 순 정렬 필요
         const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.isbn = ? ORDER BY date DESC', [isbn]);
         if (data[0].length != 0) {
             const jsonData = new Object();
@@ -241,11 +247,10 @@ router.get('/db/books/bookreports/:isbn', async (req, res) => {
 });
 
 // Get Book report 4
-// 독후감 정보 가져오기(userid 기준)
+// 독후감 정보 가져오기(userid 기준, 최신순 정렬)
 router.get('/db/users/bookreports/:userid', async (req, res) => {
     const { userid } = req.params;
     try {
-        // 시간 순 정렬 필요
         const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ? ORDER BY date DESC', [userid]);
         if (data[0].length != 0) {
             const jsonData = new Object();
@@ -267,7 +272,6 @@ router.get('/db/bookreports/:isbn/:userid', async (req, res) => {
     try {
         // 고유한 독후감 정보를 가져오는 것은 단일 독후감 게시물을 읽을 때이므로 조회수에 해당하는 views 값을 하나 증가시켜 update해줘야 함
         await pool.query('UPDATE BOOKWEB.BookReportTB SET views = views+1 WHERE userid = ? AND isbn = ?', [userid, isbn]);
-        // 시간 순 정렬 필요
         const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ? AND R.isbn = ?', [userid, isbn]);
         if (data[0].length != 0) {
             return res.json(Object.assign(data[0][0], {issuccess: true, message: "success"}));
