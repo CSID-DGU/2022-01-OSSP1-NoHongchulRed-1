@@ -70,9 +70,9 @@
 .report-box .title .book-info > label:first-child{
     font-weight: bold;
 }
-.report-box .content{
+.report-box .bookContent{
     height: 54%;
-    padding: 10px 10px 10px 10px;
+    padding: 10px 10px 0px 10px;
     overflow-y: auto;
-    text-align: left;
+    text-align: center;
 } 

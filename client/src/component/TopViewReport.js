@@ -34,7 +34,7 @@ const TopViewReport = (props) => {
                             <p className="nickName">{data.userid}</p>
                             <p className="date">{data.date}</p>
                         </div>
-                        <div className="content">
+                        <div className="bookContent">
                             <img src={data.thumbnail}/>
                         </div>
                     </div>
