@@ -96,12 +96,14 @@ router.post('/db/users', async (req,res) => {
     const nickname = req.body.nickname;
     const age = req.body.age;
     const sexuality = req.body.sexuality;
+    const preference = req.body.preference;
     
     const hashPassword = bcrypt.hashSync(password, saltOrRounds); // 암호화
     try {
         const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE userid = ?', [userid]);
         // id 유무 체크 (로그인과 달리 중복 id가 없어야 함)
         if (data[0].length == 0) {
+            // 프론트쪽 완성되면 여기에 preference 추가하여 쿼리 수정할 것
             pool.query('INSERT INTO BOOKWEB.UserTB(userid, password, nickname, age, sexuality) VALUES (?,?,?,?,?)',
             [userid, hashPassword, nickname, age, sexuality]);
             return res.json({issuccess: true, message: "register success"});

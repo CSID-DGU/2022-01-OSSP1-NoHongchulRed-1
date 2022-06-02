@@ -2,7 +2,7 @@
 
 ## DB Schema
 
-![관계도](https://user-images.githubusercontent.com/83688807/170421754-23952661-a6ad-4a04-a320-396674c2d459.png)
+![관계도](https://user-images.githubusercontent.com/83688807/171643643-e37e77cc-79fe-4967-81d4-fbe7ca3c8602.png)
 
 ## Endpoints (DB resource)
 
@@ -29,7 +29,8 @@ Example request body:
   "password": "qwerasdf",
   "nickname": "nick",
   "age": 0,
-  "sexuality": "M"
+  "sexuality": "M",
+  "preference": "0,1,1,0,1,0,0,0,1,0"
 }
 ```
 
