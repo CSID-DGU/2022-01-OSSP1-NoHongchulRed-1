@@ -16,6 +16,7 @@ import GatherReportPage from '../view/GatherReportPage';
 import ShortReport from './ShortReport';
 import RecommendPage from '../view/RecommendPage';
 import TestDB from '../TestDB';
+import AllReport from '../view/AllReport';
 
 // function isEmptyObject(param) {
 //   return Object.keys(param).length === 0 && param.constructor === Object;
@@ -56,6 +57,7 @@ const SetRoute = () => {
         <Route exact path="/MyBookPage" element={<MyBookPage />} />
         <Route exact path="/GatherReportPage" element={<GatherReportPage />} />
         <Route exact path="/ShortReport" element={<ShortReport />} />
+        <Route exact path="/AllReport" element={<AllReport />} />
         <Route exact path="/RecommendPage" element={<RecommendPage />} />
         <Route exact path="/TestDB" element={<TestDB/>} />
         <Route

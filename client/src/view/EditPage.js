@@ -68,7 +68,8 @@ const EditPage = () => {
     const [bookInfo, setBookInfo] = useState({
         title: location?.state?.title,
         author: location?.state?.authors[0],
-        publisher: location?.state?.publisher
+        publisher: location?.state?.publisher,
+        thumbnail: location?.state?.thumbnail
     });
     const [bookReportTitle, setBookReportTitle] = useState('');
     const [bookReportContent, setBookReportContent] = useState('');
@@ -102,7 +103,7 @@ const EditPage = () => {
                 title: bookInfo.title,
                 authors: bookInfo.author,
                 publisher: bookInfo.publisher,
-                thumbnail: "thumbnail_" + bookReportTitle
+                thumbnail: bookInfo.thumbnail
             }).then((res) => {
                 // console.log(res.data)
                 if(res.data.issuccess){

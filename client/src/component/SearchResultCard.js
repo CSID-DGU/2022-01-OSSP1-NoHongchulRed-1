@@ -77,7 +77,7 @@ export default function SearchResultCard({thumbnail, title, authors, publisher, 
           </Typography>
         </CardContent>
       <CardActions>
-        <Link to = "/EditPage" state = {{isbn, title, authors, publisher}}>
+        <Link to = "/EditPage" state = {{isbn, title, authors, publisher, thumbnail}}>
           <Button size="small" color="primary">
             독후감 작성
           </Button>

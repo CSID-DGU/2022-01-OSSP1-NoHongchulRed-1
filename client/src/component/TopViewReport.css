@@ -1,15 +1,14 @@
-.shortReport-area {
+.Report-area {
     /* display: flex;
     display: block; */
     width: 100%;
     height: auto;
     overflow: hidden;
     justify-content: center;
-    margin-top: 30px;
     padding: 0 20px;
     /* align-items: center; */
 }
-.shortReport-area .report-box {
+.report-box {
     float: left;
     /* display: flex; */
     display: inline-block;
@@ -33,24 +32,24 @@
     margin:0;
     padding:0 10px;
 }
-.report-box .title p.bookTitle {
+.report-box .title p.centerBookTitle {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 90%;
     font-size: 14px;
-    text-align: left;
+    text-align: center;
 }
-.report-box .title p.reportTitle {
+.report-box .title p.centerReportTitle {
+    font-size: 20px;
+    text-align: center;
+}
+.report-box .title p.nickName {
     font-size: 20px;
     text-align: right;
 }
-.report-box .title p.nickName {
-    font-size: 15px;
-    text-align: right;
-}
 .report-box .title p.date {
-    font-size: 13px;
+    font-size: 8px;
     color: #939393;
     text-align: right;
 }
@@ -71,9 +70,9 @@
 .report-box .title .book-info > label:first-child{
     font-weight: bold;
 }
-.report-box .content{
+.report-box .bookContent{
     height: 54%;
-    padding: 10px 10px 10px 10px;
+    padding: 10px 10px 0px 10px;
     overflow-y: auto;
-    text-align: left;
+    text-align: center;
 } 
