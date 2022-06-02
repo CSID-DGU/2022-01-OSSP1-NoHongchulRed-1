@@ -184,11 +184,11 @@ router.get('/db/books/:isbn', async (req, res) => {
 });
 
 // Get Book report 1
-// 독후감 정보 가져오기(모든 정보)
+// 독후감 정보 가져오기(모든 정보) date
 router.get('/db/bookreports/new', async (req, res) => {
     try {
         // 시간 순 정렬 필요
-        const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn');
+        const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn ORDER BY date DESC');
         if (data[0].length != 0) {
             const jsonData = new Object();
             jsonData.data = data[0];
@@ -202,11 +202,11 @@ router.get('/db/bookreports/new', async (req, res) => {
 });
 
 // Get Book report 2
-// 독후감 정보 가져오기(모든 정보)
+// 독후감 정보 가져오기(모든 정보) views
 router.get('/db/bookreports/view', async (req, res) => {
     try {
         // 조회수 순 정렬 필요
-        const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn');
+        const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn ORDER BY views DESC');
         if (data[0].length != 0) {
             const jsonData = new Object();
             jsonData.data = data[0];
@@ -225,7 +225,7 @@ router.get('/db/books/bookreports/:isbn', async (req, res) => {
     const {isbn} = req.params; 
     try {
         // 시간 순 정렬 필요
-        const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.isbn = ?', [isbn]);
+        const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.isbn = ? ORDER BY date DESC', [isbn]);
         if (data[0].length != 0) {
             const jsonData = new Object();
             jsonData.data = data[0];
@@ -244,7 +244,7 @@ router.get('/db/users/bookreports/:userid', async (req, res) => {
     const { userid } = req.params;
     try {
         // 시간 순 정렬 필요
-        const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ?', [userid]);
+        const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ? ORDER BY date DESC', [userid]);
         if (data[0].length != 0) {
             const jsonData = new Object();
             jsonData.data = data[0];
