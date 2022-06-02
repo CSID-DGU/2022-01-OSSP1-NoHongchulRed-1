@@ -22,7 +22,7 @@ const Main = () => {
     useEffect(() => {
         axios.get('/db/users/bookreports/' + cookies?.user?.userId).then((res) => {
                 // console.log(res.data)
-                setBookReportCount(res.data.data.length)
+                setBookReportCount(res.data.data?.length || 0)
             }).catch((e) => {
                 console.log(e)
             })

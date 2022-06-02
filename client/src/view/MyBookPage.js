@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
     width: 70rem;
+    height: auto;
     margin: 2rem auto;
     border-radius: 4px;
     background-color: var(--white-color);
     padding: 0.5rem 0.5rem 2rem;
-    overflow: hidden;
-    overflow-x: auto;
+    // overflow: hidden;
+    // overflow-x: auto;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 

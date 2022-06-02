@@ -28,10 +28,8 @@ const SignIn = () => {
             }).then((res) => {
                 console.log(res)
                 if(res.data.issuccess){
-
-                    const after1 = new Date();
-                    after1.setMinutes(after1.getMinutes() +1);
-
+                    // const after1 = new Date();
+                    // after1.setMinutes(after1.getMinutes() +1);
                     setCookie(
                         'user', 
                         { userId: res.data.userId, nickName: res.data.nickname},
@@ -41,7 +39,7 @@ const SignIn = () => {
                     );
 
                     setTimeout(function() {
-                        navigate("/main");
+                        navigate("/Main");
                     }, 0)
                     alert(res.data.nickname + "님 환영합니다!")
                     

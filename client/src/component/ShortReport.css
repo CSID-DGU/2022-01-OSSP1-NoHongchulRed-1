@@ -1,32 +1,35 @@
-.shortReport-area{
-    display: flex;
-    /*display: block;*/
+.shortReport-area {
+    /* display: flex;
+    display: block; */
     width: 100%;
     height: auto;
+    overflow: hidden;
     justify-content: center;
     margin-top: 30px;
     padding: 0 20px;
     /* align-items: center; */
 }
-.shortReport-area .report-box{
+.shortReport-area .report-box {
     float: left;
-    display: flex;
+    /* display: flex; */
+    display: inline-block;
     flex-direction: column;
-    width: 300px;
+    width: 250px;
+    /* width: 300px; */
     height: 400px;
     border: 1px solid #a9a9a9;
     border-radius: 14px;
     margin: 10px;
     background: #f7f7f7;
 }
-.report-box .title{
+.report-box .title {
     display: flex;
     flex-direction: column;
     justify-content: center;
     height:120px;
     border-bottom: 1px solid #000;
 }
-.report-box .title > p{
+.report-box .title > p {
     margin:0;
     padding:0 10px;
 }
