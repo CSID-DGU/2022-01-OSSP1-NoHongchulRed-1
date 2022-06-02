@@ -184,11 +184,11 @@ router.get('/db/books/:isbn', async (req, res) => {
 });
 
 // Get Book report 1
-// 독후감 정보 가져오기(모든 정보)
+// 독후감 정보 가져오기(모든 정보) 최신순으로
 router.get('/db/bookreports/new', async (req, res) => {
     try {
         // 시간 순 정렬 필요
-        const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn');
+        const data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn ORDER BY date DESC');
         if (data[0].length != 0) {
             const jsonData = new Object();
             jsonData.data = data[0];
