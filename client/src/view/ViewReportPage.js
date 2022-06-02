@@ -123,7 +123,7 @@ const ViewReportPage = () => {
                     <TextField
                         id="filled-read-only-input"
                         label="책 제목"
-                        style ={{width: '98%'}} 
+                        style ={{width: '57%'}} 
                         value={bookInfo.title}
                         InputProps={{
                             readOnly: true,
