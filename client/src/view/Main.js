@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie';
 
 import { Button } from '@material-ui/core';
-
+import TopViewReport from '../component/TopViewReport';
 import book1 from '../image/book1.jpg'
 import book2 from '../image/book2.jpg'
 import book3 from '../image/book3.jpg'
@@ -47,9 +47,9 @@ const Main = () => {
         <>
             <div className="main-area">
                 <div className="recommended-books">
-                    <span>★ {cookies?.user?.nickName} 님을 위한 추천 도서 BEST 3 ★</span>
+                    <span><br/>★ 인기 독후감 ★</span>
                     <div className="books">
-                        {booksRender()}
+                        <TopViewReport></TopViewReport>
                     </div>
                 </div>
                 <div className="right-box">
@@ -72,5 +72,5 @@ const Main = () => {
         </>
     )
 };
-
+//{booksRender()}
 export default Main;

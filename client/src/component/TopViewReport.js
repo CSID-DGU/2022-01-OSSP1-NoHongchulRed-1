@@ -1,0 +1,50 @@
+import React, { useState, useEffect } from 'react';
+//import { useCookies } from 'react-cookie';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import './TopViewReport.css';
+//이상하게 ShortReport.css 적용이 되어서 css 클래스 이름을 바꿔야지 TopViewReport.css 효과 적용됨.
+
+const TopViewReport = (props) => {
+    const [reportList, setReportList] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        try {
+            axios.get('/db/bookreports/view')
+            .then((res) => {
+                console.log(res.data.data);
+                setReportList(res.data.data || []);
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }, []);
+    
+    return (
+        <div className="Report-area" >
+            {reportList.length ? reportList.slice(0,6).map((data, index) => { //배열 앞의 6개만 출력
+                return (
+                    <div className="report-box" key={index} onClick = {() => {
+                        navigate('/ViewReportPage', {state: {isbn: data.isbn, userid: data.userid}});
+                    }}>
+                        <div className="title">
+                            <p className="centerBookTitle">{data.title}</p>
+                            <p className="centerReportTitle">{data.ReportTitle}</p>
+                            <p className="nickName">{data.userid}</p>
+                            <p className="date">{data.date}</p>
+                        </div>
+                        <div className="content">
+                            <img src={data.thumbnail}/>
+                        </div>
+                    </div>
+                )
+            }) : "등록된 독후감이 없습니다."
+            }
+        </div>
+    )
+    
+
+};
+
+export default TopViewReport;
