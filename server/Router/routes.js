@@ -26,11 +26,34 @@ router.get('/recommend', (req, res) => {
     // 즉, [0,5,6,7,10,0,0]이 유저1의 평점 정보, [8,0,2,0,0,6,7]이 유저2의 평점 정보... 와 같은 것
     // 설명 어려우니 모르면 물어볼 것
     var result;
-    const process = spawn('python', ['python/main.py']);
+    // 전체 isbn 정보
+    var isbnList = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+    // 전체 평점 정보
+    var dataMat = 
+        [[4,4,6,5,3,4,8,9,3,2],
+        [5,10,7,6,7,6,4,1,4,5],
+        [2,3,4,4,5,4,7,7,2,2],
+        [7,8,5,5,6,6,2,1,8,7],
+        [4,6,7,5,3,3,1,1,5,5]]
+    
+    dataMat.push([0,5,4,0,3,2,0,7,4,4]) // 현재 추천해줄 유저의 평점 정보 추가
+
+    // 테스트 후보
+    // [0,5,4,0,3,2,0,7,4,4]
+    // [5,7,0,0,3,0,0,0,6,6]
+    // [6,4,4,3,4,4,2,0,5,0]
+    const process = spawn('python', ['python/main.py', JSON.stringify(dataMat)]);
     process.stdout.on('data', function (data) {
         //console.log("stdout: " + data.toString());
         result = data.toString();
-        return res.json(result);
+        console.log(result);
+        console.log(JSON.parse(data));
+        const recommendIndex = JSON.parse(data);
+        var recommendIsbn = []
+        for (var i=0;i<recommendIndex.length;i++) {
+            recommendIsbn.push(isbnList[recommendIndex[i]]);
+        }
+        return res.json(recommendIsbn);
     });
 
     process.stderr.on('data', function(data) {
