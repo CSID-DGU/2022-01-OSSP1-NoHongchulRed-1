@@ -1,37 +1,59 @@
+import sys
+import json
 import numpy as np
 from sklearn.decomposition import TruncatedSVD
 
-# 원본 행렬 R 생성, 분해 행렬 P와 Q 초기화, 잠재요인 차원 K는 3 설정.
-R = np.array([[4,4,6,5,3,4,8,9,3,2],
-              [5,10,7,6,7,6,4,1,4,5],
-              [2,3,4,4,5,4,7,7,2,2],
-              [7,8,5,5,6,6,2,1,8,7],
-              [4,6,7,5,3,3,1,1,5,5],
-              #[5,7,0,0,3,0,0,0,6,6],
-              #[6,4,4,3,4,4,2,0,5,0],
-              [0,5,4,0,3,2,0,7,4,4]])
+# 숫자 표현 형식 지정
+np.set_printoptions(precision=3, suppress=True)
 
-# 테스트 후보
-# [0,5,4,0,3,2,0,7,4,4]
-# [5,7,0,0,3,0,0,0,6,6]
-# [6,4,4,3,4,4,2,0,5,0]
+# 인자로 데이터 받아옴
+R = json.loads(sys.argv[1])
+
+# 원본 행렬 R 생성
+R = np.array(R)
+
+# 예측해야 할 도서 인덱스 저장(점수가 0인 것)
+nonDatas = []
+for i, rate in enumerate(R[len(R)-1]):
+    if (rate == 0):
+           nonDatas.append(i)
 
 # Simple SVD
-
 u, s, vh = np.linalg.svd(R, full_matrices=False)
 
-us = np.matmul(u, np.diag(s))
-a = np.matmul(us, vh)
-
-svd = TruncatedSVD(n_components=3)
+# 특이값 개수(잠재요인 차원) K는 2 설정
+svd = TruncatedSVD(n_components=2)
 svd.fit(R)
 
-u = u[:, :3]
+u = u[:, :2]
 s = svd.singular_values_
-vh = vh[:3, :]
+vh = vh[:2, :]
 
+# 예측 평점 행렬 계산
 us = np.matmul(u, np.diag(s))
-a = np.matmul(us, vh)
-a = np.round(a, 3)
+result = np.matmul(us, vh)
 
-print("prediction matrix :\n", a)
+#print(result)
+
+# 정렬하여 추천 도서 가져오기 위한 과정
+# 평점 높은 순으로 인덱스 정렬하여 넘겨줌
+
+# 튜플 만드는 과정
+recommand = []
+count = 0
+for i, rate in enumerate(result[len(result)-1]):
+    if (count >= len(nonDatas)):
+        break
+    if (i == nonDatas[count]):
+        recommand.append((i, rate))
+        count += 1
+
+# 평점 순 정렬
+recommand.sort(key=lambda x:x[1], reverse=True)
+
+# 인덱스만 추출
+ret = []
+for element in recommand:
+    ret.append(element[0])
+
+print(ret)
