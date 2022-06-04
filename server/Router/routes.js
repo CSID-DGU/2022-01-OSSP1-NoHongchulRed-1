@@ -15,20 +15,29 @@ const saltOrRounds = 10;
 router.get('/recommend', (req, res) => {
     // 여기에 모든 유저(현재 세션의 유저는 제외) 평점 정보 가져오는 쿼리문 필요 (userid, isbn 순으로 정렬)
     // 현재 세션의 유저는 별도로 가져와서 앞선 모든 유저 배열 마지막에 추가
-    // json 형태로 만들어서 파이썬 파일에 넘겨주면 됨
+    // json 형태로 만들어서 파이썬 파일에 넘겨주면 됨(구현됨)
 
     // 즉, 앞서 정렬된 순으로 isbn 정보만 저장하여 별도의 배열을 만들고
     // userid-isbn 순으로 정렬된 평점 데이터 배열(현재 세션의 유저 제외)를 넘겨줘야 함
+    // isbn에 해당하는 독후감이 없는 자리는 0값을 채워줘야 함
+
     // isbn 배열 예시 : ["123456789 1234589789", "567891234 7894546213", ...]
+    // 아래의 isbnList 배열 참고
+
     // userid-isbn 유저 평점 배열 예시 : [[0,5,6,7,10,0,0], [8,0,2,0,0,6,7], ...]
-    // isbn 배열은 후처리에 사용할 예정이고, userid-isbn 유저 평점 배열은 json 형태로 변환하여 파이썬으로 전달
     // userid-isbn 유저 평점 배열 내부의 배열은 각 isbn에 대한 유저의 평점 데이터를 의미함
     // 즉, [0,5,6,7,10,0,0]이 유저1의 평점 정보, [8,0,2,0,0,6,7]이 유저2의 평점 정보... 와 같은 것
-    // 설명 어려우니 모르면 물어볼 것
+    // 0이 있는 자리는 실제 DB에 데이터가 없는 것이므로 체크하여 0값을 추가해줘야 함
+    // 아래의 dataMat 배열 참고, push해서 추가한 것이 현재 추천해줄 유저의 평점 데이터
+
+    // isbn 배열은 후처리에 사용할 예정이고, userid-isbn 유저 평점 배열은 json 형태로 변환하여 파이썬으로 전달(구현됨)
+    // 설명 어려우니 모르면 물어볼 것!!
+
+    // result 변수에 최종 데이터 담아 넘겨주면 될 듯
     var result;
-    // 전체 isbn 정보
+    // 전체 isbn 정보 (임시 데이터)
     var isbnList = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
-    // 전체 평점 정보
+    // 전체 평점 정보 (임시 데이터)
     var dataMat = 
         [[4,4,6,5,3,4,8,9,3,2],
         [5,10,7,6,7,6,4,1,4,5],
@@ -38,21 +47,22 @@ router.get('/recommend', (req, res) => {
     
     dataMat.push([0,5,4,0,3,2,0,7,4,4]) // 현재 추천해줄 유저의 평점 정보 추가
 
-    // 테스트 후보
+    // 테스트 후보 (임시 데이터)
     // [0,5,4,0,3,2,0,7,4,4]
     // [5,7,0,0,3,0,0,0,6,6]
     // [6,4,4,3,4,4,2,0,5,0]
+
     const process = spawn('python', ['python/main.py', JSON.stringify(dataMat)]);
     process.stdout.on('data', function (data) {
         //console.log("stdout: " + data.toString());
-        result = data.toString();
-        console.log(result);
-        console.log(JSON.parse(data));
+        //result = data.toString();
+        // 받아온 데이터는 추천 순위 인덱스 정보이므로 해당 인덱스에 해당하는 isbn을 찾아 실제 도서 정보를 넘겨줘야 함
         const recommendIndex = JSON.parse(data);
         var recommendIsbn = []
         for (var i=0;i<recommendIndex.length;i++) {
             recommendIsbn.push(isbnList[recommendIndex[i]]);
         }
+        // 테스트를 위해 isbn 정보를 리턴하도록 했지만, 이 isbn 배열로 도서를 찾아서 도서 정보 리턴해주면 됨
         return res.json(recommendIsbn);
     });
 

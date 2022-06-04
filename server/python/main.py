@@ -12,6 +12,7 @@ R = json.loads(sys.argv[1])
 # 원본 행렬 R 생성
 R = np.array(R)
 
+# 예측해야 할 도서 인덱스 저장(점수가 0인 것)
 nonDatas = []
 for i, rate in enumerate(R[len(R)-1]):
     if (rate == 0):
@@ -36,6 +37,8 @@ result = np.matmul(us, vh)
 
 # 정렬하여 추천 도서 가져오기 위한 과정
 # 평점 높은 순으로 인덱스 정렬하여 넘겨줌
+
+# 튜플 만드는 과정
 recommand = []
 count = 0
 for i, rate in enumerate(result[len(result)-1]):
@@ -45,8 +48,10 @@ for i, rate in enumerate(result[len(result)-1]):
         recommand.append((i, rate))
         count += 1
 
+# 평점 순 정렬
 recommand.sort(key=lambda x:x[1], reverse=True)
 
+# 인덱스만 추출
 ret = []
 for element in recommand:
     ret.append(element[0])
