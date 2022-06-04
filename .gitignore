@@ -205,8 +205,11 @@ sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/dotenv
 
-# build folder
+### build folder ###
 client/build
 
-# session
+### session ###
 server/sessions
+
+### python venv ###
+.venv
