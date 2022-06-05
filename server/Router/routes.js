@@ -13,6 +13,19 @@ const saltOrRounds = 10;
 
 // get recommend data
 router.get('/recommend', (req, res) => {
+    // 모든 유저 평점 배열 만들기 (세션 유저 빼고)
+    try {
+        const recdata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid != ? ORDER BY userid DESC, isbn DESC',[session.userId]);
+        if (recdata[0].length != 0) {
+            return res.json(Object.assign(recdata[0], {issuccess: true, message: "success"}));
+        }
+        else {
+            return res.json({issuccess: false, message: "no data"});
+        }
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+
     // 여기에 모든 유저(현재 세션의 유저는 제외) 평점 정보 가져오는 쿼리문 필요 (userid, isbn 순으로 정렬)
     // 현재 세션의 유저는 별도로 가져와서 앞선 모든 유저 배열 마지막에 추가
     // json 형태로 만들어서 파이썬 파일에 넘겨주면 됨(구현됨)
