@@ -12,34 +12,30 @@ const bcrypt = require('bcrypt');
 const saltOrRounds = 10;
 
 // get recommend data
-router.get('/recommend', (req, res) => {
+router.get('/recommend',(req, res) => {
     
-    try {
+    
         // 유저배열1, isbn 배열2
-        const udata = await pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE userid != ?',[req.session.id]);
-        var isbnList = await pool.query('SELECT isbn FROM BOOKWEB.BookTB ORDER BY isbn DESC');
+        var udata = pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE NOT userid= ?',[req.session.id]);
+        var isbnList = pool.query('SELECT isbn FROM BOOKWEB.BookTB ORDER BY isbn DESC');
         
-        // dataMat 2차원 배열로만 만들기
-        var dataMat = new Array(udata.length);
-        for (var i =0; i < udata.length;i++) {
-            dataMat[i] = new Array(isbnList.length);
-        }
+        const ulen = udata.length;
+        const ilen = isbnList.length;
+
+        // dataMat 배열 만들기(초기화된 상태)
+        var dataMat = Array(ulen).fill(null).map(()=>Array(ilen));
         
         // dataMat 배열 채우기
-        for (var i = 0; i < udata.length ; i++) {
-            for (var j = 0; j < isbnList.length ; j++) {
-                dataMat[i][j] = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?',[udata[i],isbnList[j]]);
+        for (var i = 0; i < ulen ; i++) {
+            for (var j = 0; j < ilen ; j++) {
+                dataMat[i][j] = pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?',[udata[i],isbnList[j]]);
                 if (dataMat[i][j].length == 0) {
                     dataMat[i][j] = 0;
                 }
             }
         }
 
-    } catch (err) {
-        return res.status(500).json(err);
-    }
-
-
+    
     // 1단계: (현재 세션 유저 제외)유저 아이디 리스트 가져오고 ->  배열1
     // 2단계: 전체 북 isbn 리스트 가져오고 (정렬) -> 배열2
     // 3단계: 유저 1을 배열1에서 빼내고 특정 유저1 아이디랑 배열2이랑 비교해서 독후감의 평점을 다 불러와서 배열을 하나 만들고 (없으면 0으로 채워서) 전체 유저의 유저-평점 배열을 만든다
@@ -80,7 +76,7 @@ router.get('/recommend', (req, res) => {
     // 현재 세션 유저의 평점 배열 만들기
     var mdata = [];
     for (var i =0; i<isbnList.length;i++) {
-        mdata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?', [req.session.userId, isbnList[i]]);
+        mdata = pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?', [req.session.userId, isbnList[i]]);
         if (mdata[i].length == 0 ) {
             mdata[0] = 0;
         }
@@ -105,9 +101,9 @@ router.get('/recommend', (req, res) => {
         }
         
         // 테스트를 위해 isbn 정보를 리턴하도록 했지만, 이 isbn 배열로 도서를 찾아서 도서 정보 리턴해주면 됨
-        var recdata = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn=?',[recommendIsbn]);
-        return res.json(recdata); //여기 구현2
-        
+        /*var recdata = pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn=?',[recommendIsbn]);
+        return res.json(recdata); //여기 구현2*/
+
     });
 
     process.stderr.on('data', function(data) {
