@@ -41,87 +41,55 @@ router.get('/recommend',async(req, res) => {
             }
         }
 
+        // 현재 세션의 유저 배열 만들기
+        var sesuser = [];
+        for (var i = 0; i< ilen ; i++) {
+        nodat = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?', [req.session.userId, isbnList[0][i].isbn]);
+            if (nodat[0].length == 0 ) {
+                sesuser[i] = 0;
+            }
+            else {
+                sesuser[i] = nodat[0][0].rating;
+            }
+        }
+
+        dataMat.push(sesuser) // 현재 추천해줄 유저의 평점 정보 추가
+
         //console.log(dataMat);
+
+        // result 변수에 최종 데이터 담아 넘겨주면 될 듯
+        var result;
+
+        const process = spawn('python', ['python/main.py', JSON.stringify(dataMat)]);
+        process.stdout.on('data', function (data) {
+            console.log("stdout: " + data.toString());
+            result = data.toString();
+
+            // 받아온 데이터는 추천 순위 인덱스 정보이므로 해당 인덱스에 해당하는 isbn을 찾아 실제 도서 정보를 넘겨줘야 함
+            const recommendIndex = JSON.parse(data);
+            var recommendIsbn = []
+            for (var i=0;i<recommendIndex.length;i++) {
+                recommendIsbn.push(isbnList[recommendIndex[i]]);
+            }
+        
+            // 테스트를 위해 isbn 정보를 리턴하도록 했지만, 이 isbn 배열로 도서를 찾아서 도서 정보 리턴해주면 됨
+            /*var recdata = pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn=?',[recommendIsbn]);
+            return res.json(recdata); //여기 구현2*/
+            return res.json(recommendIsbn);
+        });
+
+        process.stderr.on('data', function(data) {
+            //console.log("stderr: " + data.toString());
+            result = data.toString();
+            return res.json(result);
+        });
+
+    
          
     } catch (err) {
         return res.status(500).json(err);
     }
     
-    // 1단계: (현재 세션 유저 제외)유저 아이디 리스트 가져오고 ->  배열1
-    // 2단계: 전체 북 isbn 리스트 가져오고 (정렬) -> 배열2
-    // 3단계: 유저 1을 배열1에서 빼내고 특정 유저1 아이디랑 배열2이랑 비교해서 독후감의 평점을 다 불러와서 배열을 하나 만들고 (없으면 0으로 채워서) 전체 유저의 유저-평점 배열을 만든다
-    // 4단계: 현재 세션의 유저 아이디에 따른 평점 배열 만들기
-
-    // 여기에 모든 유저(현재 세션의 유저는 제외) 평점 정보 가져오는 쿼리문 필요 (userid, isbn 순으로 정렬)
-    // 현재 세션의 유저는 별도로 가져와서 앞선 모든 유저 배열 마지막에 추가
-    // json 형태로 만들어서 파이썬 파일에 넘겨주면 됨(구현됨)
-
-    // 즉, 앞서 정렬된 순으로 isbn 정보만 저장하여 별도의 배열을 만들고
-    // userid-isbn 순으로 정렬된 평점 데이터 배열(현재 세션의 유저 제외)를 넘겨줘야 함
-    // isbn에 해당하는 독후감이 없는 자리는 0값을 채워줘야 함
-
-    // isbn 배열 예시 : ["123456789 1234589789", "567891234 7894546213", ...]
-    // 아래의 isbnList 배열 참고
-
-    // userid-isbn 유저 평점 배열 예시 : [[0,5,6,7,10,0,0], [8,0,2,0,0,6,7], ...]
-    // userid-isbn 유저 평점 배열 내부의 배열은 각 isbn에 대한 유저의 평점 데이터를 의미함
-    // 즉, [0,5,6,7,10,0,0]이 유저1의 평점 정보, [8,0,2,0,0,6,7]이 유저2의 평점 정보... 와 같은 것
-    // 0이 있는 자리는 실제 DB에 데이터가 없는 것이므로 체크하여 0값을 추가해줘야 함
-    // 아래의 dataMat 배열 참고, push해서 추가한 것이 현재 추천해줄 유저의 평점 데이터
-
-    // isbn 배열은 후처리에 사용할 예정이고, userid-isbn 유저 평점 배열은 json 형태로 변환하여 파이썬으로 전달(구현됨)
-    // 설명 어려우니 모르면 물어볼 것!!
-
-    // result 변수에 최종 데이터 담아 넘겨주면 될 듯
-    var result;
-    // 전체 isbn 정보 
-    //var isbnList = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
-    // 전체 평점 정보 (임시 데이터)
-    //var dataMat = new Array()
-      /*  [[4,4,6,5,3,4,8,9,3,2], // 유저 1이 매긴 책 10개에 대한 평점 배열
-        [5,10,7,6,7,6,4,1,4,5], // 유저 2가 매긴 책 10개에 대한 평점 배열
-        [2,3,4,4,5,4,7,7,2,2],
-        [7,8,5,5,6,6,2,1,8,7],
-        [4,6,7,5,3,3,1,1,5,5]]*/
-    
-    // 현재 세션 유저의 평점 배열 만들기
-    var mdata = [];
-    for (var i =0; i<isbnList.length;i++) {
-        mdata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?', [req.session.userId, isbnList[i]]);
-        if (mdata[i].length == 0 ) {
-            mdata[0] = 0;
-        }
-    }
-   
-    dataMat.push(mdata) // 현재 추천해줄 유저의 평점 정보 추가
-
-    // 테스트 후보 (임시 데이터)
-    // [0,5,4,0,3,2,0,7,4,4]
-    // [5,7,0,0,3,0,0,0,6,6]
-    // [6,4,4,3,4,4,2,0,5,0]
-
-    const process = spawn('python', ['python/main.py', JSON.stringify(dataMat)]);
-    process.stdout.on('data', function (data) {
-        //console.log("stdout: " + data.toString());
-        //result = data.toString();
-        // 받아온 데이터는 추천 순위 인덱스 정보이므로 해당 인덱스에 해당하는 isbn을 찾아 실제 도서 정보를 넘겨줘야 함
-        const recommendIndex = JSON.parse(data);
-        var recommendIsbn = []
-        for (var i=0;i<recommendIndex.length;i++) {
-            recommendIsbn.push(isbnList[recommendIndex[i]]);
-        }
-        
-        // 테스트를 위해 isbn 정보를 리턴하도록 했지만, 이 isbn 배열로 도서를 찾아서 도서 정보 리턴해주면 됨
-        /*var recdata = pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn=?',[recommendIsbn]);
-        return res.json(recdata); //여기 구현2*/
-
-    });
-
-    process.stderr.on('data', function(data) {
-        //console.log("stderr: " + data.toString());
-        result = data.toString();
-        return res.json(result);
-    });
 });
 
 // get session
