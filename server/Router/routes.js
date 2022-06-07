@@ -6,35 +6,48 @@ const spawn = require('child_process').spawn;
 const router = express.Router();
 
 const bcrypt = require('bcrypt');
+const { stringify } = require('querystring');
 
 //const index = path.join(__dirname, '../client/build/index.html');
 
 const saltOrRounds = 10;
 
 // get recommend data
-router.get('/recommend',(req, res) => {
-    
-    
-        // 유저배열1, isbn 배열2
-        var udata = pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE NOT userid= ?',[req.session.id]);
-        var isbnList = pool.query('SELECT isbn FROM BOOKWEB.BookTB ORDER BY isbn DESC');
+router.get('/recommend',async(req, res) => {
+    try {
+        // 유저 배열 udata, 책의 isbn 배열 isbnList
+        var udata = await pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE NOT userid= ?',[req.session.userId]);
+        var isbnList = await pool.query('SELECT isbn FROM BOOKWEB.BookTB ORDER BY isbn ASC');
+        const ulen = udata[0].length;
+        const ilen = isbnList[0].length;
         
-        const ulen = udata.length;
-        const ilen = isbnList.length;
+        //dataMat 배열 만들기 (초기화된 상태로)
+        var dataMat = new Array(ulen);
 
-        // dataMat 배열 만들기(초기화된 상태)
-        var dataMat = Array(ulen).fill(null).map(()=>Array(ilen));
-        
-        // dataMat 배열 채우기
-        for (var i = 0; i < ulen ; i++) {
-            for (var j = 0; j < ilen ; j++) {
-                dataMat[i][j] = pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?',[udata[i],isbnList[j]]);
-                if (dataMat[i][j].length == 0) {
-                    dataMat[i][j] = 0;
+        for (var i=0;i<ulen;i++) {
+            dataMat[i] = new Array(ilen);
+        }
+
+        //dataMat 배열 채우기
+        for (var i =0 ;i<ulen;i++) {
+            for (var j=0;j<ilen;j++) {
+                var ata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?',[udata[0][i].userid,isbnList[0][j].isbn]);
+                console.log(ata[0]);
+                if (ata[0].length ==0) {
+                    ata[0] = 0;
                 }
+                dataMat[i][j] = ata[0];
+                
             }
         }
 
+        console.log(dataMat);
+            
+        
+        
+    } catch (err) {
+        return res.status(500).json(err);
+    }
     
     // 1단계: (현재 세션 유저 제외)유저 아이디 리스트 가져오고 ->  배열1
     // 2단계: 전체 북 isbn 리스트 가져오고 (정렬) -> 배열2
@@ -76,7 +89,7 @@ router.get('/recommend',(req, res) => {
     // 현재 세션 유저의 평점 배열 만들기
     var mdata = [];
     for (var i =0; i<isbnList.length;i++) {
-        mdata = pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?', [req.session.userId, isbnList[i]]);
+        mdata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?', [req.session.userId, isbnList[i]]);
         if (mdata[i].length == 0 ) {
             mdata[0] = 0;
         }
