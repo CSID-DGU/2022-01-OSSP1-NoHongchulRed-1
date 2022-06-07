@@ -61,21 +61,25 @@ router.get('/recommend',async(req, res) => {
         var result;
 
         const process = spawn('python', ['python/main.py', JSON.stringify(dataMat)]);
-        process.stdout.on('data', function (data) {
-            console.log("stdout: " + data.toString());
-            result = data.toString();
+        process.stdout.on('data', async function (data) {
+            //console.log("stdout: " + data.toString());
+            //result = data.toString();
 
             // 받아온 데이터는 추천 순위 인덱스 정보이므로 해당 인덱스에 해당하는 isbn을 찾아 실제 도서 정보를 넘겨줘야 함
             const recommendIndex = JSON.parse(data);
             var recommendIsbn = []
             for (var i=0;i<recommendIndex.length;i++) {
-                recommendIsbn.push(isbnList[recommendIndex[i]]);
+                recommendIsbn.push(isbnList[0][recommendIndex[i]]);
             }
-        
+
             // 테스트를 위해 isbn 정보를 리턴하도록 했지만, 이 isbn 배열로 도서를 찾아서 도서 정보 리턴해주면 됨
-            /*var recdata = pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn=?',[recommendIsbn]);
-            return res.json(recdata); //여기 구현2*/
-            return res.json(recommendIsbn);
+            var rbarr =[]; // 추천 도서 배열
+            for (var i =0 ; i < recommendIsbn.length ; i++) {
+                var fdata = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?',[recommendIsbn[i].isbn]);
+                rbarr[i] = fdata[0];
+            }
+            //console.log(rbarr);
+            return res.json(rbarr); 
         });
 
         process.stderr.on('data', function(data) {
@@ -84,8 +88,6 @@ router.get('/recommend',async(req, res) => {
             return res.json(result);
         });
 
-    
-         
     } catch (err) {
         return res.status(500).json(err);
     }
