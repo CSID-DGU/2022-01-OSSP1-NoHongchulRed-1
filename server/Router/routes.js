@@ -29,22 +29,20 @@ router.get('/recommend',async(req, res) => {
         }
 
         //dataMat 배열 채우기
-        for (var i =0 ;i<ulen;i++) {
-            for (var j=0;j<ilen;j++) {
+        for (var i =0 ; i < ulen ; i++) {
+            for (var j=0 ; j < ilen ; j++) {
                 var ata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?',[udata[0][i].userid,isbnList[0][j].isbn]);
-                console.log(ata[0]);
                 if (ata[0].length ==0) {
-                    ata[0] = 0;
+                    dataMat[i][j] = 0;
                 }
-                dataMat[i][j] = ata[0];
-                
+                else {
+                    dataMat[i][j] = ata[0][0].rating;
+                }
             }
         }
 
-        console.log(dataMat);
-            
-        
-        
+        //console.log(dataMat);
+         
     } catch (err) {
         return res.status(500).json(err);
     }
