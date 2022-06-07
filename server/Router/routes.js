@@ -73,6 +73,16 @@ router.get('/recommend', (req, res) => {
     });
 });
 
+// get recommend data (cosine)
+router.get('/session/cos', async (req, res) => {
+    try {
+        // 코사인 유사도 관련 내용 구현 필요
+        return res.json({issuccess: true, message: "success"});
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+});
+
 // get session
 router.get('/session', async (req, res) => {
     try {
