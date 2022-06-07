@@ -119,10 +119,16 @@ specific Book report on book and user
 
 returns a session data (userid + nickname + others)
 
-### Get Recommend data
+### Get Recommend data (svd)
 
-`GET /recommend`
+`GET /recommend/svd`
 
-returns a recommend data
+returns a svd recommend data
+
+### Get Recommend data (cosine)
+
+`GET /recommend/cos`
+
+returns a cosine recommend data
 
 **※ Every endpoint is temporary. Database table can be changed soon.**
