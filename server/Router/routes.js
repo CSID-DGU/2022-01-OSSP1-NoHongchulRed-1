@@ -92,7 +92,42 @@ router.get('/session/cos', async (req, res) => {
         // 개발 진행 시 모르는 내용 있으면 물어볼 것
         // 프론트 쪽은 백엔드 작업이 익숙하지 않을 수 있으므로 앞뒤로 이미 완성된 코드 참고하며 작업할 것
         // 해당 작업 완료되면 프론트 쪽 추천페이지까지 마무리해야 함
-        return res.json({issuccess: true, message: "success"});
+        
+        //['총류(기타)','철학','종교','사회학','자연과학','기술과학','예술','언어','문학','역사']
+        //테스트 데이터
+        var preferMat = 
+        [[0,0,0,0,0,1,1,1,1,1],
+        [0,1,0,1,0,1,0,1,0,1],
+        [0,0,0,1,0,0,1,0,0,1],
+        [1,1,0,0,0,1,0,0,1,0],
+        [1,0,1,0,1,0,0,0,0,0]];
+
+        var myPrefer = [0,1,1,0,0,0,0,1,0,0];
+
+        //return res.json(preferMat);
+        const process = spawn('python', ['python/cos.py', JSON.stringify(preferMat), JSON.stringify(myPrefer)]);
+
+        process.stdout.on('data', function (data) {
+            console.log(data);
+            //console.log(JSON.parse(data));
+            return res.json(data);
+            //console.log("stdout: " + data.toString());
+            //result = data.toString();
+            // 받아온 데이터는 추천 순위 인덱스 정보이므로 해당 인덱스에 해당하는 isbn을 찾아 실제 도서 정보를 넘겨줘야 함
+            const recommendIndex = JSON.parse(data);
+            var recommendIsbn = []
+            for (var i=0;i<recommendIndex.length;i++) {
+                recommendIsbn.push(isbnList[recommendIndex[i]]);
+            }
+            // 테스트를 위해 isbn 정보를 리턴하도록 했지만, 이 isbn 배열로 도서를 찾아서 도서 정보 리턴해주면 됨
+            return res.json(recommendIsbn);
+        });
+    
+        process.stderr.on('data', function(data) {
+            //console.log("stderr: " + data.toString());
+            result = data.toString();
+            return res.json(result);
+        });
     } catch (err) {
         return res.status(500).json(err);
     }
