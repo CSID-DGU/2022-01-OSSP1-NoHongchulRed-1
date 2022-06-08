@@ -6,17 +6,27 @@ const spawn = require('child_process').spawn;
 const router = express.Router();
 
 const bcrypt = require('bcrypt');
-const { stringify } = require('querystring');
 
 //const index = path.join(__dirname, '../client/build/index.html');
 
 const saltOrRounds = 10;
 
+// ===== Server resource API =====
+
+// get session
+router.get('/session', async (req, res) => {
+    try {
+        return res.json(Object.assign(req.session, {issuccess: true, message: "success"}));
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+});
+
 // get recommend data
-router.get('/recommend',async(req, res) => {
+router.get('/recommend/svd', async (req, res) => {
     try {
         // 유저 배열 udata, 책의 isbn 배열 isbnList
-        var udata = await pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE NOT userid= ?',[req.session.userId]);
+        var udata = await pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE NOT userid= ?', [req.session.userId]);
         var isbnList = await pool.query('SELECT isbn FROM BOOKWEB.BookTB ORDER BY isbn ASC');
         const ulen = udata[0].length;
         const ilen = isbnList[0].length;
@@ -29,10 +39,10 @@ router.get('/recommend',async(req, res) => {
         }
 
         //dataMat 배열 채우기
-        for (var i =0 ; i < ulen ; i++) {
-            for (var j=0 ; j < ilen ; j++) {
-                var ata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?',[udata[0][i].userid,isbnList[0][j].isbn]);
-                if (ata[0].length ==0) {
+        for (var i=0; i < ulen ; i++) {
+            for (var j=0; j < ilen; j++) {
+                var ata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?', [udata[0][i].userid, isbnList[0][j].isbn]);
+                if (ata[0].length == 0) {
                     dataMat[i][j] = 0;
                 }
                 else {
@@ -43,9 +53,9 @@ router.get('/recommend',async(req, res) => {
 
         // 현재 세션의 유저 배열 만들기
         var sesuser = [];
-        for (var i = 0; i< ilen ; i++) {
+        for (var i=0; i < ilen; i++) {
         nodat = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?', [req.session.userId, isbnList[0][i].isbn]);
-            if (nodat[0].length == 0 ) {
+            if (nodat[0].length == 0) {
                 sesuser[i] = 0;
             }
             else {
@@ -73,16 +83,17 @@ router.get('/recommend',async(req, res) => {
             }
 
             // 테스트를 위해 isbn 정보를 리턴하도록 했지만, 이 isbn 배열로 도서를 찾아서 도서 정보 리턴해주면 됨
-            var rbarr =[]; // 추천 도서 배열
+            // 현재에는 전체를 다 전달해주는데, 상위 n개만 뽑아서 추천해주도록 설정
+            var rbarr = []; // 추천 도서 배열
             for (var i =0 ; i < recommendIsbn.length ; i++) {
-                var fdata = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?',[recommendIsbn[i].isbn]);
-                rbarr[i] = fdata[0];
+                var fdata = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?', [recommendIsbn[i].isbn]);
+                rbarr[i] = fdata[0][0];
             }
             //console.log(rbarr);
-            return res.json(rbarr); 
+            return res.json(rbarr);
         });
 
-        process.stderr.on('data', function(data) {
+        process.stderr.on('data', function (data) {
             //console.log("stderr: " + data.toString());
             result = data.toString();
             return res.json(result);
@@ -119,14 +130,8 @@ router.get('/session/cos', async (req, res) => {
     }
 });
 
-// get session
-router.get('/session', async (req, res) => {
-    try {
-        return res.json(Object.assign(req.session, {issuccess: true, message: "success"}));
-    } catch (err) {
-        return res.status(500).json(err);
-    }
-});
+
+// ===== DB resource API =====
 
 // Authentication
 // 로그인 
@@ -191,9 +196,8 @@ router.post('/db/users', async (req,res) => {
         const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE userid = ?', [userid]);
         // id 유무 체크 (로그인과 달리 중복 id가 없어야 함)
         if (data[0].length == 0) {
-            // 프론트쪽 완성되면 여기에 preference 추가하여 쿼리 수정할 것
-            pool.query('INSERT INTO BOOKWEB.UserTB(userid, password, nickname, age, sexuality) VALUES (?,?,?,?,?)',
-            [userid, hashPassword, nickname, age, sexuality]);
+            pool.query('INSERT INTO BOOKWEB.UserTB(userid, password, nickname, age, sexuality, preference) VALUES (?,?,?,?,?,?)',
+            [userid, hashPassword, nickname, age, sexuality, preference]);
             return res.json({issuccess: true, message: "register success"});
         } else {
             return res.json({issuccess: false, message: "id is duplicated"});

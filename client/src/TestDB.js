@@ -88,6 +88,7 @@ const Test = () => {
         nickname: '',
         age: '',
         sexuality: '',
+        preference: '',
     });
 
     const onChangeRegister = (e) => {
@@ -114,7 +115,8 @@ const Test = () => {
                 password: registerInputs.password,
                 nickname: registerInputs.nickname,
                 age: registerInputs.age,
-                sexuality: registerInputs.sexuality
+                sexuality: registerInputs.sexuality,
+                preference: registerInputs.preference
             }).then((res) => {
                 return res.data;
             })
@@ -306,7 +308,7 @@ const Test = () => {
 
     const onButtonRunPy = () => {
         try {
-            axios.get('/recommend')
+            axios.get('/recommend/svd')
             .then((res) => {
                 return res.data;
             })
@@ -376,6 +378,8 @@ const Test = () => {
                 <br />
                 <input type="text" name="sexuality" placeholder="M/F" value={registerInputs.sexuality} maxLength="10" onChange={onChangeRegister} />
                 <br />
+                <input type="text" name="preference" placeholder="도서 분류별 관심도" value={registerInputs.preference} maxLength="50" onChange={onChangeRegister} />
+                <br />
                 <button onClick={onSubmitRegister}>회원가입</button>
                 <button onClick={onResetRegister}>취소</button>
 
@@ -430,8 +434,8 @@ const Test = () => {
                 <button onClick={onSubmitisid}>독후감 등록 확인(userid+isbn)</button>
                 <hr />
                 <br />
-                <h1><font size="3">파이썬 실행 확인</font></h1>
-                <button onClick={onButtonRunPy}>파이썬 실행하기</button>
+                <h1><font size="3">svd 실행 확인</font></h1>
+                <button onClick={onButtonRunPy}>svd 실행하기</button>
                 <hr />
                 <br />
                 <h1><font size="3">모든 독후감 확인</font></h1>
