@@ -6,7 +6,6 @@ const spawn = require('child_process').spawn;
 const router = express.Router();
 
 const bcrypt = require('bcrypt');
-const { isBuffer } = require('util');
 
 //const index = path.join(__dirname, '../client/build/index.html');
 
@@ -126,9 +125,11 @@ router.get('/session/cos', async (req, res) => {
             //return res.json(similarUser);
             //similarUser : [ 'test112', 'test115', 'test114' ]
 
-            //내가 읽은 책 목록을 bookList에 가져오기
+            //내가 독후감을 쓴 책의 isbn 목록 가져오기
             console.log(req.session.userId);
-            var data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ? ORDER BY date DESC', [req.session.userId]);
+            //var data = await pool.query('SELECT R.isbn FROM BOOKWEB.BookReportTB AS R, BOOKWEB.BookTB AS B WHERE R.isbn = B.isbn AND R.userid = ?', [req.session.userId]);
+            var data = await pool.query('SELECT R.isbn FROM BOOKWEB.BookReportTB AS R WHERE R.userid = ?', [req.session.userId]);
+            console.log("내가읽은 책(독후감 쓴 책)", data[0]);
             var myBook = data[0];
             
             /*
@@ -145,11 +146,11 @@ router.get('/session/cos', async (req, res) => {
             }
             
             //상위 3명 유저(similarUser[0]~[2])가 읽은 책 목록을 bookList에 업데이트, rating 추가
-            var data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ? ORDER BY date DESC', [similarUser[0]]);
+            var data = await pool.query('SELECT R.isbn, R.rating FROM BOOKWEB.BookReportTB AS R WHERE R.userid = ?', [similarUser[0]]);
             var similar1 = data[0];
-            var data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ? ORDER BY date DESC', [similarUser[1]]);
+            var data = await pool.query('SELECT R.isbn, R.rating FROM BOOKWEB.BookReportTB AS R WHERE R.userid = ?', [similarUser[1]]);
             var similar2 = data[0];
-            var data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ? ORDER BY date DESC', [similarUser[2]]);
+            var data = await pool.query('SELECT R.isbn, R.rating FROM BOOKWEB.BookReportTB AS R WHERE R.userid = ?', [similarUser[2]]);
             var similar3 = data[0];
             /*
             const similar1 = [
