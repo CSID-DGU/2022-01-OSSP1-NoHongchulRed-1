@@ -6,6 +6,7 @@ const spawn = require('child_process').spawn;
 const router = express.Router();
 
 const bcrypt = require('bcrypt');
+const { isBuffer } = require('util');
 
 //const index = path.join(__dirname, '../client/build/index.html');
 
@@ -107,8 +108,8 @@ router.get('/session/cos', async (req, res) => {
 
         var myPrefer = [0,1,1,0,0,0,0,1,0,0];
         //console.log(JSON.stringify(preferMat));
-
         //return res.json(preferMat);
+
         const process2 = spawn('python', ['python/cos.py', JSON.stringify(preferMat), JSON.stringify(myPrefer)]);
 
         process2.stdout.on('data', function (data) {
@@ -119,7 +120,96 @@ router.get('/session/cos', async (req, res) => {
             for (var i=0; i<recommendIndex.length; i++) {
                 similarUser.push(userList[recommendIndex[i]]); 
             }
-            return res.json(similarUser);
+            //console.log(similarUser);
+            //return res.json(similarUser);
+
+            //내가 읽은 책 목록을 bookList에 가져오기
+            const id = "test110";
+            const myBook = [
+                {userid: "test110", isbn: "isbn1", rating: 9 },
+                {userid: "test110", isbn: "isbn2", rating: 5 },
+                {userid: "test110", isbn: "isbn3", rating: 7 },
+            ]
+            var bookList = [];
+            for(var i=0; i<myBook.length; i++) {
+                bookList.push([myBook[i].isbn, 0]);
+            }
+            
+            //상위 3명 유저(similarUser[0]~[2])가 읽은 책 목록을 bookList에 업데이트, rating 추가
+            const similar1 = [
+                {userid: "test112", isbn: "isbn2", rating: 6},
+                {userid: "test112", isbn: "isbn5", rating: 7},
+                {userid: "test112", isbn: "isbn7", rating: 9}
+            ];
+            const similar2 = [
+                {userid: "test115", isbn: "isbn7", rating: 6},
+                {userid: "test115", isbn: "isbn8", rating: 7},
+                {userid: "test115", isbn: "isbn3", rating: 5}
+            ];
+            const similar3 = [
+                {userid: "test114", isbn: "isbn10", rating: 10},
+                {userid: "test114", isbn: "isbn5", rating: 7},
+                {userid: "test114", isbn: "isbn11", rating: 3}
+            ];
+            /*
+            for(var i=0; i<similar1.length; i++) {
+                if(bookList.includes(similar1[i].isbn) == false) 
+                    bookList.push(similar1[i].isbn);
+            }
+             */
+            function RatingList(arr) { //[["isbn", raing1, rating2, ....], ...] 이렇게 추가함
+                for(var i=0; i<arr.length; i++) {
+                    var inBookList = 0;
+                    for(var j=0; j<bookList.length; j++){
+                        if(bookList[j][0] == arr[i].isbn) { //이미 동일한 isbn이 리스트에 있을 시
+                            bookList[j].push(arr[i].rating); //뒤에 rating 추가
+                            inBookList = 1;
+                            break;
+                        }
+                    }
+                    if(inBookList == 0) //동일한 isbn이 리스트에 없을 시
+                        bookList.push([arr[i].isbn, arr[i].rating]); //isbn과 rating을 리스트로 추가
+                }
+            }
+            RatingList(similar1);
+            RatingList(similar2);
+            RatingList(similar3);
+            console.log("책목록:", bookList);
+
+            //bookList에서 내가 읽은 것 제외
+            for(var i=0; i<myBook.length; i++) {
+                for(var j=0; j<myBook.length; j++) {
+                    if(bookList[i][0] == myBook[j].isbn)
+                        bookList.splice(i, 1);
+                }
+            }
+            console.log("내가 읽은 책이 제거된 후 책목록: ", bookList);
+
+            //책마다 모든 rating 더해서 평균 구하기
+            var averageRating = [];
+            for(var i=0; i<bookList.length; i++) {
+                var sum = 0;
+                for(var j=1; j<bookList[i].length; j++){
+                    sum += bookList[i][j];
+                }
+                var average = sum/3.0;
+                averageRating.push([bookList[i][0], average]);
+            }
+            console.log("평점평균::", averageRating);
+
+            //평점순으로 정렬
+            averageRating.sort(function(a, b) {
+                return b[1] - a[1];
+            });
+            console.log("평점순 정렬::", averageRating);
+
+            //최고 평점인 책 3개의 isbn 가져오기
+            var recBookIsbn = [];
+            for(var i=0; i<3; i++) {
+                recBookIsbn.push(averageRating[i][0]);
+            }
+            console.log(recBookIsbn);
+            return res.json(recBookIsbn);
         });
     
         process.stderr.on('data', function(data) {
