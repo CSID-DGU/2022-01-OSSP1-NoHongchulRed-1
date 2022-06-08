@@ -6,17 +6,16 @@ const spawn = require('child_process').spawn;
 const router = express.Router();
 
 const bcrypt = require('bcrypt');
-const { stringify } = require('querystring');
 
 //const index = path.join(__dirname, '../client/build/index.html');
 
 const saltOrRounds = 10;
 
 // get recommend data
-router.get('/recommend',async(req, res) => {
+router.get('/recommend', async(req, res) => {
     try {
         // 유저 배열 udata, 책의 isbn 배열 isbnList
-        var udata = await pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE NOT userid= ?',[req.session.userId]);
+        var udata = await pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE NOT userid= ?', [req.session.userId]);
         var isbnList = await pool.query('SELECT isbn FROM BOOKWEB.BookTB ORDER BY isbn ASC');
         const ulen = udata[0].length;
         const ilen = isbnList[0].length;
@@ -31,8 +30,8 @@ router.get('/recommend',async(req, res) => {
         //dataMat 배열 채우기
         for (var i =0 ; i < ulen ; i++) {
             for (var j=0 ; j < ilen ; j++) {
-                var ata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?',[udata[0][i].userid,isbnList[0][j].isbn]);
-                if (ata[0].length ==0) {
+                var ata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?', [udata[0][i].userid,isbnList[0][j].isbn]);
+                if (ata[0].length == 0) {
                     dataMat[i][j] = 0;
                 }
                 else {
@@ -45,7 +44,7 @@ router.get('/recommend',async(req, res) => {
         var sesuser = [];
         for (var i = 0; i< ilen ; i++) {
         nodat = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?', [req.session.userId, isbnList[0][i].isbn]);
-            if (nodat[0].length == 0 ) {
+            if (nodat[0].length == 0) {
                 sesuser[i] = 0;
             }
             else {
@@ -73,13 +72,14 @@ router.get('/recommend',async(req, res) => {
             }
 
             // 테스트를 위해 isbn 정보를 리턴하도록 했지만, 이 isbn 배열로 도서를 찾아서 도서 정보 리턴해주면 됨
-            var rbarr =[]; // 추천 도서 배열
+            // 현재에는 전체를 다 전달해주는데, 상위 n개만 뽑아서 추천해주도록 설정
+            var rbarr = []; // 추천 도서 배열
             for (var i =0 ; i < recommendIsbn.length ; i++) {
-                var fdata = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?',[recommendIsbn[i].isbn]);
-                rbarr[i] = fdata[0];
+                var fdata = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?', [recommendIsbn[i].isbn]);
+                rbarr[i] = fdata[0][0];
             }
             //console.log(rbarr);
-            return res.json(rbarr); 
+            return res.json(rbarr);
         });
 
         process.stderr.on('data', function(data) {
