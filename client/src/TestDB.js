@@ -386,7 +386,7 @@ const Test = () => {
                 <br />
                 <hr />
                 <h1><font size="3">책 정보 추가</font></h1>
-                <input type="text" name="isbn" placeholder="isbn 입력하세요" value={bookInputs.isbn} maxLength="16" onChange={onChangeBook} />
+                <input type="text" name="isbn" placeholder="isbn 입력하세요" value={bookInputs.isbn} maxLength="30" onChange={onChangeBook} />
                 <br />
                 <input type="text" name="title" placeholder="제목 입력하세요" value={bookInputs.title} maxLength="16" onChange={onChangeBook} />
                 <br />
@@ -399,7 +399,7 @@ const Test = () => {
                 <button onClick={onSubmitBook}>책 등록</button>
                 <hr />
                 <h1><font size="3">책 등록 확인</font></h1>
-                <input type="text" name="isbn" placeholder="isbn 입력" value={isbn} maxLength="25" onChange={onChangeisbn} />
+                <input type="text" name="isbn" placeholder="isbn 입력" value={isbn} maxLength="30" onChange={onChangeisbn} />
                 <button onClick={onSubmitisbn}>책 등록 확인</button>
                 <br />
                 <hr />
@@ -412,12 +412,12 @@ const Test = () => {
                 <br />
                 <input type="text" name="userid" placeholder="유저 아이디 입력하세요" value={bookreportInputs.userid} maxLength="10" onChange={onChangeBookReport} />
                 <br />
-                <input type="text" name="isbn" placeholder="isbn 입력하세요" value={bookreportInputs.isbn} maxLength="10" onChange={onChangeBookReport} />
+                <input type="text" name="isbn" placeholder="isbn 입력하세요" value={bookreportInputs.isbn} maxLength="30" onChange={onChangeBookReport} />
                 <br />
                 <button onClick={onSubmitBookReport}>독후감 등록</button>
                 <hr />
                 <h1><font size="3">독후감추가 확인(isbn)</font></h1>
-                <input type="text" name="isbn" placeholder="isbn 입력" value={isbn} maxLength="20" onChange={onChangebrisbn} />
+                <input type="text" name="isbn" placeholder="isbn 입력" value={isbn} maxLength="30" onChange={onChangebrisbn} />
                 <button onClick={onSubmitbrisbn}>독후감 등록 확인(isbn)</button>
                 <hr />
                 <h1><font size="3">독후감추가 확인(userid)</font></h1>
@@ -426,7 +426,7 @@ const Test = () => {
                 <hr />
                 <h1><font size="3">하나의 독후감추가 확인(userid+isbn)</font></h1>
                 <input type="text" name="userid" placeholder="아이디 입력" value={userid} maxLength="20" onChange={onChangebruser} />
-                <input type="text" name="isbn" placeholder="isbn 입력" valuer={isbn} maxLength="20" onChange={onChangebrisbn} />
+                <input type="text" name="isbn" placeholder="isbn 입력" valuer={isbn} maxLength="30" onChange={onChangebrisbn} />
                 <button onClick={onSubmitisid}>독후감 등록 확인(userid+isbn)</button>
                 <hr />
                 <br />
