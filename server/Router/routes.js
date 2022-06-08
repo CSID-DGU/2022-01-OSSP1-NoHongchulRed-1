@@ -41,7 +41,7 @@ router.get('/recommend/svd', async (req, res) => {
         //dataMat 배열 채우기
         for (var i=0; i < ulen ; i++) {
             for (var j=0; j < ilen; j++) {
-                var ata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?', [udata[0][i].userid,isbnList[0][j].isbn]);
+                var ata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?', [udata[0][i].userid, isbnList[0][j].isbn]);
                 if (ata[0].length == 0) {
                     dataMat[i][j] = 0;
                 }
@@ -196,9 +196,8 @@ router.post('/db/users', async (req,res) => {
         const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE userid = ?', [userid]);
         // id 유무 체크 (로그인과 달리 중복 id가 없어야 함)
         if (data[0].length == 0) {
-            // 프론트쪽 완성되면 여기에 preference 추가하여 쿼리 수정할 것
-            pool.query('INSERT INTO BOOKWEB.UserTB(userid, password, nickname, age, sexuality) VALUES (?,?,?,?,?)',
-            [userid, hashPassword, nickname, age, sexuality]);
+            pool.query('INSERT INTO BOOKWEB.UserTB(userid, password, nickname, age, sexuality, preference) VALUES (?,?,?,?,?,?)',
+            [userid, hashPassword, nickname, age, sexuality, preference]);
             return res.json({issuccess: true, message: "register success"});
         } else {
             return res.json({issuccess: false, message: "id is duplicated"});

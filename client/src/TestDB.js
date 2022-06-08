@@ -88,6 +88,7 @@ const Test = () => {
         nickname: '',
         age: '',
         sexuality: '',
+        preference: '',
     });
 
     const onChangeRegister = (e) => {
@@ -114,7 +115,8 @@ const Test = () => {
                 password: registerInputs.password,
                 nickname: registerInputs.nickname,
                 age: registerInputs.age,
-                sexuality: registerInputs.sexuality
+                sexuality: registerInputs.sexuality,
+                preference: registerInputs.preference
             }).then((res) => {
                 return res.data;
             })
@@ -375,6 +377,8 @@ const Test = () => {
                 <input type="text" name="age" placeholder="10대-0, 20대-1, 30대-2, 40대-3, 50대-4, 60대 이상-5" value={registerInputs.age} maxLength="10" onChange={onChangeRegister} />
                 <br />
                 <input type="text" name="sexuality" placeholder="M/F" value={registerInputs.sexuality} maxLength="10" onChange={onChangeRegister} />
+                <br />
+                <input type="text" name="preference" placeholder="도서 분류별 관심도" value={registerInputs.preference} maxLength="50" onChange={onChangeRegister} />
                 <br />
                 <button onClick={onSubmitRegister}>회원가입</button>
                 <button onClick={onResetRegister}>취소</button>
