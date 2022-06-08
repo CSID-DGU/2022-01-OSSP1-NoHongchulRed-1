@@ -109,10 +109,12 @@ router.get('/session/cos', async (req, res) => {
         var myPrefer = [0,1,1,0,0,0,0,1,0,0];
         //console.log(JSON.stringify(preferMat));
         //return res.json(preferMat);
+        //console.log(">>>", req.session.userId);
+        var myId = "test110";
 
         const process2 = spawn('python', ['python/cos.py', JSON.stringify(preferMat), JSON.stringify(myPrefer)]);
 
-        process2.stdout.on('data', function (data) {
+        process2.stdout.on('data', async function (data) {
             //return res.json(data.toString());
             const recommendIndex = JSON.parse(data);
             console.log(recommendIndex[2]);
@@ -122,20 +124,34 @@ router.get('/session/cos', async (req, res) => {
             }
             //console.log(similarUser);
             //return res.json(similarUser);
+            //similarUser : [ 'test112', 'test115', 'test114' ]
 
             //내가 읽은 책 목록을 bookList에 가져오기
+            console.log(req.session.userId);
+            var data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ? ORDER BY date DESC', [req.session.userId]);
+            var myBook = data[0];
+            
+            /*
             const id = "test110";
             const myBook = [
                 {userid: "test110", isbn: "isbn1", rating: 9 },
                 {userid: "test110", isbn: "isbn2", rating: 5 },
                 {userid: "test110", isbn: "isbn3", rating: 7 },
             ]
+            */
             var bookList = [];
             for(var i=0; i<myBook.length; i++) {
                 bookList.push([myBook[i].isbn, 0]);
             }
             
             //상위 3명 유저(similarUser[0]~[2])가 읽은 책 목록을 bookList에 업데이트, rating 추가
+            var data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ? ORDER BY date DESC', [similarUser[0]]);
+            var similar1 = data[0];
+            var data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ? ORDER BY date DESC', [similarUser[1]]);
+            var similar2 = data[0];
+            var data = await pool.query('SELECT *, R.title AS ReportTitle FROM BOOKWEB.BookReportTB AS R JOIN BOOKWEB.BookTB AS B ON R.isbn = B.isbn WHERE R.userid = ? ORDER BY date DESC', [similarUser[2]]);
+            var similar3 = data[0];
+            /*
             const similar1 = [
                 {userid: "test112", isbn: "isbn2", rating: 6},
                 {userid: "test112", isbn: "isbn5", rating: 7},
@@ -151,12 +167,14 @@ router.get('/session/cos', async (req, res) => {
                 {userid: "test114", isbn: "isbn5", rating: 7},
                 {userid: "test114", isbn: "isbn11", rating: 3}
             ];
+            */
             /*
             for(var i=0; i<similar1.length; i++) {
                 if(bookList.includes(similar1[i].isbn) == false) 
                     bookList.push(similar1[i].isbn);
             }
              */
+
             function RatingList(arr) { //[["isbn", raing1, rating2, ....], ...] 이렇게 추가함
                 for(var i=0; i<arr.length; i++) {
                     var inBookList = 0;
@@ -174,7 +192,7 @@ router.get('/session/cos', async (req, res) => {
             RatingList(similar1);
             RatingList(similar2);
             RatingList(similar3);
-            console.log("책목록:", bookList);
+            //console.log("책목록:", bookList);
 
             //bookList에서 내가 읽은 것 제외
             for(var i=0; i<myBook.length; i++) {
@@ -183,7 +201,7 @@ router.get('/session/cos', async (req, res) => {
                         bookList.splice(i, 1);
                 }
             }
-            console.log("내가 읽은 책이 제거된 후 책목록: ", bookList);
+            //console.log("내가 읽은 책이 제거된 후 책목록: ", bookList);
 
             //책마다 모든 rating 더해서 평균 구하기
             var averageRating = [];
