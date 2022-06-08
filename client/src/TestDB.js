@@ -306,7 +306,7 @@ const Test = () => {
 
     const onButtonRunPy = () => {
         try {
-            axios.get('/recommend')
+            axios.get('/recommend/svd')
             .then((res) => {
                 return res.data;
             })
@@ -430,8 +430,8 @@ const Test = () => {
                 <button onClick={onSubmitisid}>독후감 등록 확인(userid+isbn)</button>
                 <hr />
                 <br />
-                <h1><font size="3">파이썬 실행 확인</font></h1>
-                <button onClick={onButtonRunPy}>파이썬 실행하기</button>
+                <h1><font size="3">svd 실행 확인</font></h1>
+                <button onClick={onButtonRunPy}>svd 실행하기</button>
                 <hr />
                 <br />
                 <h1><font size="3">모든 독후감 확인</font></h1>

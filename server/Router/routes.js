@@ -11,8 +11,19 @@ const bcrypt = require('bcrypt');
 
 const saltOrRounds = 10;
 
+// ===== Server resource API =====
+
+// get session
+router.get('/session', async (req, res) => {
+    try {
+        return res.json(Object.assign(req.session, {issuccess: true, message: "success"}));
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+});
+
 // get recommend data
-router.get('/recommend', async(req, res) => {
+router.get('/recommend/svd', async (req, res) => {
     try {
         // 유저 배열 udata, 책의 isbn 배열 isbnList
         var udata = await pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE NOT userid= ?', [req.session.userId]);
@@ -28,8 +39,8 @@ router.get('/recommend', async(req, res) => {
         }
 
         //dataMat 배열 채우기
-        for (var i =0 ; i < ulen ; i++) {
-            for (var j=0 ; j < ilen ; j++) {
+        for (var i=0; i < ulen ; i++) {
+            for (var j=0; j < ilen; j++) {
                 var ata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?', [udata[0][i].userid,isbnList[0][j].isbn]);
                 if (ata[0].length == 0) {
                     dataMat[i][j] = 0;
@@ -42,7 +53,7 @@ router.get('/recommend', async(req, res) => {
 
         // 현재 세션의 유저 배열 만들기
         var sesuser = [];
-        for (var i = 0; i< ilen ; i++) {
+        for (var i=0; i < ilen; i++) {
         nodat = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?', [req.session.userId, isbnList[0][i].isbn]);
             if (nodat[0].length == 0) {
                 sesuser[i] = 0;
@@ -82,7 +93,7 @@ router.get('/recommend', async(req, res) => {
             return res.json(rbarr);
         });
 
-        process.stderr.on('data', function(data) {
+        process.stderr.on('data', function (data) {
             //console.log("stderr: " + data.toString());
             result = data.toString();
             return res.json(result);
@@ -119,14 +130,8 @@ router.get('/session/cos', async (req, res) => {
     }
 });
 
-// get session
-router.get('/session', async (req, res) => {
-    try {
-        return res.json(Object.assign(req.session, {issuccess: true, message: "success"}));
-    } catch (err) {
-        return res.status(500).json(err);
-    }
-});
+
+// ===== DB resource API =====
 
 // Authentication
 // 로그인 
