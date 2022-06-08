@@ -25,7 +25,7 @@ similarity = []
 for i in range(len(R)):
     tmp = cosine_similarity(R[i].reshape(1,-1), R2.reshape(1,-1))
     similarity.append((i,tmp))
-    print(similarity[i])
+#    print(similarity[i])
 
 #유사도 높은 순서로 유저 정렬
 similarity.sort(key=lambda x:x[1], reverse=True)

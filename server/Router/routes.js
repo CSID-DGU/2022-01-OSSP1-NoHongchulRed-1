@@ -95,32 +95,31 @@ router.get('/session/cos', async (req, res) => {
         
         //['총류(기타)','철학','종교','사회학','자연과학','기술과학','예술','언어','문학','역사']
         //테스트 데이터
+
+        var userList = ["test111", "test112", "test113", "test114", "test115"];
+
         var preferMat = 
-        [[0,0,0,0,0,1,1,1,1,1],
-        [0,1,0,1,0,1,0,1,0,1],
-        [0,0,0,1,0,0,1,0,0,1],
-        [1,1,0,0,0,1,0,0,1,0],
-        [1,0,1,0,1,0,0,0,0,0]];
+        [[0,0,0,0,0,1,1,1,1,1], //test111
+        [0,1,0,1,0,1,0,1,0,1], //test112
+        [0,0,0,1,0,0,1,0,0,1], //test113
+        [1,1,0,0,0,1,0,0,1,0], //test114
+        [1,0,1,0,1,0,0,0,0,0]]; //test115
 
         var myPrefer = [0,1,1,0,0,0,0,1,0,0];
+        //console.log(JSON.stringify(preferMat));
 
         //return res.json(preferMat);
-        const process = spawn('python', ['python/cos.py', JSON.stringify(preferMat), JSON.stringify(myPrefer)]);
+        const process2 = spawn('python', ['python/cos.py', JSON.stringify(preferMat), JSON.stringify(myPrefer)]);
 
-        process.stdout.on('data', function (data) {
-            console.log(data);
-            //console.log(JSON.parse(data));
-            return res.json(data);
-            //console.log("stdout: " + data.toString());
-            //result = data.toString();
-            // 받아온 데이터는 추천 순위 인덱스 정보이므로 해당 인덱스에 해당하는 isbn을 찾아 실제 도서 정보를 넘겨줘야 함
+        process2.stdout.on('data', function (data) {
+            //return res.json(data.toString());
             const recommendIndex = JSON.parse(data);
-            var recommendIsbn = []
-            for (var i=0;i<recommendIndex.length;i++) {
-                recommendIsbn.push(isbnList[recommendIndex[i]]);
+            console.log(recommendIndex[2]);
+            var similarUser = []
+            for (var i=0; i<recommendIndex.length; i++) {
+                similarUser.push(userList[recommendIndex[i]]); 
             }
-            // 테스트를 위해 isbn 정보를 리턴하도록 했지만, 이 isbn 배열로 도서를 찾아서 도서 정보 리턴해주면 됨
-            return res.json(recommendIsbn);
+            return res.json(similarUser);
         });
     
         process.stderr.on('data', function(data) {
