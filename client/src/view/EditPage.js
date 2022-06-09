@@ -86,11 +86,10 @@ const EditPage = () => {
 
 
     const onClickRegBookReport = () => {
-
-        if(bookReportTitle === ""){
+        if(bookReportTitle.trim() === ""){
             alert("독후감 제목을 입력해주세요")
         }
-        else if(bookReportContent === ""){
+        else if(bookReportContent.trim() === ""){
             alert("독후감 내용을 입력주세요")
         }
         else if(parseInt(star) === 0){
