@@ -320,6 +320,20 @@ const Test = () => {
         }
     }
 
+    const onButtonRunCos = () => {
+        try {
+            axios.get('/session/cos')
+            .then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                console.log(data);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     const onButtonAllNewReport = () => {
         try {
             axios.get('/db/bookreports/new')
@@ -436,6 +450,9 @@ const Test = () => {
                 <br />
                 <h1><font size="3">svd 실행 확인</font></h1>
                 <button onClick={onButtonRunPy}>svd 실행하기</button>
+                <hr />
+                <h1><font size="3">코사인 실행 확인</font></h1>
+                <button onClick={onButtonRunCos}>파이썬 실행하기</button>
                 <hr />
                 <br />
                 <h1><font size="3">모든 독후감 확인</font></h1>
