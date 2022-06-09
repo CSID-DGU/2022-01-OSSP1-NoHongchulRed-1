@@ -115,6 +115,70 @@ const SignUp = () => {
                 else if (age < 60) { return 4 }
                 else { return 5 }
             }
+            var genreText = "";
+            function convertGenreCheck(genre) {
+                if (genre.checkedA) { 
+                    genreText += "1";
+                    }
+                    else 
+                    genreText += "0";
+                    genreText += ",";
+                if (genre.checkedB) { 
+                    genreText += "1";
+                    }
+                    else 
+                    genreText += "0";
+                    genreText += ",";    
+                if (genre.checkedC) { 
+                    genreText += "1";
+                    }
+                    else 
+                    genreText += "0";
+                    genreText += ",";
+                if (genre.checkedD) { 
+                    genreText += "1";
+                    }
+                    else 
+                    genreText += "0";
+                    genreText += ",";
+                if (genre.checkedE) { 
+                    genreText += "1";
+                    }
+                    else 
+                    genreText += "0";
+                    genreText += ",";
+                if (genre.checkedF) { 
+                    genreText += "1";
+                    }
+                    else 
+                    genreText += "0";
+                    genreText += ",";
+                if (genre.checkedG) { 
+                    genreText += "1";
+                    }
+                    else 
+                    genreText += "0";
+                    genreText += ",";
+                if (genre.checkedH) { 
+                    genreText += "1";
+                    }
+                    else 
+                    genreText += "0";
+                    genreText += ",";
+                if (genre.checkedI) { 
+                    genreText += "1";
+                    }
+                    else 
+                    genreText += "0";
+                    genreText += ",";
+                if (genre.checkedJ) { 
+                    genreText += "1";
+                    }
+                    else 
+                    genreText += "0";   
+            }
+
+            convertGenreCheck(genre)
             // id부터 sexuality까지를 body에 넣어 전달
             axios.post('/db/users', {
                 userid: id,
@@ -123,7 +187,8 @@ const SignUp = () => {
                 age: convertAgeRange(age),
                 sexuality: gender,
                 // 장르
-                preference: genre
+                preference: genreText
+                //preference:convertGenreCheck(genre)
             }).then((res) => {
                 console.log(res.data)
                 if (res.data.issuccess) {
