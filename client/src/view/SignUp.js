@@ -228,7 +228,7 @@ const SignUp = () => {
                         helperText={pwConfirm !== "" ? pw === pwConfirm ? '' : '패스워드를 확인해주세요' : ''}
                         type="password" label="패스워드 확인" onChange={onChangePwConfirm}
                     />
-                    <h1></h1><h1></h1><h1></h1>
+                    <h1></h1><h1></h1><h1></h1><h2></h2>
                 </div>
 
                 <div className="flex-vertical right_box">
