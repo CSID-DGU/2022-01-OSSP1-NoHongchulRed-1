@@ -138,7 +138,6 @@ router.get('/session/cos', async (req, res) => {
         //나를 제외한 모든 유저의  userid, preference 가져오기
         try{
             var allUser = await pool.query('SELECT userid, preference FROM BOOKWEB.UserTB WHERE NOT userid=? ', [req.session.userId]);
-            console.log("!!!!!!");
             var userData = allUser[0];
         }catch{
             return res.json({issuccess: false, message: "user data get failed"});
@@ -153,21 +152,21 @@ router.get('/session/cos', async (req, res) => {
         //console.log("userList", userList);
         //console.log("preferMat", preferMat);
 
-        var myData = await pool.query('SELECT preference FROM BOOKWEB.UserTB WHERE NOT userid=? ', [req.session.userId]);
+        var myData = await pool.query('SELECT preference FROM BOOKWEB.UserTB WHERE userid=? ', [req.session.userId]);
+        console.log("myData",myData[0]);
         var myPrefer = myData[0][0].preference.split(",");
-        //console.log("내선호도", myPrefer);
+        console.log("내선호도", myPrefer);
 
         //console.log(JSON.stringify(preferMat));
         //return res.json(preferMat);
         //console.log(">>>", req.session.userId);
-        var myId = "test110";
 
         const process2 = spawn('python', ['python/cos.py', JSON.stringify(preferMat), JSON.stringify(myPrefer)]);
-
+        process2.stdout.setEncoding('utf8');
         process2.stdout.on('data', async function (data) {
             //return res.json(data.toString());
             const recommendIndex = JSON.parse(data);
-            console.log(recommendIndex[2]);
+            console.log("추천인덱스",recommendIndex);
             var similarUser = []
             for (var i=0; i<recommendIndex.length; i++) {
                 similarUser.push(userList[recommendIndex[i]]); 
@@ -280,12 +279,12 @@ router.get('/session/cos', async (req, res) => {
             });
             console.log("평점순 정렬::", averageRating);
 
-            //최고 평점인 책 3개의 isbn 가져오기
+            //최고 평점인 책 최대 3개의 isbn 가져오기
             var recBookIsbn = [];
-            for(var i=0; i<3; i++) {
+            for(var i=0; i<averageRating.length; i++) {
                 recBookIsbn.push(averageRating[i][0]);
             }
-            console.log(recBookIsbn);
+            console.log("최종추천도서", recBookIsbn);
             return res.json(recBookIsbn);
         });
     
