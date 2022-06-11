@@ -39,7 +39,7 @@ router.get('/recommend/svd', async (req, res) => {
         }
 
         //dataMat 배열 채우기
-        for (var i=0; i < ulen ; i++) {
+        for (var i=0; i < ulen; i++) {
             for (var j=0; j < ilen; j++) {
                 var ata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?', [udata[0][i].userid, isbnList[0][j].isbn]);
                 if (ata[0].length == 0) {
@@ -65,15 +65,12 @@ router.get('/recommend/svd', async (req, res) => {
 
         dataMat.push(sesuser) // 현재 추천해줄 유저의 평점 정보 추가
 
-        //console.log(dataMat);
-
         // result 변수에 최종 데이터 담아 넘겨주면 될 듯
         var result;
 
         const process = spawn('python', ['python/svd.py', JSON.stringify(dataMat)]);
         process.stdout.on('data', async function (data) {
-            //console.log("stdout: " + data.toString());
-            //result = data.toString();
+            
 
             // 받아온 데이터는 추천 순위 인덱스 정보이므로 해당 인덱스에 해당하는 isbn을 찾아 실제 도서 정보를 넘겨줘야 함
             const recommendIndex = JSON.parse(data);
@@ -83,14 +80,20 @@ router.get('/recommend/svd', async (req, res) => {
             }
 
             // 테스트를 위해 isbn 정보를 리턴하도록 했지만, 이 isbn 배열로 도서를 찾아서 도서 정보 리턴해주면 됨
-            // 현재에는 전체를 다 전달해주는데, 상위 n개만 뽑아서 추천해주도록 설정
+            // 모든 책을 다 읽은 경우 내용이 배열에 내용이 없을 수 있음, 프론트쪽에서 처리하여 '더이상 추천해줄 도서가 없습니다.'와 같이 메시지를 출력해주는 것이 좋을 듯
             var rbarr = []; // 추천 도서 배열
-            for (var i =0 ; i < recommendIsbn.length ; i++) {
+            for (var i=0; i < recommendIsbn.length; i++) {
                 var fdata = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?', [recommendIsbn[i].isbn]);
                 rbarr[i] = fdata[0][0];
             }
-            //console.log(rbarr);
+
             return res.json(rbarr);
+            /*
+            내용 출력 테스트용
+            console.log("stdout: " + data.toString());
+            result = data.toString();
+            return res.json(result);
+            */
         });
 
         process.stderr.on('data', function (data) {
@@ -125,7 +128,7 @@ router.get('/session/cos', async (req, res) => {
         // 프론트 쪽은 백엔드 작업이 익숙하지 않을 수 있으므로 앞뒤로 이미 완성된 코드 참고하며 작업할 것
         // 해당 작업 완료되면 프론트 쪽 추천페이지까지 마무리해야 함
         
-        //['총류(기타)','철학','종교','사회학','자연과학','기술과학','예술','언어','문학','역사']
+        //['총류(기타)','철학','종교','사회과학','자연과학','기술과학','예술','언어','문학','역사']
         //테스트 데이터
 
         var userList = ["test111", "test112", "test113", "test114", "test115"];
