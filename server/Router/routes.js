@@ -122,47 +122,61 @@ router.get('/session/cos', async (req, res) => {
         // (내가 안 읽은 것을 다른 유저도 안 읽었다면 해당 도서에 대한 해당 유저의 평점은 0점으로 취급하고 계산)
         // 6. 내가 읽지 않은 도서 중 평균 평점이 가장 높은 도서 순으로 추천
         // (추천은 svd에서와 같이 isbn 정보를 가지고 하나씩 찾아서 데이터를 만들어주면 됨)
-        
-        // npm 모듈을 사용할지, 파이썬을 사용할지 결정 후 알려줄 것
-        // 개발 진행 시 모르는 내용 있으면 물어볼 것
-        // 프론트 쪽은 백엔드 작업이 익숙하지 않을 수 있으므로 앞뒤로 이미 완성된 코드 참고하며 작업할 것
-        // 해당 작업 완료되면 프론트 쪽 추천페이지까지 마무리해야 함
-        
-        //['총류(기타)','철학','종교','사회과학','자연과학','기술과학','예술','언어','문학','역사']
-        //테스트 데이터
 
-        var userList = ["test111", "test112", "test113", "test114", "test115"];
 
-        var preferMat = 
-        [[0,0,0,0,0,1,1,1,1,1], //test111
-        [0,1,0,1,0,1,0,1,0,1], //test112
-        [0,0,0,1,0,0,1,0,0,1], //test113
-        [1,1,0,0,0,1,0,0,1,0], //test114
-        [1,0,1,0,1,0,0,0,0,0]]; //test115
+        /* 임시데이터 >>> 
+            var userList = ["test111", "test112", "test113", "test114", "test115"];
+            var preferMat = 
+            [[0,0,0,0,0,1,1,1,1,1], //test111
+            [0,1,0,1,0,1,0,1,0,1], //test112
+            [0,0,0,1,0,0,1,0,0,1], //test113
+            [1,1,0,0,0,1,0,0,1,0], //test114
+            [1,0,1,0,1,0,0,0,0,0]]; //test115
+            var myPrefer = [0,1,1,0,0,0,0,1,0,0];
+            ['총류(기타)','철학','종교','사회과학','자연과학','기술과학','예술','언어','문학','역사']
+        */
+        //나를 제외한 모든 유저의  userid, preference 가져오기
+        try{
+            var allUser = await pool.query('SELECT userid, preference FROM BOOKWEB.UserTB WHERE NOT userid=? ', [req.session.userId]);
+            var userData = allUser[0];
+        }catch{
+            return res.json({issuccess: false, message: "user data get failed"});
+        }
+        var userList = [];
+        var preferMat = [];
+        console.log("userData", userData);
+        for (var i=0; i<userData.length; i++) {
+            userList.push(userData[i].userid); 
+            preferMat.push(userData[i].preference.split(",")); 
+        }
+        //console.log("userList", userList);
+        //console.log("preferMat", preferMat);
 
-        var myPrefer = [0,1,1,0,0,0,0,1,0,0];
+        var myData = await pool.query('SELECT preference FROM BOOKWEB.UserTB WHERE userid=? ', [req.session.userId]);
+        console.log("myData",myData[0]);
+        var myPrefer = myData[0][0].preference.split(",");
+        console.log("내선호도", myPrefer);
+
         //console.log(JSON.stringify(preferMat));
         //return res.json(preferMat);
         //console.log(">>>", req.session.userId);
-        var myId = "test110";
 
-        const process2 = spawn('python', ['python/cos.py', JSON.stringify(preferMat), JSON.stringify(myPrefer)]);
-
-        process2.stdout.on('data', async function (data) {
+        const process = spawn('python', ['python/cos.py', JSON.stringify(preferMat), JSON.stringify(myPrefer)]);
+        process.stdout.setEncoding('utf8');
+        process.stdout.on('data', async function (data) {
             //return res.json(data.toString());
             const recommendIndex = JSON.parse(data);
-            console.log(recommendIndex[2]);
+            console.log("추천인덱스",recommendIndex);
             var similarUser = []
             for (var i=0; i<recommendIndex.length; i++) {
                 similarUser.push(userList[recommendIndex[i]]); 
             }
-            //console.log(similarUser);
+            console.log("similarUser", similarUser);
             //return res.json(similarUser);
             //similarUser : [ 'test112', 'test115', 'test114' ]
 
             //내가 독후감을 쓴 책의 isbn 목록 가져오기
             console.log(req.session.userId);
-            //var data = await pool.query('SELECT R.isbn FROM BOOKWEB.BookReportTB AS R, BOOKWEB.BookTB AS B WHERE R.isbn = B.isbn AND R.userid = ?', [req.session.userId]);
             var data = await pool.query('SELECT R.isbn FROM BOOKWEB.BookReportTB AS R WHERE R.userid = ?', [req.session.userId]);
             console.log("내가읽은 책(독후감 쓴 책)", data[0]);
             var myBook = data[0];
@@ -228,18 +242,26 @@ router.get('/session/cos', async (req, res) => {
             RatingList(similar1);
             RatingList(similar2);
             RatingList(similar3);
-            //console.log("책목록:", bookList);
+            console.log("책목록:", bookList);
 
             //bookList에서 내가 읽은 것 제외
             for(var i=0; i<myBook.length; i++) {
-                for(var j=0; j<myBook.length; j++) {
-                    if(bookList[i][0] == myBook[j].isbn)
-                        bookList.splice(i, 1);
+                for(var j=0; j<bookList.length; j++) {
+                    if(bookList.length == 0){
+                        break;
+                    }
+                    if(bookList[j][0] == myBook[i].isbn){
+                        bookList.splice(j, 1);
+                    }
                 }
             }
-            //console.log("내가 읽은 책이 제거된 후 책목록: ", bookList);
+            console.log("내가 읽은 책이 제거된 후 책목록: ", bookList);
 
             //책마다 모든 rating 더해서 평균 구하기
+            if(bookList.length === 0) {
+                console.log("추천해줄 책이 없습니다.");
+                return res.json({issuccess: false, message: "추천해줄 책이 없습니다."});
+            }
             var averageRating = [];
             for(var i=0; i<bookList.length; i++) {
                 var sum = 0;
@@ -257,12 +279,12 @@ router.get('/session/cos', async (req, res) => {
             });
             console.log("평점순 정렬::", averageRating);
 
-            //최고 평점인 책 3개의 isbn 가져오기
+            //최고 평점인 책 최대 3개의 isbn 가져오기
             var recBookIsbn = [];
-            for(var i=0; i<3; i++) {
+            for(var i=0; i<averageRating.length; i++) {
                 recBookIsbn.push(averageRating[i][0]);
             }
-            console.log(recBookIsbn);
+            console.log("최종추천도서", recBookIsbn);
             return res.json(recBookIsbn);
         });
     
