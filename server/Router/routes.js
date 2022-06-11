@@ -26,7 +26,7 @@ router.get('/session', async (req, res) => {
 router.get('/recommend/svd', async (req, res) => {
     try {
         // 유저 배열 udata, 책의 isbn 배열 isbnList
-        var udata = await pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE NOT userid= ?', [req.session.userId]);
+        var udata = await pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE NOT userid = ?', [req.session.userId]);
         var isbnList = await pool.query('SELECT isbn FROM BOOKWEB.BookTB ORDER BY isbn ASC');
         const ulen = udata[0].length;
         const ilen = isbnList[0].length;
@@ -54,7 +54,7 @@ router.get('/recommend/svd', async (req, res) => {
         // 현재 세션의 유저 배열 만들기
         var sesuser = [];
         for (var i=0; i < ilen; i++) {
-        nodat = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn=?', [req.session.userId, isbnList[0][i].isbn]);
+        nodat = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn = ?', [req.session.userId, isbnList[0][i].isbn]);
             if (nodat[0].length == 0) {
                 sesuser[i] = 0;
             }
@@ -140,7 +140,7 @@ router.get('/session/cos', async (req, res) => {
         */
         //나를 제외한 모든 유저의  userid, preference 가져오기
         try{
-            var allUser = await pool.query('SELECT userid, preference FROM BOOKWEB.UserTB WHERE NOT userid=? ', [req.session.userId]);
+            var allUser = await pool.query('SELECT userid, preference FROM BOOKWEB.UserTB WHERE NOT userid = ?', [req.session.userId]);
             var userData = allUser[0];
         }catch{
             return res.json({issuccess: false, message: "user data get failed"});
@@ -155,7 +155,7 @@ router.get('/session/cos', async (req, res) => {
         //console.log("userList", userList);
         //console.log("preferMat", preferMat);
 
-        var myData = await pool.query('SELECT preference FROM BOOKWEB.UserTB WHERE userid=? ', [req.session.userId]);
+        var myData = await pool.query('SELECT preference FROM BOOKWEB.UserTB WHERE userid = ?', [req.session.userId]);
         console.log("myData",myData[0]);
         var myPrefer = myData[0][0].preference.split(",");
         console.log("내선호도", myPrefer);
@@ -180,7 +180,7 @@ router.get('/session/cos', async (req, res) => {
 
             //내가 독후감을 쓴 책의 isbn 목록 가져오기
             console.log(req.session.userId);
-            var data = await pool.query('SELECT R.isbn FROM BOOKWEB.BookReportTB AS R WHERE R.userid = ?', [req.session.userId]);
+            var data = await pool.query('SELECT isbn FROM BOOKWEB.BookReportTB WHERE userid = ?', [req.session.userId]);
             console.log("내가읽은 책(독후감 쓴 책)", data[0]);
             var myBook = data[0];
             
@@ -197,13 +197,14 @@ router.get('/session/cos', async (req, res) => {
                 bookList.push([myBook[i].isbn, 0]);
             }
             
-            //상위 3명 유저(similarUser[0]~[2])가 읽은 책 목록을 bookList에 업데이트, rating 추가
-            var data = await pool.query('SELECT R.isbn, R.rating FROM BOOKWEB.BookReportTB AS R WHERE R.userid = ?', [similarUser[0]]);
-            var similar1 = data[0];
-            var data = await pool.query('SELECT R.isbn, R.rating FROM BOOKWEB.BookReportTB AS R WHERE R.userid = ?', [similarUser[1]]);
-            var similar2 = data[0];
-            var data = await pool.query('SELECT R.isbn, R.rating FROM BOOKWEB.BookReportTB AS R WHERE R.userid = ?', [similarUser[2]]);
-            var similar3 = data[0];
+            // 상위 3명 유저(similarUser[0]~[2])가 읽은 책 목록을 bookList에 업데이트, rating 추가
+            // 상위 n명 유저에 대한 상수를 NUMOFUSER로 선언 (아래에 해당 값 사용하는 부분 모두 수정할 것)
+            const NUMOFUSER = 3
+            var similar = []
+            for (var i=0;i<NUMOFUSER;i++) {
+                var data = await pool.query('SELECT isbn, rating FROM BOOKWEB.BookReportTB WHERE userid = ?', [similarUser[i]]);
+                similar.push(data[0]);
+            }
             /*
             const similar1 = [
                 {userid: "test112", isbn: "isbn2", rating: 6},
@@ -242,9 +243,10 @@ router.get('/session/cos', async (req, res) => {
                         bookList.push([arr[i].isbn, arr[i].rating]); //isbn과 rating을 리스트로 추가
                 }
             }
-            RatingList(similar1);
-            RatingList(similar2);
-            RatingList(similar3);
+
+            for (var i=0;i<NUMOFUSER;i++) {
+                RatingList(similar[i]);
+            }
             console.log("책목록:", bookList);
 
             //bookList에서 내가 읽은 것 제외
@@ -261,6 +263,8 @@ router.get('/session/cos', async (req, res) => {
             console.log("내가 읽은 책이 제거된 후 책목록: ", bookList);
 
             //책마다 모든 rating 더해서 평균 구하기
+            // 이부분 프론트랑 맞춰서 어떻게 할지 다시 고려할 것
+            // 그냥 길이 0인 배열을 리턴해주면 프론트쪽에서 보고 처리하는 것이 낫지 않을까 싶음
             if(bookList.length === 0) {
                 console.log("추천해줄 책이 없습니다.");
                 return res.json({issuccess: false, message: "추천해줄 책이 없습니다."});
@@ -288,13 +292,14 @@ router.get('/session/cos', async (req, res) => {
                 recBookIsbn.push(averageRating[i][0]);
             }
             console.log("최종추천도서", recBookIsbn);
+            // 리턴 정보가 도서 정보여야 하고, 위의 svd처럼 전달해야 함
             return res.json(recBookIsbn);
         });
     
         process.stderr.on('data', function(data) {
             //console.log("stderr: " + data.toString());
             result = data.toString();
-            return res.json(result);
+            return res.json(Object.assign(result, {issuccess: false, message: "error"}));
         });
     } catch (err) {
         return res.status(500).json(err);
