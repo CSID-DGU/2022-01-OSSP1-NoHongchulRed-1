@@ -69,9 +69,8 @@ router.get('/recommend/svd', async (req, res) => {
         var result;
 
         const process = spawn('python', ['python/svd.py', JSON.stringify(dataMat)]);
+        // stdout에 대한 콜백
         process.stdout.on('data', async function (data) {
-            
-
             // 받아온 데이터는 추천 순위 인덱스 정보이므로 해당 인덱스에 해당하는 isbn을 찾아 실제 도서 정보를 넘겨줘야 함
             const recommendIndex = JSON.parse(data);
             var recommendIsbn = []
@@ -79,15 +78,18 @@ router.get('/recommend/svd', async (req, res) => {
                 recommendIsbn.push(isbnList[0][recommendIndex[i]]);
             }
 
-            // 테스트를 위해 isbn 정보를 리턴하도록 했지만, 이 isbn 배열로 도서를 찾아서 도서 정보 리턴해주면 됨
+            // isbn 배열로 도서를 찾아서 도서 정보 리턴해줌
             // 모든 책을 다 읽은 경우 내용이 배열에 내용이 없을 수 있음, 프론트쪽에서 처리하여 '더이상 추천해줄 도서가 없습니다.'와 같이 메시지를 출력해주는 것이 좋을 듯
-            var rbarr = []; // 추천 도서 배열
-            for (var i=0; i < recommendIsbn.length; i++) {
-                var fdata = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?', [recommendIsbn[i].isbn]);
-                rbarr[i] = fdata[0][0];
+            var recommendBookArray = []; // 추천 도서 정보 배열
+            for (var i=0; i<recommendIsbn.length; i++) {
+                var data = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?', [recommendIsbn[i].isbn]);
+                recommendBookArray[i] = data[0][0];
             }
 
-            return res.json(rbarr);
+            result = new Object();
+            result.data = recommendBookArray;
+
+            return res.json(Object.assign(result, {issuccess: true, message: "success"}));
             /*
             내용 출력 테스트용
             console.log("stdout: " + data.toString());
@@ -96,10 +98,11 @@ router.get('/recommend/svd', async (req, res) => {
             */
         });
 
+        // stderr에 대한 콜백
         process.stderr.on('data', function (data) {
             //console.log("stderr: " + data.toString());
             result = data.toString();
-            return res.json(result);
+            return res.json(Object.assign(result, {issuccess: false, message: "error"}));
         });
 
     } catch (err) {
