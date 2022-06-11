@@ -70,7 +70,7 @@ router.get('/recommend/svd', async (req, res) => {
         // result 변수에 최종 데이터 담아 넘겨주면 될 듯
         var result;
 
-        const process = spawn('python', ['python/main.py', JSON.stringify(dataMat)]);
+        const process = spawn('python', ['python/svd.py', JSON.stringify(dataMat)]);
         process.stdout.on('data', async function (data) {
             //console.log("stdout: " + data.toString());
             //result = data.toString();
