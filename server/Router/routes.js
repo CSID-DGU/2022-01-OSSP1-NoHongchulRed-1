@@ -137,7 +137,7 @@ router.get('/session/cos', async (req, res) => {
         */
         //나를 제외한 모든 유저의  userid, preference 가져오기
         try{
-            var allUser = await pool.query('SELECT userid, preference FROM BOOKWEB.UserTB WHERE userid NOT IN (\'testC\')'); //나중에수정!!!!!!!!!!
+            var allUser = await pool.query('SELECT userid, preference FROM BOOKWEB.UserTB WHERE NOT userid=? ', [req.session.userId]);
             console.log("!!!!!!");
             var userData = allUser[0];
         }catch{
@@ -153,7 +153,7 @@ router.get('/session/cos', async (req, res) => {
         //console.log("userList", userList);
         //console.log("preferMat", preferMat);
 
-        var myData = await pool.query('SELECT preference FROM BOOKWEB.UserTB WHERE userid = \'testC\''); //나중에수정
+        var myData = await pool.query('SELECT preference FROM BOOKWEB.UserTB WHERE NOT userid=? ', [req.session.userId]);
         var myPrefer = myData[0][0].preference.split(",");
         //console.log("내선호도", myPrefer);
 
@@ -172,13 +172,12 @@ router.get('/session/cos', async (req, res) => {
             for (var i=0; i<recommendIndex.length; i++) {
                 similarUser.push(userList[recommendIndex[i]]); 
             }
-            //console.log(similarUser);
+            console.log("similarUser", similarUser);
             //return res.json(similarUser);
             //similarUser : [ 'test112', 'test115', 'test114' ]
 
             //내가 독후감을 쓴 책의 isbn 목록 가져오기
             console.log(req.session.userId);
-            //var data = await pool.query('SELECT R.isbn FROM BOOKWEB.BookReportTB AS R, BOOKWEB.BookTB AS B WHERE R.isbn = B.isbn AND R.userid = ?', [req.session.userId]);
             var data = await pool.query('SELECT R.isbn FROM BOOKWEB.BookReportTB AS R WHERE R.userid = ?', [req.session.userId]);
             console.log("내가읽은 책(독후감 쓴 책)", data[0]);
             var myBook = data[0];
