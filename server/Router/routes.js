@@ -161,9 +161,9 @@ router.get('/session/cos', async (req, res) => {
         //return res.json(preferMat);
         //console.log(">>>", req.session.userId);
 
-        const process2 = spawn('python', ['python/cos.py', JSON.stringify(preferMat), JSON.stringify(myPrefer)]);
-        process2.stdout.setEncoding('utf8');
-        process2.stdout.on('data', async function (data) {
+        const process = spawn('python', ['python/cos.py', JSON.stringify(preferMat), JSON.stringify(myPrefer)]);
+        process.stdout.setEncoding('utf8');
+        process.stdout.on('data', async function (data) {
             //return res.json(data.toString());
             const recommendIndex = JSON.parse(data);
             console.log("추천인덱스",recommendIndex);
