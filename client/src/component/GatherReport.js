@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom'
-// import { Button } from '@material-ui/core';
-// import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import './GatherReport.css'
 import { ListItemSecondaryAction } from '@material-ui/core';

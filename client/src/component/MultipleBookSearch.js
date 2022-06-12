@@ -1,9 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { TextField, Button } from "@material-ui/core";
-// import BookSearchPage from '../view/BookSearchPage';
 import { useNavigate } from 'react-router-dom';
-
 import SearchIcon from '@material-ui/icons/Search';
 
 const Search = () => {

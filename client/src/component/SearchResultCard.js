@@ -25,21 +25,6 @@ const useStyles = makeStyles({
   }
 });
 
-/*
-  const book = {
-      bookTitle: {title},
-      bookAuthor: {authors},
-      bookPublisher: {publisher}
-    }
-
-  //"독후감 작성" 버튼 눌렀을 때 전송될 데이터 확인용코드
-  <Button size="small" color="primary" onClick = { () => {
-  console.log("보낼 책 데이터를 출력해보자");
-  console.log(book);
-  console.log({title});
-}
-*/
-
 export default function SearchResultCard({thumbnail, title, authors, publisher, datetime, contents, isbn}) {
   const classes = useStyles();
   //console.log("카드에서isbn:::::",isbn);
