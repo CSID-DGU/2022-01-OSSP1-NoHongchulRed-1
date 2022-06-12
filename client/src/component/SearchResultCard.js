@@ -92,5 +92,3 @@ export default function SearchResultCard({thumbnail, title, authors, publisher, 
     </Card>
   );
 }
-//isbn10만을 사용할 때
-//isbn: parseInt(isbn.split(' ')[0])

@@ -57,19 +57,5 @@ const Search = () => {
         </form>
     );
 };
-//navigate('../view/BookSearchPage', {state: data.documnets});
-//navigate('/BookSearchPage', {state: {authors: "출판사ㅏㅏㅏ", title: "책이름"}});
-/*
-    .then((data) => {
-        setBooks(data);
-        console.log("data 출력 ▼");
-            console.log(data);
-            console.log("data.documents 출력 ▼");
-            console.log(data.documents);
-            console.log("출판사 가져오기: " + data.documents[0].publisher);
-            console.log("documents를 useState에 저장 후 books 출력 ▼");
-            console.log(books);
-            navigate('/BookSearchPage', {state: data});
-    });
-*/
+
 export default Search;

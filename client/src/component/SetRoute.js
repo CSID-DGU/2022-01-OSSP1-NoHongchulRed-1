@@ -18,10 +18,6 @@ import RecommendPage from '../view/RecommendPage';
 import TestDB from '../TestDB';
 import AllReport from '../view/AllReport';
 
-// function isEmptyObject(param) {
-//   return Object.keys(param).length === 0 && param.constructor === Object;
-// }
-
 //Route 관리 파일
 const SetRoute = () => {
   // const navigate = useNavigate();

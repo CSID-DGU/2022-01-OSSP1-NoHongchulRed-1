@@ -55,15 +55,6 @@ const EditPage = () => {
 
     // eslint-disable-next-line
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
-
-    // const date = new Date();
-    // const year = date.getFullYear();
-    // const month = ("00" + (date.getMonth() + 1).toString()).slice(-2);
-    // const day = ("00" + date.getDate().toString()).slice(-2);
-    // const hour = ("00" + date.getHours().toString()).slice(-2);
-    // const minutes = ("00" + date.getMinutes().toString()).slice(-2);
-    // const today = year + "-" + month + "-" + day + "T" + hour + ":" + minutes
-
     const [isbn, setIsbn] = useState(location?.state?.isbn)
     const [bookInfo, setBookInfo] = useState({
         title: location?.state?.title,
@@ -137,23 +128,6 @@ const EditPage = () => {
                 })
             })
 
-
-
-            // axios.post('/db/bookreports', {
-            //     title: String(bookReportTitle),
-            //     contents: String(bookReportContent),
-            //     rating: String(star),
-            //     userId: String(cookies?.user?.userId),
-            //     isbn: String(isbn.split(' ')[0]),
-            //     // isbn: isbn.split(' ')[0],
-            // }).then((res) => {
-            //     console.log(res)
-            //     alert('독후감이 등록되었습니다.')
-            //     navigate(-1)
-            // }).catch((e) => {
-            //     console.log(e)
-            //     alert('독후감 등록 중 오류가 발생했습니다.')
-            // })
         }
 
     }

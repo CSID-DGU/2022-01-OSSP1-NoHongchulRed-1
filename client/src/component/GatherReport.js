@@ -37,25 +37,3 @@ const GatherReport = ({contents, date, isbn, bookTitle, userid, reportTitle}) =>
 };
 
 export default GatherReport; 
-
-/*
-{reportList.map((data, index) => {
-                    return (
-                        <div className="report-box" key={index}>
-                            <div className="title">
-                                <div className="user-info">
-                                    <label>{data.nickName}</label>
-                                    <label>{data.date}</label>
-                                </div>
-                                <div className="book-info">
-                                    <label>{data.bookTitle}</label>
-                                    <label>{data.reportTitle}</label>
-                                </div>
-                            </div>
-                            <div className="content">
-                                <label>{data.content}</label>
-                            </div>
-                        </div>
-                    )
-                })}
-*/
