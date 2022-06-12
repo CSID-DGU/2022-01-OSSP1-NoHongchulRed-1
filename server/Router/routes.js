@@ -164,6 +164,8 @@ router.get('/session/cos', async (req, res) => {
         //return res.json(preferMat);
         //console.log(">>>", req.session.userId);
 
+        var result; 
+
         const process = spawn('python', ['python/cos.py', JSON.stringify(preferMat), JSON.stringify(myPrefer)]);
         process.stdout.setEncoding('utf8');
         process.stdout.on('data', async function (data) {
@@ -304,7 +306,7 @@ router.get('/session/cos', async (req, res) => {
                 var data = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?', [recBookIsbn[i]]);
                 recBookArray[i] = data[0][0];
             }
-            var result = new Object();
+            result = new Object();
             result.data = recBookArray;
             return res.json(Object.assign(result, {issuccess: true, message: "success"}));
         });
