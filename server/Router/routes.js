@@ -285,10 +285,12 @@ router.get('/session/cos', async (req, res) => {
             console.log("평점순 정렬::", averageRating);
 
             //최고 평점인 책 최대 3개의 isbn 가져오기
+            //평점 평균 상위 n권에 대한 상수를 NUMOFBOOK으로 선언
+            const NUMOFBOOK = 3
             var recBookIsbn = [];
             var count = 0;
             for(var i=0; i<averageRating.length; i++) {
-                if(count==3) {
+                if(count == NUMOFBOOK) {
                     break;
                 } 
                 recBookIsbn.push(averageRating[i][0]);
@@ -302,7 +304,9 @@ router.get('/session/cos', async (req, res) => {
                 var data = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?', [recBookIsbn[i]]);
                 recBookArray[i] = data[0][0];
             }
-            return res.json(Object.assign(recBookArray, {issuccess: true, message: "success"}));
+            var result = new Object();
+            result.data = recBookArray;
+            return res.json(Object.assign(result, {issuccess: true, message: "success"}));
         });
     
         process.stderr.on('data', function(data) {
