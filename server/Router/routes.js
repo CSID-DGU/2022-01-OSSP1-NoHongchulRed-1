@@ -198,7 +198,7 @@ router.get('/session/cos', async (req, res) => {
             }
             
             // 상위 3명 유저(similarUser[0]~[2])가 읽은 책 목록을 bookList에 업데이트, rating 추가
-            // 상위 n명 유저에 대한 상수를 NUMOFUSER로 선언 (아래에 해당 값 사용하는 부분 모두 수정할 것)
+            // 상위 n명 유저에 대한 상수를 NUMOFUSER로 선언
             const NUMOFUSER = 3
             var similar = []
             for (var i=0;i<NUMOFUSER;i++) {
@@ -263,11 +263,9 @@ router.get('/session/cos', async (req, res) => {
             console.log("내가 읽은 책이 제거된 후 책목록: ", bookList);
 
             //책마다 모든 rating 더해서 평균 구하기
-            // 이부분 프론트랑 맞춰서 어떻게 할지 다시 고려할 것
-            // 그냥 길이 0인 배열을 리턴해주면 프론트쪽에서 보고 처리하는 것이 낫지 않을까 싶음
             if(bookList.length === 0) {
                 console.log("추천해줄 책이 없습니다.");
-                return res.json({issuccess: false, message: "추천해줄 책이 없습니다."});
+                return res.json(bookList);
             }
             var averageRating = [];
             for(var i=0; i<bookList.length; i++) {
@@ -275,7 +273,7 @@ router.get('/session/cos', async (req, res) => {
                 for(var j=1; j<bookList[i].length; j++){
                     sum += bookList[i][j];
                 }
-                var average = sum/3.0;
+                var average = sum/NUMOFUSER;
                 averageRating.push([bookList[i][0], average]);
             }
             console.log("평점평균::", averageRating);
@@ -288,12 +286,23 @@ router.get('/session/cos', async (req, res) => {
 
             //최고 평점인 책 최대 3개의 isbn 가져오기
             var recBookIsbn = [];
+            var count = 0;
             for(var i=0; i<averageRating.length; i++) {
+                if(count==3) {
+                    break;
+                } 
                 recBookIsbn.push(averageRating[i][0]);
+                count++;
             }
             console.log("최종추천도서", recBookIsbn);
-            // 리턴 정보가 도서 정보여야 하고, 위의 svd처럼 전달해야 함
-            return res.json(recBookIsbn);
+
+            // isbn 배열로 도서를 찾아서 도서 정보 리턴해줌
+            var recBookArray = []; // 추천 도서의 정보 배열
+            for (var i=0; i<recBookIsbn.length; i++) {
+                var data = await pool.query('SELECT * FROM BOOKWEB.BookTB WHERE isbn = ?', [recBookIsbn[i]]);
+                recBookArray[i] = data[0][0];
+            }
+            return res.json(Object.assign(recBookArray, {issuccess: true, message: "success"}));
         });
     
         process.stderr.on('data', function(data) {
