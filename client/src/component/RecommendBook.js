@@ -8,7 +8,7 @@ const RecommendBook = (props) => {
 
     useEffect(() => {
         try {
-            axios.get('/session/svd')
+            axios.get('/recommend/svd')
             .then((res) => {
                 console.log(res.data.data);
                 setRecommendList(res.data.data || []);
@@ -22,9 +22,10 @@ const RecommendBook = (props) => {
         <div className="Recommend-area" >
             {RecommendList.length ? RecommendList.slice(0,3).map((data, index) => {
                 return (
-                    <div className="recommend-box">
+                    <div className="recommend-box" key={index}>
                         <div className="title">
                             <p className="centerBookTitle">{data.title}</p>
+                            
                             {/* <p className="centerRecommendTitle">{data.RecommendTitle}</p>
                             <p className="nickName">{data.userid}</p>
                             <p className="date">{data.date}</p> */}

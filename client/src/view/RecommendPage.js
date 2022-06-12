@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCookies } from 'react-cookie';
 import styled from 'styled-components'; //CSS-IN_JS
-import Image from '../image/BookImg1.png';
+//import Image from '../image/BookImg1.png';
 import RecommendBook from '../component/RecommendBook';
 
 const Wrapper = styled.div`
