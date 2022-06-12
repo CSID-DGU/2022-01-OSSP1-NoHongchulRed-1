@@ -18,7 +18,7 @@ import './SignUp.css'
 
 const START_AGE = 10;
 const END_AGE = 100;
-// const COUNT_GENRE = ['총류(기타)', '철학', '종교', '사회학', '자연과학', '기술과학', '예술', '언어', '문학', '역사'];
+// const COUNT_GENRE = ['총류(기타)', '철학', '종교', '사회과학', '자연과학', '기술과학', '예술', '언어', '문학', '역사'];
 
 const MenuProps = {
     PaperProps: {
@@ -228,7 +228,7 @@ const SignUp = () => {
                         helperText={pwConfirm !== "" ? pw === pwConfirm ? '' : '패스워드를 확인해주세요' : ''}
                         type="password" label="패스워드 확인" onChange={onChangePwConfirm}
                     />
-                    <h1></h1><h1></h1><h1></h1>
+                    <h1></h1><h1></h1><h1></h1><h2></h2>
                 </div>
 
                 <div className="flex-vertical right_box">
@@ -254,7 +254,7 @@ const SignUp = () => {
 
                     <h4>관심 장르</h4>
                     {/* 콤보박스 */}
-                    {/* '총류(기타)', '철학', '종교', '사회학', '자연과학', '기술과학', '예술', '언어', '문학', '역사' */}
+                    {/* '총류(기타)', '철학', '종교', '사회과학', '자연과학', '기술과학', '예술', '언어', '문학', '역사' */}
                     <FormGroup row>
                     <FormControlLabel
                             control={
@@ -298,7 +298,7 @@ const SignUp = () => {
                                     color="primary"
                                 />
                             }
-                            label="사회학"
+                            label="사회과학"
                         />
                         <FormControlLabel
                             control={

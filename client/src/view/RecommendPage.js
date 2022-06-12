@@ -1,7 +1,8 @@
 import React from 'react';
 import { useCookies } from 'react-cookie';
 import styled from 'styled-components'; //CSS-IN_JS
-import Image from '../image/BookImg1.png';
+//import Image from '../image/BookImg1.png';
+import RecommendBook from '../component/RecommendBook';
 
 const Wrapper = styled.div`
     display: flex;
@@ -46,10 +47,11 @@ const RecommendPage = () => {
             <h2>⭐{cookies?.user?.nickName}님을 위한 추천 도서⭐</h2>
             <Spacing />
             <BookList>
-                <BookWrap><img src = {Image} alt="book-img"/><h3>책1</h3></BookWrap>
+                <RecommendBook></RecommendBook>
+                {/* <BookWrap><img src = {Image} alt="book-img"/><h3>책1</h3></BookWrap>
                 <BookWrap><img src = {Image} alt="book-img"/><h3>책2</h3></BookWrap>
                 <BookWrap><img src = {Image} alt="book-img"/><h3>책3</h3></BookWrap>
-                <BookWrap><img src = {Image} alt="book-img"/><h3>책4</h3></BookWrap>                
+                <BookWrap><img src = {Image} alt="book-img"/><h3>책4</h3></BookWrap>                 */}
             </BookList>
         </Wrapper>
     );
