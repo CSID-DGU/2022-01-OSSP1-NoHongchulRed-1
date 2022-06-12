@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 //import { useCookies } from 'react-cookie';
 import axios from 'axios';
-import './RecommendBook.css';
+import './CosineRecommend.css';
 
-const RecommendBook = (props) => {
+const CosineRecommend = (props) => {
     const [RecommendList, setRecommendList] = useState([]);
 
     useEffect(() => {
         try {
-            axios.get('/recommend/svd')
+            axios.get('/session/cos')
             .then((res) => {
                 console.log(res.data.data);
                 setRecommendList(res.data.data || []);
+                //setRecommendList(res.data.data?.length || 0)
             })
         } catch (err) {
             console.log(err);
@@ -41,4 +42,4 @@ const RecommendBook = (props) => {
 
 };
 
-export default RecommendBook;
+export default CosineRecommend;
