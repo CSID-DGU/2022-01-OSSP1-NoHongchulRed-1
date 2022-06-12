@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import styled from 'styled-components'; //CSS-IN_JS
 //import Image from '../image/BookImg1.png';
 import RecommendBook from '../component/RecommendBook';
+import CosineRecommend from '../component/CosineRecommend';
 
 const Wrapper = styled.div`
     display: flex;
@@ -44,14 +45,14 @@ const RecommendPage = () => {
 
     return(
         <Wrapper>
-            <h2>⭐{cookies?.user?.nickName}님을 위한 추천 도서⭐</h2>
+            <h2>⭐ {cookies?.user?.nickName} 님의 평점 정보를 기반으로 한 추천 도서입니다. ⭐</h2>
             <Spacing />
             <BookList>
                 <RecommendBook></RecommendBook>
-                {/* <BookWrap><img src = {Image} alt="book-img"/><h3>책1</h3></BookWrap>
-                <BookWrap><img src = {Image} alt="book-img"/><h3>책2</h3></BookWrap>
-                <BookWrap><img src = {Image} alt="book-img"/><h3>책3</h3></BookWrap>
-                <BookWrap><img src = {Image} alt="book-img"/><h3>책4</h3></BookWrap>                 */}
+                <Spacing /><Spacing />
+                <h2>⭐ {cookies?.user?.nickName} 님의 성향 정보를 기반으로 한 추천 도서입니다. ⭐</h2>
+                <Spacing />
+                <CosineRecommend></CosineRecommend>
             </BookList>
         </Wrapper>
     );
