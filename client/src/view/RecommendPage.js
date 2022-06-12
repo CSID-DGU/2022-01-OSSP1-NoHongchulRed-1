@@ -44,7 +44,7 @@ const RecommendPage = () => {
 
     return(
         <Wrapper>
-            <h2>⭐{cookies?.user?.nickName}님을 위한 추천 도서⭐</h2>
+            <h2>⭐ {cookies?.user?.nickName} 님을 위한 추천 도서 ⭐</h2>
             <Spacing />
             <BookList>
                 <RecommendBook></RecommendBook>

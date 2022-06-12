@@ -17,18 +17,30 @@ const RecommendBook = (props) => {
             console.log(err);
         }
     }, []);
+
+    useEffect(() => {
+        try {
+            axios.get('/session/cos')
+            .then((res) => {
+                console.log(res.data.data);
+                setRecommendList(res.data.data || []);
+                //setRecommendList(res.data.data?.length || 0)
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }, []);
     
+    var rankDisplay = 1;
+
     return (
         <div className="Recommend-area" >
-            {RecommendList.length ? RecommendList.slice(0,3).map((data, index) => {
+            {RecommendList.length ? RecommendList.map((data, index) => {
                 return (
                     <div className="recommend-box" key={index}>
                         <div className="title">
+                            <h3> 👑 {rankDisplay++} 위 </h3>
                             <p className="centerBookTitle">{data.title}</p>
-                            
-                            {/* <p className="centerRecommendTitle">{data.RecommendTitle}</p>
-                            <p className="nickName">{data.userid}</p>
-                            <p className="date">{data.date}</p> */}
                         </div>
                         <div className="bookContent">
                             <img src={data.thumbnail}/>
@@ -39,7 +51,6 @@ const RecommendBook = (props) => {
             }
         </div>
     )
-    
 
 };
 
