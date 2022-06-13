@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
-
+import styled from 'styled-components';
 import { useCookies } from 'react-cookie';
 
 import { Button } from '@material-ui/core';
@@ -10,6 +10,21 @@ import book1 from '../image/book1.jpg'
 import book2 from '../image/book2.jpg'
 import book3 from '../image/book3.jpg'
 import './Main.css'
+
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 70rem;
+    margin: 2rem auto;
+    border-radius: 4px;
+    background-color: var(--white-color);
+    padding: 2rem 0.5rem 2rem;
+    overflow: hidden;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+`;
 
 const Main = () => {
     const navigate = useNavigate();
@@ -44,14 +59,26 @@ const Main = () => {
         return renderResult;
     }
     return (
-        <>
-            <div className="main-area">
+        <Wrapper>
+            <h3>★ 인기 독후감(조회수 TOP10) ★</h3>
+            <TopViewReport></TopViewReport>
+        </Wrapper>
+    )
+};
+//{booksRender()}
+export default Main;
+/*
+            <div className="shortReport-area" >
                 <div className="recommended-books">
-                    <span><br/>★ 인기 독후감 ★</span>
+                    <h3>★ 인기 독후감 ★</h3>
                     <div className="books">
                         <TopViewReport></TopViewReport>
                     </div>
                 </div>
+            </div>
+
+
+
                 <div className="right-box">
                     <div className="user-profile">
                         <div>
@@ -64,13 +91,5 @@ const Main = () => {
                         
                         <Button variant="outlined" color="primary" onClick={() => navigate('/userEdit')}>내 정보 수정</Button>
                     </div>
-                    {/* <div className="write-bookReport">
-                        <Button variant="contained" color="secondary" onClick={() => navigate('/EditPage')}>독후감 작성하기</Button>
-                    </div> */}
                 </div>
-            </div>
-        </>
-    )
-};
-//{booksRender()}
-export default Main;
+*/
