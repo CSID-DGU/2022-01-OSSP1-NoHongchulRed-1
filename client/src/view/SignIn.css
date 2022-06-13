@@ -20,9 +20,13 @@
 .title-box div{
     display: flex;
     flex-direction: column;
-    margin-left: 40px;
+    margin-left: 10px;
 }
-.title-box div h2{
+.title-box div h1{
+    margin:0;
+    text-align: center;
+}
+.title-box div h4{
     margin:0;
     text-align: center;
 }
