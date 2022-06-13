@@ -31,7 +31,7 @@ const TopViewReport = (props) => {
                         <div className="title">
                             <p className="centerBookTitle">{data.title}</p>
                             <p className="centerReportTitle">{data.ReportTitle}</p>
-                            <p className="nickName">{data.userid}</p>
+                            <p className="nickName">⭐{data.rating} | {data.userid}</p>
                             <p className="date">{data.date}</p>
                         </div>
                         <div className="bookContent">
