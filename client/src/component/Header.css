@@ -14,8 +14,9 @@
 }
 .title-area > div{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
     margin-left: 20px;
 }
 .title-area > div > h2{
