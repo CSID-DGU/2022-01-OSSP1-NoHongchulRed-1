@@ -61,4 +61,3 @@ export default function MyBookPage() {
     </Wrapper>
   );
 }
-//subtitle={<span>by: {item.author}</span>}
