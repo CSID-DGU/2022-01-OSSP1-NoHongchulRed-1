@@ -47,7 +47,7 @@ export default function MyBookPage() {
                     <div className="title">
                         <p className="bookTitle">{data.title}</p>
                         <p className="reportTitle">{data.ReportTitle}</p>
-                        <p className="nickName">{cookies?.user?.nickName}</p>
+                        <p className="nickName">⭐{data.rating} | {cookies?.user?.nickName}</p>
                         <p className="date">{data.date}</p>
                     </div>
                     <div className="content">

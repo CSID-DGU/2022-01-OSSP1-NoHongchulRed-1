@@ -15,7 +15,7 @@ const Spacing = styled.div`
 
 //background-color: #fcc879; #fff6b0; #ffdeab;
 const MyInfo = styled.div`
-    width: 25%;
+    width: 30%;
     height: 40px;
     background-color: #ffdeab;
     border-radius: 5px;
