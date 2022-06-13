@@ -192,7 +192,7 @@ const SignUp = () => {
             }).then((res) => {
                 console.log(res.data)
                 if (res.data.issuccess) {
-                    alert("회원가입 되었습니다! 다시 로그인해주세요.")
+                    alert("회원가입 되었습니다! 로그인해주세요.")
                     navigate('/');
                 }
                 else {
