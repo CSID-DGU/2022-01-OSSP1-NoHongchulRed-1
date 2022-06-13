@@ -53,20 +53,6 @@
     color: #939393;
     text-align: right;
 }
-/* .report-box .title .user-info{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-right: 1px solid #000;
-    padding: 0 10px;
-}
-.report-box .title .book-info{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: 10px;
-} */
 .report-box .title .book-info > label:first-child{
     font-weight: bold;
 }

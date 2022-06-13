@@ -51,19 +51,6 @@ const Title = styled.div`
 
 `;
 
-/*
-const Button = styled.button`
-    background: yellow;
-    width: 30px;
-    height: 30px;
-`;
-*/
-
-const Dummy = styled.div`
-    background-color: black;
-`;
-
-//<Title>{children}</Title>
 //로그아웃 버튼 클릭 시 헤더가 안보여야 됨..
 const Header = ({children}) => {
     return (
