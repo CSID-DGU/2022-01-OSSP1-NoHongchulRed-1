@@ -39,11 +39,11 @@
     white-space: nowrap;
     width: 90%;
     font-size: 14px;
-    text-align: left;
+    text-align: center;
 }
 .report-box .title p.reportTitle {
     font-size: 20px;
-    text-align: right;
+    text-align: center;
 }
 .report-box .title p.nickName {
     font-size: 15px;

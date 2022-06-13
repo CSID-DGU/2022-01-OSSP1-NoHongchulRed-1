@@ -33,7 +33,7 @@ const Main = (props) => {
                         <div className="title">
                             <p className="bookTitle">{data.title}</p>
                             <p className="reportTitle">{data.ReportTitle}</p>
-                            <p className="nickName">{data.userid}</p>
+                            <p className="nickName">⭐{data.rating} | {data.userid}</p>
                             <p className="date">{data.date}</p>
                         </div>
                         <div className="content">

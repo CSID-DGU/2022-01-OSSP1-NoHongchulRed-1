@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './RecommendBook.css';
+import { Link } from 'react-router-dom';
 
 const RecommendBook = (props) => {
     const [RecommendList, setRecommendList] = useState([]);
@@ -9,7 +10,7 @@ const RecommendBook = (props) => {
         try {
             axios.get('/recommend/svd')
             .then((res) => {
-                console.log(res.data.data);
+                //console.log(res.data.data);
                 setRecommendList(res.data.data || []);
             })
         } catch (err) {
@@ -23,6 +24,7 @@ const RecommendBook = (props) => {
         <div className="Recommend-area" >
             {RecommendList.length ? RecommendList.map((data, index) => {
                 return (
+                    <Link to = "/GatherReportPage" state = {data}>
                     <div className="recommend-box" key={index}>
                         <div className="title">
                             <h3> 👑 {rankDisplay++} 위 </h3>
@@ -32,6 +34,7 @@ const RecommendBook = (props) => {
                             <img src={data.thumbnail}/>
                         </div>
                     </div>
+                    </Link>
                 )
             }) : "추천해드릴만한 적절한 책을 찾지 못했습니다."
             }

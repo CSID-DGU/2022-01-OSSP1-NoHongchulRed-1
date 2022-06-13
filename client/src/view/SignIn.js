@@ -67,8 +67,8 @@ const SignIn = () => {
             <div className="title-box">
                 <img src={Logo} alt="logo" />
                 <div>
-                    <h2>공개 SW 프로젝트</h2>
-                    <h2>독후감 웹</h2>
+                    <h1>Read Lead</h1>
+                    <h4>공개 SW 프로젝트 독후감 웹</h4>
                 </div>
             </div>
             <div className="login-box">

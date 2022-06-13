@@ -22,7 +22,7 @@ const TopViewReport = (props) => {
     
     return (
         <div className="Report-area" >
-            {reportList.length ? reportList.slice(0,6).map((data, index) => { //배열 앞의 6개만 출력
+            {reportList.length ? reportList.slice(0,10).map((data, index) => { //배열 앞의 10개만 출력
                 return (
                     <div className="report-box" key={index} onClick = {() => {
                         navigate('/ViewReportPage', {state: {isbn: data.isbn, userid: data.userid}});
@@ -30,7 +30,7 @@ const TopViewReport = (props) => {
                         <div className="title">
                             <p className="centerBookTitle">{data.title}</p>
                             <p className="centerReportTitle">{data.ReportTitle}</p>
-                            <p className="nickName">{data.userid}</p>
+                            <p className="nickName">⭐{data.rating} | {data.userid}</p>
                             <p className="date">{data.date}</p>
                         </div>
                         <div className="bookContent">
