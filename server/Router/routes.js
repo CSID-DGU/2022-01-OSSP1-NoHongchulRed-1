@@ -134,9 +134,10 @@ router.get('/session/cos', async (req, res) => {
         // 6. 내가 읽지 않은 도서 중 평균 평점이 가장 높은 도서 순으로 추천
         // (추천은 svd에서와 같이 isbn 정보를 가지고 하나씩 찾아서 데이터를 만들어주면 됨)
 
-        //나를 제외한 모든 유저의  userid, preference 가져오기
+        //나를 제외하고 독후감을 하나 이상 쓴 모든 유저의 userid, preference 가져오기
         try{
-            var allUser = await pool.query('SELECT userid, preference FROM BOOKWEB.UserTB WHERE NOT userid = ?', [req.session.userId]);
+            //var allUser = await pool.query('SELECT userid, preference FROM BOOKWEB.UserTB WHERE NOT userid = ?', [req.session.userId]);
+            var allUser = await pool.query('SELECT DISTINCT U.userid, U.preference FROM BOOKWEB.UserTB AS U, BOOKWEB.BookReportTB AS R WHERE U.userid = R.userid AND NOT U.userid = ?', [req.session.userId]);
             var userData = allUser[0];
         }catch{
             return res.json({issuccess: false, message: "user data get failed"});
