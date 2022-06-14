@@ -134,18 +134,6 @@ router.get('/session/cos', async (req, res) => {
         // 6. 내가 읽지 않은 도서 중 평균 평점이 가장 높은 도서 순으로 추천
         // (추천은 svd에서와 같이 isbn 정보를 가지고 하나씩 찾아서 데이터를 만들어주면 됨)
 
-
-        /* 임시데이터 >>> 
-            var userList = ["test111", "test112", "test113", "test114", "test115"];
-            var preferMat = 
-            [[0,0,0,0,0,1,1,1,1,1], //test111
-            [0,1,0,1,0,1,0,1,0,1], //test112
-            [0,0,0,1,0,0,1,0,0,1], //test113
-            [1,1,0,0,0,1,0,0,1,0], //test114
-            [1,0,1,0,1,0,0,0,0,0]]; //test115
-            var myPrefer = [0,1,1,0,0,0,0,1,0,0];
-            ['총류(기타)','철학','종교','사회과학','자연과학','기술과학','예술','언어','문학','역사']
-        */
         //나를 제외한 모든 유저의  userid, preference 가져오기
         try{
             var allUser = await pool.query('SELECT userid, preference FROM BOOKWEB.UserTB WHERE NOT userid = ?', [req.session.userId]);
@@ -160,17 +148,11 @@ router.get('/session/cos', async (req, res) => {
             userList.push(userData[i].userid); 
             preferMat.push(userData[i].preference.split(",")); 
         }
-        //console.log("userList", userList);
-        //console.log("preferMat", preferMat);
 
         var myData = await pool.query('SELECT preference FROM BOOKWEB.UserTB WHERE userid = ?', [req.session.userId]);
         console.log("myData",myData[0]);
         var myPrefer = myData[0][0].preference.split(",");
         console.log("내선호도", myPrefer);
-
-        //console.log(JSON.stringify(preferMat));
-        //return res.json(preferMat);
-        //console.log(">>>", req.session.userId);
 
         var result; 
 
@@ -185,8 +167,6 @@ router.get('/session/cos', async (req, res) => {
                 similarUser.push(userList[recommendIndex[i]]); 
             }
             console.log("similarUser", similarUser);
-            //return res.json(similarUser);
-            //similarUser : [ 'test112', 'test115', 'test114' ]
 
             //내가 독후감을 쓴 책의 isbn 목록 가져오기
             console.log(req.session.userId);
@@ -194,14 +174,6 @@ router.get('/session/cos', async (req, res) => {
             console.log("내가읽은 책(독후감 쓴 책)", data[0]);
             var myBook = data[0];
             
-            /*
-            const id = "test110";
-            const myBook = [
-                {userid: "test110", isbn: "isbn1", rating: 9 },
-                {userid: "test110", isbn: "isbn2", rating: 5 },
-                {userid: "test110", isbn: "isbn3", rating: 7 },
-            ]
-            */
             var bookList = [];
             for(var i=0; i<myBook.length; i++) {
                 bookList.push([myBook[i].isbn, 0]);
@@ -215,29 +187,6 @@ router.get('/session/cos', async (req, res) => {
                 var data = await pool.query('SELECT isbn, rating FROM BOOKWEB.BookReportTB WHERE userid = ?', [similarUser[i]]);
                 similar.push(data[0]);
             }
-            /*
-            const similar1 = [
-                {userid: "test112", isbn: "isbn2", rating: 6},
-                {userid: "test112", isbn: "isbn5", rating: 7},
-                {userid: "test112", isbn: "isbn7", rating: 9}
-            ];
-            const similar2 = [
-                {userid: "test115", isbn: "isbn7", rating: 6},
-                {userid: "test115", isbn: "isbn8", rating: 7},
-                {userid: "test115", isbn: "isbn3", rating: 5}
-            ];
-            const similar3 = [
-                {userid: "test114", isbn: "isbn10", rating: 10},
-                {userid: "test114", isbn: "isbn5", rating: 7},
-                {userid: "test114", isbn: "isbn11", rating: 3}
-            ];
-            */
-            /*
-            for(var i=0; i<similar1.length; i++) {
-                if(bookList.includes(similar1[i].isbn) == false) 
-                    bookList.push(similar1[i].isbn);
-            }
-             */
 
             function RatingList(arr) { //[["isbn", raing1, rating2, ....], ...] 이렇게 추가함
                 for(var i=0; i<arr.length; i++) {
@@ -430,7 +379,7 @@ router.post('/db/bookreports', async (req,res) => {
         const title = req.body.title;
         const contents = req.body.contents;
         const rating = req.body.rating;
-        const userid = req.body.userid; // 여기 나중에 req.session.userId로 바뀌어야 함
+        const userid = req.body.userid;
         const isbn = req.body.isbn;
         try {
             await pool.query('INSERT INTO BOOKWEB.BookReportTB(title, contents, rating, userid, isbn) VALUES (?,?,?,?,?)',
@@ -564,11 +513,5 @@ router.get('/db/bookreports/:isbn/:userid', async (req, res) => {
         return res.status(500).json(err);
     }
 });
-
-/*
-router.get('*', (req, res) => {
-    res.sendFile(index);
-});
-*/
 
 module.exports = router;
