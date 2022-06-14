@@ -24,11 +24,14 @@ router.get('/session', async (req, res) => {
 
 // get recommend data
 router.get('/recommend/svd', async (req, res) => {
+    // result 변수에 최종 데이터 담아 넘겨주면 될 듯
+    var result;
+
     try {
-        // 유저 배열 udata, 책의 isbn 배열 isbnList
-        var udata = await pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE NOT userid = ?', [req.session.userId]);
+        // 유저 배열 useridList, 책의 isbn 배열 isbnList
+        var useridList = await pool.query('SELECT userid FROM BOOKWEB.UserTB WHERE NOT userid = ?', [req.session.userId]);
         var isbnList = await pool.query('SELECT isbn FROM BOOKWEB.BookTB ORDER BY isbn ASC');
-        const ulen = udata[0].length;
+        const ulen = useridList[0].length;
         const ilen = isbnList[0].length;
         
         //dataMat 배열 만들기 (초기화된 상태로)
@@ -41,32 +44,37 @@ router.get('/recommend/svd', async (req, res) => {
         //dataMat 배열 채우기
         for (var i=0; i < ulen; i++) {
             for (var j=0; j < ilen; j++) {
-                var ata = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?', [udata[0][i].userid, isbnList[0][j].isbn]);
-                if (ata[0].length == 0) {
+                var ratingData = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid = ? AND isbn = ?', [useridList[0][i].userid, isbnList[0][j].isbn]);
+                if (ratingData[0].length == 0) {
                     dataMat[i][j] = 0;
                 }
                 else {
-                    dataMat[i][j] = ata[0][0].rating;
+                    dataMat[i][j] = ratingData[0][0].rating;
                 }
             }
         }
 
+        // 데이터 없으면 파이썬 실행 전에 처리
+        var reportNum = await pool.query('SELECT COUNT(rating) as cnt FROM BOOKWEB.BookReportTB WHERE userid=?', [req.session.userId]);
+        if (reportNum[0][0].cnt < 2) {
+            result = new Object();
+            result.data = []
+            return res.json(Object.assign(result, {issuccess: false, message: "no recommand"}));
+        }
+
         // 현재 세션의 유저 배열 만들기
-        var sesuser = [];
+        var sessionUserRating = [];
         for (var i=0; i < ilen; i++) {
-        nodat = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn = ?', [req.session.userId, isbnList[0][i].isbn]);
-            if (nodat[0].length == 0) {
-                sesuser[i] = 0;
+            var ratingData = await pool.query('SELECT rating FROM BOOKWEB.BookReportTB WHERE userid=? AND isbn = ?', [req.session.userId, isbnList[0][i].isbn]);
+            if (ratingData[0].length == 0) {
+                sessionUserRating[i] = 0;
             }
             else {
-                sesuser[i] = nodat[0][0].rating;
+                sessionUserRating[i] = ratingData[0][0].rating;
             }
         }
 
-        dataMat.push(sesuser) // 현재 추천해줄 유저의 평점 정보 추가
-
-        // result 변수에 최종 데이터 담아 넘겨주면 될 듯
-        var result;
+        dataMat.push(sessionUserRating) // 현재 추천해줄 유저의 평점 정보 추가
 
         const process = spawn('python', ['python/svd.py', JSON.stringify(dataMat)]);
         // stdout에 대한 콜백
