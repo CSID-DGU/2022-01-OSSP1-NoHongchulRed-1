@@ -26,7 +26,7 @@ const SignIn = () => {
                 userid: id,
                 password: pw 
             }).then((res) => {
-                console.log(res)
+                //console.log(res)
                 if(res.data.issuccess){
                     // const after1 = new Date();
                     // after1.setMinutes(after1.getMinutes() +1);

@@ -12,9 +12,9 @@ const Main = (props) => {
     useEffect(() => {
         axios.get('/db/books/bookreports/' + props.isbn)
             .then((res) => {
-                console.log(props.isbn)
-                console.log(res.data);
-                console.log(res.data.data);
+                //console.log(props.isbn)
+                //console.log(res.data);
+                //console.log(res.data.data);
                 setReportList(res.data.data || [])
             })
             .catch((e) => {
