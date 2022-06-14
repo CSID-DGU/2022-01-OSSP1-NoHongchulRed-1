@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import MultipleBookSearch from './MultipleBookSearch';
-import { Button } from "@material-ui/core";
 import styled from 'styled-components'; //CSS-IN_JS
 import './Header.css'
 
@@ -27,20 +26,15 @@ const MyInfo = styled.div`
 const Header = () => {
     const navigate = useNavigate();
 
-    const [bookReportCount, setBookReportCount] = useState("0")
+    const [bookReportCount, setBookReportCount] = useState(0)
     // eslint-disable-next-line
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
-    // 내가 쓴 독후감
-    useEffect(() => {
-        axios.get('/db/users/bookreports/' + cookies?.user?.userId).then((res) => {
-                // console.log(res.data)
-                setBookReportCount(res.data.data?.length || 0)
-            }).catch((e) => {
-                console.log(e)
-            })
-            // eslint-disable-next-line
-    }, [])
+    axios.get('/db/users/bookreports/' + cookies?.user?.userId).then((res) => {
+        setBookReportCount(res.data.data?.length || 0);
+    }).catch((e) => {
+        console.log(e)
+    })
 
     const path = window.location.pathname;
     if (path === '/' || path==='/SignUp') return null; /*로그인, 회원가입 페이지에서 Nav 숨기기 */
@@ -64,13 +58,10 @@ const Header = () => {
                             return res.data;
                         })
                         .then((data) => {
-                            // 세션을 data로 넘겨주었으므로 해당 내용으로 설정
-                            console.log(data)
                             alert("로그아웃 되었습니다");
-                            navigate('/');
                             removeCookie('user');
+                            navigate('/');
                         }).catch((e) => {
-                            console.log(e)
                             alert('로그아웃에 실패했습니다.')
                         })
                 }}>&nbsp;&nbsp;로그아웃</div>
