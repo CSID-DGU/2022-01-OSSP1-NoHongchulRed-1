@@ -190,7 +190,7 @@ const SignUp = () => {
                 preference: genreText
                 //preference:convertGenreCheck(genre)
             }).then((res) => {
-                console.log(res.data)
+                //console.log(res.data)
                 if (res.data.issuccess) {
                     alert("회원가입 되었습니다! 로그인해주세요.")
                     navigate('/');

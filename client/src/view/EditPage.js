@@ -114,7 +114,7 @@ const EditPage = () => {
                     isbn: String(isbn),
                     // isbn: isbn.split(' ')[0],
                 }).then((res) => {
-                    console.log(res)
+                    //console.log(res)
                     if(res.data.issuccess){
                         alert('독후감이 등록되었습니다.')
                     }else{

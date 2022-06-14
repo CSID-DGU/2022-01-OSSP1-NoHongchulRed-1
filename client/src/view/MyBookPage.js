@@ -25,7 +25,7 @@ export default function MyBookPage() {
   useEffect(() => {
     axios.get('/db/users/bookreports/' + cookies?.user?.userId)
         .then((res) => {
-            console.log(res.data.data);
+            //console.log(res.data.data);
             setReportList(res.data.data || [])
         })
         .catch((e) => {

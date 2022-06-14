@@ -12,7 +12,7 @@ const TopViewReport = (props) => {
         try {
             axios.get('/db/bookreports/view')
             .then((res) => {
-                console.log(res.data.data);
+                //console.log(res.data.data);
                 setReportList(res.data.data || []);
             })
         } catch (err) {
