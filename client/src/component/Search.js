@@ -19,7 +19,7 @@ const Search = () => {
                 return res.json();
             })
             .then((data) => {
-                console.log(data);
+                //console.log(data);
             });
             }}>get test data</Button>
             <Button variant="contained" color="primary" onClick={() => {
@@ -28,7 +28,7 @@ const Search = () => {
                 return res.json();
             })
             .then((data) => {
-                console.log(data);
+                //console.log(data);
             });
             }}>get single book data</Button>
             <Button variant="contained" color="primary" onClick={() => {
@@ -37,7 +37,7 @@ const Search = () => {
                 return res.json();
             })
             .then((data) => {
-                console.log(data);
+                //console.log(data);
             });
             }}>get multiple book data</Button>
             <Button variant="contained" color="primary" onClick={() => {
@@ -46,7 +46,7 @@ const Search = () => {
                 return res.json();
             })
             .then((data) => {
-                console.log(data);
+                //console.log(data);
             });
             }}>get user data</Button>
         </div>
