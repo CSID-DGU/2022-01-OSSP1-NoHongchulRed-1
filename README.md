@@ -49,27 +49,39 @@ READ LEAD - 책을 읽고 독후감을 작성할 수 있는 사이트, 책 추�
 ## Main Feature
 1. Login page  
 <img src="image/Loginpage.png" width="75%" height="75%">
+- 아이디와와 비밀번호를 사용하여 로그인
 
 2. Sign up page  
 <img src="image/Signuppage.png" width="75%" height="75%">
+- 회원가입 페이지에서는 필수정보와 추가정보를 입력해야 한다. 
+- 관심 장르에는 최소 하나 체크해야 한다. 
+- 한국십진분류표로 알고리즘 설계했다고 써주면 좋을듯?  
+<img src="image/table.png" width="30%" height="30%">
 
 3. Main page  
 <img src="image/Mainpage.png" width="75%" height="75%">
+- 인기 독후감 조회수 정렬
+- 책 검색 기능 있다
 
 4. Book search page  
 <img src="image/Booksearchpage.png" width="75%" height="75%">
+- 책 검색을 통해 독후감 작성 및 독후감 모아보기 가능
 
 5. Edit page  
 <img src="image/Editpage.png" width="75%" height="75%">
+- 해당 책의 독후감을 작성할 수 있다.
 
 6. Gather report page   
 <img src="image/Gatherreportpage.png" width="75%" height="75%">
+- 해당 책의 독후감 정보를 보여줍니다.
 
 7. All report page   
 <img src="image/Allreportpage.png" width="75%" height="75%">
+- 등록된 모든 유저의 독후감을 보여줍니다.
 
 8. My book page  
 <img src="image/Mybookpage.png" width="75%" height="75%">
+- 본인이 작성한 모든 독후감을 보여줍니다.
 
 9. Recommend page   
 <img src="image/Recommendpage.png" width="75%" height="75%">
