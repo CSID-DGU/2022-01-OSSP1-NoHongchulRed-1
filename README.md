@@ -47,32 +47,45 @@ READ LEAD - 책을 읽고 독후감을 작성할 수 있는 사이트, 책 추�
 - React 17.0.2
 
 ## Main Feature
-1. Login page
- ![default](image/Loginpage.png)
+1. Login page  
+<img src="image/Loginpage.png" width="75%" height="75%">
 
-2. Sign up page
-![default](image/Signuppage.png)
+2. Sign up page  
+<img src="image/Signuppage.png" width="75%" height="75%">
 
-3. Main page
-![default](image/Mainpage.png)
+3. Main page  
+<img src="image/Mainpage.png" width="75%" height="75%">
 
-4. Book search page
-![default](image/Booksearchpage.png)
+4. Book search page  
+<img src="image/Booksearchpage.png" width="75%" height="75%">
 
-5. Edit page
-![default](image/Editpage.png)
+5. Edit page  
+<img src="image/Editpage.png" width="75%" height="75%">
 
-6. Gather report page
-![default](image/Gatherreportpage.png)
+6. Gather report page   
+<img src="image/Gatherreportpage.png" width="75%" height="75%">
 
-7. All report page
-![default](image/Allreportpage.png)
+7. All report page   
+<img src="image/Allreportpage.png" width="75%" height="75%">
 
-8. My book page
-![default](image/Mybookpage.png)
+8. My book page  
+<img src="image/Mybookpage.png" width="75%" height="75%">
 
-9. Recommend page
-![default](image/Recommendpage.png)
+9. Recommend page   
+<img src="image/Recommendpage.png" width="75%" height="75%">
+
+Introduction to the SVD algorithm
+- 어떠한 행렬을 SVD 분해하여 특이값을 얻어내고, 이를 바탕으로 예측 평점 계산
+- 계산한 예측 평점이 높은 순으로 추천 도서 제공  
+<img src="image/svd.png" width="45%" height="45%">
+
+
+Introduction to the Cosine Similarity algorithm
+- 초기 평점 데이터 부족한 svd 추천을 보완하기 위해 도입
+- 회원가입 시 유저에게 도서 분류별 관심도 정보 받아 계산
+- 방향적인 유사도 정보를 위해 코사인 유사도 활용
+- 나와 유사한 집합에서 평점 평균이 높은 순으로 추천 도서 제공
+
 
 ## Issue Name Rules
 - Dev: 개발 관련 이슈
