@@ -12,6 +12,9 @@
 |2020112031|전민정|백엔드|
 |2020111994|홍성빈|백엔드|
 
+## About Project
+READ LEAD - 책을 읽고 독후감을 작성할 수 있는 사이트, 책 추천까지 해줌으로써 나에게 맞는 책을 찾는 것을 도와준다.
+
 ## Tech Stack
 <div align=center>
   <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
@@ -44,7 +47,32 @@
 - React 17.0.2
 
 ## Main Feature
-작성 예정
+1. Login page
+ ![default](image/Loginpage.png)
+
+2. Sign up page
+![default](image/Signuppage.png)
+
+3. Main page
+![default](image/Mainpage.png)
+
+4. Book search page
+![default](image/Booksearchpage.png)
+
+5. Edit page
+![default](image/Editpage.png)
+
+6. Gather report page
+![default](image/Gatherreportpage.png)
+
+7. All report page
+![default](image/Allreportpage.png)
+
+8. My book page
+![default](image/Mybookpage.png)
+
+9. Recommend page
+![default](image/Recommendpage.png)
 
 ## Issue Name Rules
 - Dev: 개발 관련 이슈
