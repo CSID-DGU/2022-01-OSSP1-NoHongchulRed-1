@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const pool = require('../pool');
 const spawn = require('child_process').spawn;
 
@@ -122,18 +121,6 @@ router.get('/recommend/svd', async (req, res) => {
 // get recommend data (cosine)
 router.get('/session/cos', async (req, res) => {
     try {
-        // 코사인 유사도 관련 내용 구현 필요
-        // 1. 모든 유저에 대한 도서 분류별 관심도 정보 가져오기(현재 세션 유저 제외)
-        // 2. 현재 세션 유저에 대한 도서 관심도 정보 가져오기
-        // 3. 현재 세션 유저와 모든 유저에 대해 코사인 유사도 계산하기
-        // (하나씩 일대일로 계산하는 것, 나-유저1, 나-유저2, ...)
-        // 4. 계산 결과에 따라 가장 유사한 상위 n명 선택하기
-        // (n값에 대한 기준은 프론트쪽에서 테스트해보고 적절한 수치를 적용할 것)
-        // 5. 내가 읽지 않은 도서에 대해 유사도 상위 유저 집합의 평균 평점 계산
-        // (내가 안 읽은 것을 다른 유저도 안 읽었다면 해당 도서에 대한 해당 유저의 평점은 0점으로 취급하고 계산)
-        // 6. 내가 읽지 않은 도서 중 평균 평점이 가장 높은 도서 순으로 추천
-        // (추천은 svd에서와 같이 isbn 정보를 가지고 하나씩 찾아서 데이터를 만들어주면 됨)
-
         //나를 제외하고 독후감을 하나 이상 쓴 모든 유저의 userid, preference 가져오기
         try{
             //var allUser = await pool.query('SELECT userid, preference FROM BOOKWEB.UserTB WHERE NOT userid = ?', [req.session.userId]);
@@ -144,16 +131,16 @@ router.get('/session/cos', async (req, res) => {
         }
         var userList = [];
         var preferMat = [];
-        console.log("userData", userData);
+        //console.log("userData", userData);
         for (var i=0; i<userData.length; i++) {
             userList.push(userData[i].userid); 
             preferMat.push(userData[i].preference.split(",")); 
         }
 
         var myData = await pool.query('SELECT preference FROM BOOKWEB.UserTB WHERE userid = ?', [req.session.userId]);
-        console.log("myData",myData[0]);
+        //console.log("myData",myData[0]);
         var myPrefer = myData[0][0].preference.split(",");
-        console.log("내선호도", myPrefer);
+        //console.log("내선호도", myPrefer);
 
         var result; 
 
@@ -162,17 +149,17 @@ router.get('/session/cos', async (req, res) => {
         process.stdout.on('data', async function (data) {
             //return res.json(data.toString());
             const recommendIndex = JSON.parse(data);
-            console.log("추천인덱스",recommendIndex);
+            //console.log("추천인덱스",recommendIndex);
             var similarUser = []
             for (var i=0; i<recommendIndex.length; i++) {
                 similarUser.push(userList[recommendIndex[i]]); 
             }
-            console.log("similarUser", similarUser);
+            //console.log("similarUser", similarUser);
 
             //내가 독후감을 쓴 책의 isbn 목록 가져오기
-            console.log(req.session.userId);
+            //console.log(req.session.userId);
             var data = await pool.query('SELECT isbn FROM BOOKWEB.BookReportTB WHERE userid = ?', [req.session.userId]);
-            console.log("내가읽은 책(독후감 쓴 책)", data[0]);
+            //console.log("내가읽은 책(독후감 쓴 책)", data[0]);
             var myBook = data[0];
             
             var bookList = [];
@@ -207,7 +194,7 @@ router.get('/session/cos', async (req, res) => {
             for (var i=0;i<NUMOFUSER;i++) {
                 RatingList(similar[i]);
             }
-            console.log("책목록:", bookList);
+            //console.log("책목록:", bookList);
 
             //bookList에서 내가 읽은 것 제외
             for(var i=0; i<myBook.length; i++) {
@@ -220,11 +207,11 @@ router.get('/session/cos', async (req, res) => {
                     }
                 }
             }
-            console.log("내가 읽은 책이 제거된 후 책목록: ", bookList);
+            //console.log("내가 읽은 책이 제거된 후 책목록: ", bookList);
 
             //책마다 모든 rating 더해서 평균 구하기
             if(bookList.length === 0) {
-                console.log("추천해줄 책이 없습니다.");
+                //console.log("추천해줄 책이 없습니다.");
                 return res.json(bookList);
             }
             var averageRating = [];
@@ -236,13 +223,13 @@ router.get('/session/cos', async (req, res) => {
                 var average = sum/NUMOFUSER;
                 averageRating.push([bookList[i][0], average]);
             }
-            console.log("평점평균::", averageRating);
+            //console.log("평점평균::", averageRating);
 
             //평점순으로 정렬
             averageRating.sort(function(a, b) {
                 return b[1] - a[1];
             });
-            console.log("평점순 정렬::", averageRating);
+            //console.log("평점순 정렬::", averageRating);
 
             //최고 평점인 책 최대 3개의 isbn 가져오기
             //평점 평균 상위 n권에 대한 상수를 NUMOFBOOK으로 선언
@@ -256,7 +243,7 @@ router.get('/session/cos', async (req, res) => {
                 recBookIsbn.push(averageRating[i][0]);
                 count++;
             }
-            console.log("최종추천도서", recBookIsbn);
+            //console.log("최종추천도서", recBookIsbn);
 
             // isbn 배열로 도서를 찾아서 도서 정보 리턴해줌
             var recBookArray = []; // 추천 도서의 정보 배열
