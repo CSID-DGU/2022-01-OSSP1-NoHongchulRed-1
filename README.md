@@ -1,7 +1,9 @@
 # 2022-01-OSSP1-NoHongchulRed-1
 > 2022-01 공개SW프로젝트 1팀 홍철없는 홍팀
 > 
-> 독후감 공유 및 도서 추천 플랫폼
+> READ LEAD
+> 
+> 독후감 공유 및 도서 추천 플랫폼 
 
 ## Team Member
 
@@ -11,9 +13,6 @@
 |2020111985|이채린|프론트엔드|
 |2020112031|전민정|백엔드|
 |2020111994|홍성빈|백엔드|
-
-## About Project
-READ LEAD - 책을 읽고 독후감을 작성할 수 있는 사이트, 책 추천까지 해줌으로써 나에게 맞는 책을 찾는 것을 도와준다.
 
 ## Tech Stack
 <div align=center>
@@ -47,57 +46,59 @@ READ LEAD - 책을 읽고 독후감을 작성할 수 있는 사이트, 책 추�
 - React 17.0.2
 
 ## Main Feature
-1. Login page  
-<img src="image/Loginpage.png" width="75%" height="75%">
-- 아이디와와 비밀번호를 사용하여 로그인
 
-2. Sign up page  
-<img src="image/Signuppage.png" width="75%" height="75%">
-- 회원가입 페이지에서는 필수정보와 추가정보를 입력해야 한다. 
-- 관심 장르에는 최소 하나 체크해야 한다. 
-- 한국십진분류표로 알고리즘 설계했다고 써주면 좋을듯?  
-<img src="image/table.png" width="30%" height="30%">
+### Recommend System
 
-3. Main page  
-<img src="image/Mainpage.png" width="75%" height="75%">
-- 인기 독후감 조회수 정렬
-- 책 검색 기능 있다
-
-4. Book search page  
-<img src="image/Booksearchpage.png" width="75%" height="75%">
-- 책 검색을 통해 독후감 작성 및 독후감 모아보기 가능
-
-5. Edit page  
-<img src="image/Editpage.png" width="75%" height="75%">
-- 해당 책의 독후감을 작성할 수 있다.
-
-6. Gather report page   
-<img src="image/Gatherreportpage.png" width="75%" height="75%">
-- 해당 책의 독후감 정보를 보여줍니다.
-
-7. All report page   
-<img src="image/Allreportpage.png" width="75%" height="75%">
-- 등록된 모든 유저의 독후감을 보여줍니다.
-
-8. My book page  
-<img src="image/Mybookpage.png" width="75%" height="75%">
-- 본인이 작성한 모든 독후감을 보여줍니다.
-
-9. Recommend page   
-<img src="image/Recommendpage.png" width="75%" height="75%">
-
-Introduction to the SVD algorithm
+1. SVD recommend system
 - 어떠한 행렬을 SVD 분해하여 특이값을 얻어내고, 이를 바탕으로 예측 평점 계산
-- 계산한 예측 평점이 높은 순으로 추천 도서 제공  
-<img src="image/svd.png" width="45%" height="45%">
+- 계산한 예측 평점이 높은 순으로 추천 도서 제공
+<img src="https://user-images.githubusercontent.com/83688807/173960562-afb2069b-cc08-458e-85cc-069bad0d8a8a.png"  width="30%" height="30%"/>
+<br>
 
-
-Introduction to the Cosine Similarity algorithm
-- 초기 평점 데이터 부족한 svd 추천을 보완하기 위해 도입
+2. Cosine Similarity recommend system
 - 회원가입 시 유저에게 도서 분류별 관심도 정보 받아 계산
 - 방향적인 유사도 정보를 위해 코사인 유사도 활용
 - 나와 유사한 집합에서 평점 평균이 높은 순으로 추천 도서 제공
+<img src="https://user-images.githubusercontent.com/83688807/173960573-b8d0cefb-c71b-4b0f-817f-8a7f17a1131b.png"  width="30%" height="30%"/>
 
+
+### Page
+1. Login page
+![Loginpage](https://user-images.githubusercontent.com/83688807/173960048-0095d697-658e-4765-8e64-bbf409d9fe81.PNG)
+- 아이디와와 비밀번호를 사용하여 로그인
+
+2. Sign up page
+![Signuppage](https://user-images.githubusercontent.com/83688807/173960058-e322d147-6ecc-48ee-87c3-3e47e03557ad.PNG)
+- 회원가입 페이지에서는 정보 입력하여 회원가입 
+
+3. Main page
+![Mainpage](https://user-images.githubusercontent.com/83688807/173960125-a72ddfd8-523a-4910-8107-9cf6dce90057.PNG)
+- 인기 독후감 조회수 정렬
+- 책 검색 기능
+
+4. Book search page
+![Booksearchpage](https://user-images.githubusercontent.com/83688807/173960362-f2199be6-eb64-400c-9c91-c7a2f107f029.PNG)
+- 책 검색을 통해 독후감 작성 및 독후감 모아보기 가능
+
+5. Edit page
+![Editpage](https://user-images.githubusercontent.com/83688807/173960200-cef5c654-d6b1-499e-8d72-7d4b9b7ab4ec.PNG)
+- 독후감을 작성 기능
+
+6. Gather report page
+![Gatherreportpage](https://user-images.githubusercontent.com/83688807/173960287-25b850d3-383e-4c71-9c4e-f71b6f997508.PNG)
+- 독후감 정보 확인 기능
+
+7. All report page
+![Allreportpage](https://user-images.githubusercontent.com/83688807/173960296-7e9c5b2d-098e-41e0-b1e8-38c5cc24abd9.PNG)
+- 모든 유저의 독후감 조회 기능
+
+8. My book page
+![Mybookpage](https://user-images.githubusercontent.com/83688807/173960308-6e80adff-aa17-452b-86ed-e778e2486e62.PNG)
+- 자신의 독후감 조회 기능
+
+9. Recommend page
+![Recommendpage](https://user-images.githubusercontent.com/83688807/173960324-605b01fe-1d10-4372-9a43-c80012327257.PNG)
+- 추천 시스템 기능
 
 ## Issue Name Rules
 - Dev: 개발 관련 이슈
