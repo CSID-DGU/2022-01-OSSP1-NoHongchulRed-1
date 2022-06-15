@@ -21,8 +21,9 @@ for i, rate in enumerate(r[len(r)-1]):
 # Simple SVD
 u, s, vh = np.linalg.svd(r, full_matrices=False)
 
-# 특이값 개수(잠재요인 차원) K는 2 설정, K 값 변경하여 자유롭게 테스트해볼 것
-K = 2
+# 특이값 개수(잠재요인 차원) K는 4 설정
+# 테스트 결과 경험적으로 4가 가장 적절하다고 판단
+K = 4
 svd = TruncatedSVD(n_components=K)
 svd.fit(r)
 
