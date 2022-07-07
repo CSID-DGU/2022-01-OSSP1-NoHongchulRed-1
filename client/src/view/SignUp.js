@@ -119,63 +119,63 @@ const SignUp = () => {
             function convertGenreCheck(genre) {
                 if (genre.checkedA) { 
                     genreText += "1";
-                    }
-                    else 
+                } else {
                     genreText += "0";
-                    genreText += ",";
+                }
+                genreText += ",";
                 if (genre.checkedB) { 
                     genreText += "1";
-                    }
-                    else 
+                } else {
                     genreText += "0";
-                    genreText += ",";    
+                }
+                genreText += ",";   
                 if (genre.checkedC) { 
                     genreText += "1";
-                    }
-                    else 
+                } else {
                     genreText += "0";
-                    genreText += ",";
+                }
+                genreText += ",";
                 if (genre.checkedD) { 
                     genreText += "1";
-                    }
-                    else 
+                } else {
                     genreText += "0";
-                    genreText += ",";
+                }
+                genreText += ",";
                 if (genre.checkedE) { 
                     genreText += "1";
-                    }
-                    else 
+                } else {
                     genreText += "0";
-                    genreText += ",";
+                }
+                genreText += ",";
                 if (genre.checkedF) { 
                     genreText += "1";
-                    }
-                    else 
+                } else {
                     genreText += "0";
-                    genreText += ",";
+                }
+                genreText += ",";
                 if (genre.checkedG) { 
                     genreText += "1";
-                    }
-                    else 
+                } else {
                     genreText += "0";
-                    genreText += ",";
+                }
+                genreText += ",";
                 if (genre.checkedH) { 
                     genreText += "1";
-                    }
-                    else 
+                } else {
                     genreText += "0";
-                    genreText += ",";
+                }
+                genreText += ",";
                 if (genre.checkedI) { 
                     genreText += "1";
-                    }
-                    else 
+                } else {
                     genreText += "0";
-                    genreText += ",";
+                }
+                genreText += ",";
                 if (genre.checkedJ) { 
                     genreText += "1";
-                    }
-                    else 
-                    genreText += "0";   
+                } else {
+                    genreText += "0";
+                }
             }
 
             convertGenreCheck(genre)

@@ -31,7 +31,7 @@ const RecommendBook = (props) => {
                             <p className="centerBookTitle">{data.title}</p>
                         </div>
                         <div className="bookContent">
-                            <img src={data.thumbnail}/>
+                            <img src={data.thumbnail} alt="thumbnail"/>
                         </div>
                     </div>
                     </Link>

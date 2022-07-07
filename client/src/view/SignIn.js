@@ -4,7 +4,6 @@ import { Button } from '@material-ui/core';
 import { useCookies } from 'react-cookie';
 import TextField from '@material-ui/core/TextField';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import Logo from '../image/logo.png'
 import axios from 'axios';
 import './SignIn.css'
 
@@ -57,7 +56,7 @@ const SignIn = () => {
     }
 
     const onKeyDownInput = (e) => {
-        if(e.keyCode == 13){
+        if(e.keyCode === 13){
             onClickButton();
          }
     }
@@ -65,7 +64,7 @@ const SignIn = () => {
     return (
         <div className="login-area">
             <div className="title-box">
-                <img src={Logo} alt="logo" />
+                <img src={process.env.PUBLIC_URL + "/dongguk_logo.jpg"} alt="logo" />
                 <div>
                     <h1>Read Lead</h1>
                     <h4>공개 SW 프로젝트 독후감 웹</h4>
