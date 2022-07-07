@@ -3,7 +3,7 @@
 > 
 > READ LEAD
 > 
-> 독후감 공유 및 도서 추천 플랫폼 
+> 독후감/서평 공유 및 도서 추천 플랫폼 
 
 ## Team Member
 
@@ -42,6 +42,7 @@
 ### Server
 - Node.js 16.14.2
 - Express 4.18.1
+- MySQL 8.0.29-0ubuntu0.20.04.3
 ### Client
 - React 17.0.2
 
@@ -49,13 +50,13 @@
 
 ### Recommend System
 
-1. SVD recommend system
+**1. SVD recommend system**
 - 어떠한 행렬을 SVD 분해하여 특이값을 얻어내고, 이를 바탕으로 예측 평점 계산
 - 계산한 예측 평점이 높은 순으로 추천 도서 제공
 <img src="https://user-images.githubusercontent.com/83688807/173960562-afb2069b-cc08-458e-85cc-069bad0d8a8a.png"  width="30%" height="30%"/>
 <br>
 
-2. Cosine Similarity recommend system
+**2. Cosine Similarity recommend system**
 - 회원가입 시 유저에게 도서 분류별 관심도 정보 받아 계산
 - 방향적인 유사도 정보를 위해 코사인 유사도 활용
 - 나와 유사한 집합에서 평점 평균이 높은 순으로 추천 도서 제공
@@ -63,42 +64,50 @@
 
 
 ### Page
-1. Login page
+**1. Login page**
 ![Loginpage](https://user-images.githubusercontent.com/83688807/173960048-0095d697-658e-4765-8e64-bbf409d9fe81.PNG)
-- 아이디와와 비밀번호를 사용하여 로그인
+- 아이디와 비밀번호를 사용하여 로그인
+<br>
 
-2. Sign up page
+**2. Sign up page**
 ![Signuppage](https://user-images.githubusercontent.com/83688807/173960058-e322d147-6ecc-48ee-87c3-3e47e03557ad.PNG)
-- 회원가입 페이지에서는 정보 입력하여 회원가입 
+- 회원가입 페이지에서는 정보 입력하여 회원가입
+<br>
 
-3. Main page
+**3. Main page**
 ![Mainpage](https://user-images.githubusercontent.com/83688807/173960125-a72ddfd8-523a-4910-8107-9cf6dce90057.PNG)
 - 인기 독후감 조회수 정렬
 - 책 검색 기능
+<br>
 
-4. Book search page
+**4. Book search page**
 ![Booksearchpage](https://user-images.githubusercontent.com/83688807/173960362-f2199be6-eb64-400c-9c91-c7a2f107f029.PNG)
-- 책 검색을 통해 독후감 작성 및 독후감 모아보기 가능
+- 독후감 작성 및 독후감 모아보기 가능
+<br>
 
-5. Edit page
+**5. Edit page**
 ![Editpage](https://user-images.githubusercontent.com/83688807/173960200-cef5c654-d6b1-499e-8d72-7d4b9b7ab4ec.PNG)
-- 독후감을 작성 기능
+- 독후감 작성 기능
+<br>
 
-6. Gather report page
+**6. Gather report page**
 ![Gatherreportpage](https://user-images.githubusercontent.com/83688807/173960287-25b850d3-383e-4c71-9c4e-f71b6f997508.PNG)
 - 독후감 정보 확인 기능
+<br>
 
-7. All report page
+**7. All report page**
 ![Allreportpage](https://user-images.githubusercontent.com/83688807/173960296-7e9c5b2d-098e-41e0-b1e8-38c5cc24abd9.PNG)
-- 모든 유저의 독후감 조회 기능
+- 전체 유저의 독후감 조회 기능
+<br>
 
-8. My book page
+**8. My book page**
 ![Mybookpage](https://user-images.githubusercontent.com/83688807/173960308-6e80adff-aa17-452b-86ed-e778e2486e62.PNG)
-- 자신의 독후감 조회 기능
+- 나의 독후감 조회 기능
+<br>
 
-9. Recommend page
+**9. Recommend page**
 ![Recommendpage](https://user-images.githubusercontent.com/83688807/173960324-605b01fe-1d10-4372-9a43-c80012327257.PNG)
-- 추천 시스템 기능
+- 추천 시스템 기능(svd/cos)
 
 ## Issue Name Rules
 - Dev: 개발 관련 이슈

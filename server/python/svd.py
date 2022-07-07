@@ -35,8 +35,6 @@ vh = vh[:K, :]
 us = np.matmul(u, np.diag(s))
 result = np.matmul(us, vh)
 
-#print(result)
-
 # 정렬하여 추천 도서 가져오기 위한 과정
 # 평점 높은 순으로 인덱스 정렬하여 넘겨줌
 

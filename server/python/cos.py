@@ -25,10 +25,6 @@ preferMat = [[0,0,0,1,1,1,0,1,0,0],
             [0,0,1,1,0,0,1,1,1,0]]
 '''
 
-#myPrefer = [1,1,1,1,0,0,1,1,1,0]
-#R=np.array(preferMat)
-#R2=np.array(myPrefer)
-
 #각 유저와 자신의 코사인 유사도 계산
 similarity = []
 for i in range(len(R)):
@@ -38,7 +34,6 @@ for i in range(len(R)):
 
 #유사도 높은 순서로 유저 정렬
 similarity.sort(key=lambda x:x[1], reverse=True)
-#print(similarity)
 
 # 인덱스만 추출
 ret = []
@@ -47,9 +42,3 @@ for element in similarity:
 
 #자신과 유사도 비슷한 상위 3명 유저 인덱스 출력
 print(ret[0:3])
-
-#print(R[0])
-#print(R2)
-#print("\n")
-#tmp = cosine_similarity(R[0].reshape(1,-1), R2.reshape(1,-1))
-#print(tmp)

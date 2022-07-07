@@ -6,8 +6,6 @@ const router = express.Router();
 
 const bcrypt = require('bcrypt');
 
-//const index = path.join(__dirname, '../client/build/index.html');
-
 const saltOrRounds = 10;
 
 // ===== Server resource API =====
@@ -107,7 +105,6 @@ router.get('/recommend/svd', async (req, res) => {
 
         // stderr에 대한 콜백
         process.stderr.on('data', function (data) {
-            //console.log("stderr: " + data.toString());
             result = data.toString();
             return res.json(Object.assign(result, {issuccess: false, message: "error"}));
         });
@@ -122,44 +119,37 @@ router.get('/recommend/svd', async (req, res) => {
 router.get('/session/cos', async (req, res) => {
     try {
         //나를 제외하고 독후감을 하나 이상 쓴 모든 유저의 userid, preference 가져오기
-        try{
-            //var allUser = await pool.query('SELECT userid, preference FROM BOOKWEB.UserTB WHERE NOT userid = ?', [req.session.userId]);
+        try {
             var allUser = await pool.query('SELECT DISTINCT U.userid, U.preference FROM BOOKWEB.UserTB AS U, BOOKWEB.BookReportTB AS R WHERE U.userid = R.userid AND NOT U.userid = ?', [req.session.userId]);
             var userData = allUser[0];
-        }catch{
+        } catch {
             return res.json({issuccess: false, message: "user data get failed"});
         }
         var userList = [];
         var preferMat = [];
-        //console.log("userData", userData);
+
         for (var i=0; i<userData.length; i++) {
             userList.push(userData[i].userid); 
             preferMat.push(userData[i].preference.split(",")); 
         }
 
         var myData = await pool.query('SELECT preference FROM BOOKWEB.UserTB WHERE userid = ?', [req.session.userId]);
-        //console.log("myData",myData[0]);
         var myPrefer = myData[0][0].preference.split(",");
-        //console.log("내선호도", myPrefer);
 
         var result; 
 
         const process = spawn('python', ['python/cos.py', JSON.stringify(preferMat), JSON.stringify(myPrefer)]);
         process.stdout.setEncoding('utf8');
+        // stdout에 대한 콜백
         process.stdout.on('data', async function (data) {
-            //return res.json(data.toString());
             const recommendIndex = JSON.parse(data);
-            //console.log("추천인덱스",recommendIndex);
             var similarUser = []
             for (var i=0; i<recommendIndex.length; i++) {
                 similarUser.push(userList[recommendIndex[i]]); 
             }
-            //console.log("similarUser", similarUser);
 
             //내가 독후감을 쓴 책의 isbn 목록 가져오기
-            //console.log(req.session.userId);
             var data = await pool.query('SELECT isbn FROM BOOKWEB.BookReportTB WHERE userid = ?', [req.session.userId]);
-            //console.log("내가읽은 책(독후감 쓴 책)", data[0]);
             var myBook = data[0];
             
             var bookList = [];
@@ -177,16 +167,16 @@ router.get('/session/cos', async (req, res) => {
             }
 
             function RatingList(arr) { //[["isbn", raing1, rating2, ....], ...] 이렇게 추가함
-                for(var i=0; i<arr.length; i++) {
+                for (var i=0; i<arr.length; i++) {
                     var inBookList = 0;
-                    for(var j=0; j<bookList.length; j++){
-                        if(bookList[j][0] == arr[i].isbn) { //이미 동일한 isbn이 리스트에 있을 시
+                    for (var j=0; j<bookList.length; j++) {
+                        if (bookList[j][0] == arr[i].isbn) { //이미 동일한 isbn이 리스트에 있을 시
                             bookList[j].push(arr[i].rating); //뒤에 rating 추가
                             inBookList = 1;
                             break;
                         }
                     }
-                    if(inBookList == 0) //동일한 isbn이 리스트에 없을 시
+                    if (inBookList == 0) //동일한 isbn이 리스트에 없을 시
                         bookList.push([arr[i].isbn, arr[i].rating]); //isbn과 rating을 리스트로 추가
                 }
             }
@@ -194,56 +184,50 @@ router.get('/session/cos', async (req, res) => {
             for (var i=0;i<NUMOFUSER;i++) {
                 RatingList(similar[i]);
             }
-            //console.log("책목록:", bookList);
 
             //bookList에서 내가 읽은 것 제외
-            for(var i=0; i<myBook.length; i++) {
-                for(var j=0; j<bookList.length; j++) {
-                    if(bookList.length == 0){
+            for (var i=0; i<myBook.length; i++) {
+                for (var j=0; j<bookList.length; j++) {
+                    if (bookList.length == 0) {
                         break;
                     }
-                    if(bookList[j][0] == myBook[i].isbn){
+                    if (bookList[j][0] == myBook[i].isbn) {
                         bookList.splice(j, 1);
                     }
                 }
             }
-            //console.log("내가 읽은 책이 제거된 후 책목록: ", bookList);
 
             //책마다 모든 rating 더해서 평균 구하기
-            if(bookList.length === 0) {
-                //console.log("추천해줄 책이 없습니다.");
+            if (bookList.length === 0) {
                 return res.json(bookList);
             }
             var averageRating = [];
-            for(var i=0; i<bookList.length; i++) {
+            for (var i=0; i<bookList.length; i++) {
                 var sum = 0;
-                for(var j=1; j<bookList[i].length; j++){
+                for (var j=1; j<bookList[i].length; j++) {
                     sum += bookList[i][j];
                 }
                 var average = sum/NUMOFUSER;
                 averageRating.push([bookList[i][0], average]);
             }
-            //console.log("평점평균::", averageRating);
 
             //평점순으로 정렬
             averageRating.sort(function(a, b) {
                 return b[1] - a[1];
             });
-            //console.log("평점순 정렬::", averageRating);
 
             //최고 평점인 책 최대 3개의 isbn 가져오기
             //평점 평균 상위 n권에 대한 상수를 NUMOFBOOK으로 선언
             const NUMOFBOOK = 3
             var recBookIsbn = [];
             var count = 0;
-            for(var i=0; i<averageRating.length; i++) {
-                if(count == NUMOFBOOK) {
+            for (var i=0; i<averageRating.length; i++) {
+                if (count == NUMOFBOOK) {
                     break;
                 } 
                 recBookIsbn.push(averageRating[i][0]);
                 count++;
             }
-            //console.log("최종추천도서", recBookIsbn);
 
             // isbn 배열로 도서를 찾아서 도서 정보 리턴해줌
             var recBookArray = []; // 추천 도서의 정보 배열
@@ -256,8 +240,8 @@ router.get('/session/cos', async (req, res) => {
             return res.json(Object.assign(result, {issuccess: true, message: "success"}));
         });
     
+        // stderr에 대한 콜백
         process.stderr.on('data', function(data) {
-            //console.log("stderr: " + data.toString());
             result = data.toString();
             return res.json(Object.assign(result, {issuccess: false, message: "error"}));
         });
