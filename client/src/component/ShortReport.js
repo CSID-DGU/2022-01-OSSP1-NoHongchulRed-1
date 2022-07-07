@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './ShortReport.css'
@@ -8,13 +8,15 @@ const Main = (props) => {
     const [reportList, setReportList] = useState([]);
     const navigate = useNavigate();
 
-    axios.get('/db/books/bookreports/' + props.isbn)
-    .then((res) => {
-        setReportList(res.data.data || [])
-    })
-    .catch((e) => {
-        console.log(e);
-    });
+    useEffect(() => {
+        axios.get('/db/books/bookreports/' + props.isbn)
+        .then((res) => {
+            setReportList(res.data.data || [])
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    }, [])
 
     return (
         <div className="shortReport-area" >

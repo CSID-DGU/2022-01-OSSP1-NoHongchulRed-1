@@ -11,7 +11,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import axios from 'axios';
 import './SignUp.css'
@@ -70,14 +69,6 @@ const SignUp = () => {
         }
         return renderResult;
     }
-
-    // const genreRender = () => {
-    //     const genreResult = [];
-    //     for (let i = 0; i < COUNT_GENRE.length; i++) {
-    //         genreResult.push(<MenuItem key={i} value={i}>{COUNT_GENRE[i]}</MenuItem>)
-    //     }
-    //     return genreResult;
-    // }
 
     const checkId = () => { return id !== "" ? (3 < id.length) && (id.length < 17) ? false : true : false; }
     const checkNick = () => { return nickName !== "" ? (1 < nickName.length) && (nickName.length < 11) ? false : true : false; }
@@ -188,9 +179,7 @@ const SignUp = () => {
                 sexuality: gender,
                 // 장르
                 preference: genreText
-                //preference:convertGenreCheck(genre)
             }).then((res) => {
-                //console.log(res.data)
                 if (res.data.issuccess) {
                     alert("회원가입 되었습니다! 로그인해주세요.")
                     navigate('/');
@@ -206,185 +195,170 @@ const SignUp = () => {
     }
     checkNick()
     return (
-        <>
+        <div className="signup-area">
             {/* <Header /> */}
-            <div className="signup-area">
-                <div className="flex-vertical left_box">
-                    <h2>필수정보</h2>
-                    <h3></h3>
-                    
-                    <TextField
-                        error={checkId()}
-                        helperText={checkId() ? '4~16자 사이로 입력해주세요' : ''}
-                        label="아이디" onChange={onChangeId} />
-                    <TextField label="닉네임" onChange={onChangeNickName}
-                        error={checkNick()}
-                        helperText={checkNick() ? '2~10자 사이로 입력해주세요' : ''} />
-                    <TextField type="password" label="패스워드" onChange={onChangePw}
-                        error={checkPw()}
-                        helperText={checkPw() ? '8~16자 사이로 입력해주세요' : ''} />
-                    <TextField
-                        error={pwConfirm !== "" ? pw === pwConfirm ? false : true : false}
-                        helperText={pwConfirm !== "" ? pw === pwConfirm ? '' : '패스워드를 확인해주세요' : ''}
-                        type="password" label="패스워드 확인" onChange={onChangePwConfirm}
-                    />
-                    <h1></h1><h1></h1><h1></h1><h2></h2>
-                </div>
-
-                <div className="flex-vertical right_box">
-                    <h2>추가정보</h2>
-
-                    <h4>나이</h4>
-                    <Select
-                        labelId="demo-simple-select-helper-label"
-                        id="demo-simple-select-helper"
-                        MenuProps={MenuProps}
-                        value={age}
-                        onChange={handleAgeChange}
-                    >
-                        <MenuItem value="" disabled>선택하세요</MenuItem>
-                        {ageRender()}
-                    </Select>
-
-                    <h4>성별</h4>
-                    <RadioGroup className="gender-box" aria-label="gender" name="gender1" value={gender} onChange={handleGenderChange}>
-                        <FormControlLabel value="M" control={<Radio />} labelPlacement="start" label="남자" />
-                        <FormControlLabel value="F" control={<Radio />} labelPlacement="start" label="여자" />
-                    </RadioGroup>
-
-                    <h4>관심 장르</h4>
-                    {/* 콤보박스 */}
-                    {/* '총류(기타)', '철학', '종교', '사회과학', '자연과학', '기술과학', '예술', '언어', '문학', '역사' */}
-                    <FormGroup row>
-                    <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={genre.checkedA}
-                                    onChange={handleGenreChange}
-                                    name="checkedA"
-                                    color="primary"
-                                />
-                            }
-                            label="총류(기타)"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={genre.checkedB}
-                                    onChange={handleGenreChange}
-                                    name="checkedB"
-                                    color="primary"
-                                />
-                            }
-                            label="철학"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={genre.checkedC}
-                                    onChange={handleGenreChange}
-                                    name="checkedC"
-                                    color="primary"
-                                />
-                            }
-                            label="종교"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={genre.checkedD}
-                                    onChange={handleGenreChange}
-                                    name="checkedD"
-                                    color="primary"
-                                />
-                            }
-                            label="사회과학"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={genre.checkedE}
-                                    onChange={handleGenreChange}
-                                    name="checkedE"
-                                    color="primary"
-                                />
-                            }
-                            label="자연과학"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={genre.checkedF}
-                                    onChange={handleGenreChange}
-                                    name="checkedF"
-                                    color="primary"
-                                />
-                            }
-                            label="기술과학"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={genre.checkedG}
-                                    onChange={handleGenreChange}
-                                    name="checkedG"
-                                    color="primary"
-                                />
-                            }
-                            label="예술"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={genre.checkedH}
-                                    onChange={handleGenreChange}
-                                    name="checkedH"
-                                    color="primary"
-                                />
-                            }
-                            label="언어"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={genre.checkedI}
-                                    onChange={handleGenreChange}
-                                    name="checkedI"
-                                    color="primary"
-                                />
-                            }
-                            label="문학"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={genre.checkedJ}
-                                    onChange={handleGenreChange}
-                                    name="checkedJ"
-                                    color="primary"
-                                />
-                            }
-                            label="역사"
-                        />
-                    </FormGroup>
-
-                    {/* 체크박스 */}
-                    {/* <Select
-                        labelId="demo-simple-select-helper-label"
-                        id="demo-simple-select-helper"
-                        MenuProps={MenuProps}
-                        value={genre}
-                        onChange={handleGenreChange}
-                    >
-                        <MenuItem value="" disabled>선택하세요</MenuItem>
-                        {genreRender()}
-                    </Select> */}
-
-                    <Button variant="contained" color="primary" onClick={onClickSignUp}>회원가입</Button>
-                </div>
-
+            <div className="flex-vertical left_box">
+                <h2>필수정보</h2>
+                <h3></h3>
+                
+                <TextField
+                    error={checkId()}
+                    helperText={checkId() ? '4~16자 사이로 입력해주세요' : ''}
+                    label="아이디" onChange={onChangeId} />
+                <TextField label="닉네임" onChange={onChangeNickName}
+                    error={checkNick()}
+                    helperText={checkNick() ? '2~10자 사이로 입력해주세요' : ''} />
+                <TextField type="password" label="패스워드" onChange={onChangePw}
+                    error={checkPw()}
+                    helperText={checkPw() ? '8~16자 사이로 입력해주세요' : ''} />
+                <TextField
+                    error={pwConfirm !== "" ? pw === pwConfirm ? false : true : false}
+                    helperText={pwConfirm !== "" ? pw === pwConfirm ? '' : '패스워드를 확인해주세요' : ''}
+                    type="password" label="패스워드 확인" onChange={onChangePwConfirm}
+                />
+                <h1></h1><h1></h1><h1></h1><h2></h2>
             </div>
-        </>
+
+            <div className="flex-vertical right_box">
+                <h2>추가정보</h2>
+
+                <h4>나이</h4>
+                <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    MenuProps={MenuProps}
+                    value={age}
+                    onChange={handleAgeChange}
+                >
+                    <MenuItem value="" disabled>선택하세요</MenuItem>
+                    {ageRender()}
+                </Select>
+
+                <h4>성별</h4>
+                <RadioGroup className="gender-box" aria-label="gender" name="gender1" value={gender} onChange={handleGenderChange}>
+                    <FormControlLabel value="M" control={<Radio />} labelPlacement="start" label="남자" />
+                    <FormControlLabel value="F" control={<Radio />} labelPlacement="start" label="여자" />
+                </RadioGroup>
+
+                <h4>관심 장르</h4>
+                {/* 콤보박스 */}
+                {/* '총류(기타)', '철학', '종교', '사회과학', '자연과학', '기술과학', '예술', '언어', '문학', '역사' */}
+                <FormGroup row>
+                <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={genre.checkedA}
+                                onChange={handleGenreChange}
+                                name="checkedA"
+                                color="primary"
+                            />
+                        }
+                        label="총류(기타)"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={genre.checkedB}
+                                onChange={handleGenreChange}
+                                name="checkedB"
+                                color="primary"
+                            />
+                        }
+                        label="철학"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={genre.checkedC}
+                                onChange={handleGenreChange}
+                                name="checkedC"
+                                color="primary"
+                            />
+                        }
+                        label="종교"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={genre.checkedD}
+                                onChange={handleGenreChange}
+                                name="checkedD"
+                                color="primary"
+                            />
+                        }
+                        label="사회과학"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={genre.checkedE}
+                                onChange={handleGenreChange}
+                                name="checkedE"
+                                color="primary"
+                            />
+                        }
+                        label="자연과학"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={genre.checkedF}
+                                onChange={handleGenreChange}
+                                name="checkedF"
+                                color="primary"
+                            />
+                        }
+                        label="기술과학"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={genre.checkedG}
+                                onChange={handleGenreChange}
+                                name="checkedG"
+                                color="primary"
+                            />
+                        }
+                        label="예술"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={genre.checkedH}
+                                onChange={handleGenreChange}
+                                name="checkedH"
+                                color="primary"
+                            />
+                        }
+                        label="언어"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={genre.checkedI}
+                                onChange={handleGenreChange}
+                                name="checkedI"
+                                color="primary"
+                            />
+                        }
+                        label="문학"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={genre.checkedJ}
+                                onChange={handleGenreChange}
+                                name="checkedJ"
+                                color="primary"
+                            />
+                        }
+                        label="역사"
+                    />
+                </FormGroup>
+
+                <Button variant="contained" color="primary" onClick={onClickSignUp}>회원가입</Button>
+            </div>
+        </div>
     )
 };
 

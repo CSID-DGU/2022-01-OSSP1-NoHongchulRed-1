@@ -25,7 +25,6 @@ const LeftSide = styled.div`
 
 export default function GatherReportPage () {
     const {state} = useLocation();
-    //console.log("isbn: ", state.isbn);
     return (
         <Wrap>
             <LeftSide>

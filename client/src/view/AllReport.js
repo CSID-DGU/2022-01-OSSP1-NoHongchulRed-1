@@ -27,7 +27,6 @@ const AllReport = () => {
         try {
             axios.get('/db/bookreports/new')
             .then((res) => {
-                //console.log(res.data.data);
                 setReportList(res.data.data || [])
             })
         } catch (err) {

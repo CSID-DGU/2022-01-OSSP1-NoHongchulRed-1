@@ -18,17 +18,14 @@ const SignIn = () => {
     const onChangePw = (e) => {setPw(e.target.value)}
 
     const onClickButton = () => {
-        if(id === ""){ alert("아이디를 입력해주세요.") }
-        else if(pw === ""){ alert("비밀번호를 입력해주세요") }
-        else{
+        if (id === "") { alert("아이디를 입력해주세요.") }
+        else if (pw === "") { alert("비밀번호를 입력해주세요") }
+        else {
             axios.post('/db/users/login', {
                 userid: id,
                 password: pw 
             }).then((res) => {
-                //console.log(res)
                 if(res.data.issuccess){
-                    // const after1 = new Date();
-                    // after1.setMinutes(after1.getMinutes() +1);
                     setCookie(
                         'user', 
                         { userId: res.data.userId, nickName: res.data.nickname},
@@ -81,7 +78,6 @@ const SignIn = () => {
                     </div>
                     
                     <div className="flex-horizontal signup-fild">
-                    {/* <div> */}
                         <GroupAddIcon />
                         <label onClick={onClickSignUp}>회원가입</label>
                     </div>

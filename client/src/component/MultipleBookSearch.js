@@ -23,12 +23,12 @@ const Search = () => {
         }
         else{
             fetch('/kakao/search/multiple/' + text)
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    navigate('/BookSearchPage', {state: data});               
-                });
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                navigate('/BookSearchPage', {state: data});               
+            });
         }
     }
 

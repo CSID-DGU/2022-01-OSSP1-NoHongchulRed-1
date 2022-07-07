@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './TopViewReport.css';
@@ -8,14 +8,16 @@ const TopViewReport = (props) => {
     const [reportList, setReportList] = useState([]);
     const navigate = useNavigate();
 
-    try {
-        axios.get('/db/bookreports/view')
-        .then((res) => {
-            setReportList(res.data.data || []);
-        })
-    } catch (err) {
-        console.log(err);
-    }
+    useEffect(() => {
+        try {
+            axios.get('/db/bookreports/view')
+            .then((res) => {
+                setReportList(res.data.data || []);
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }, [])
     
     return (
         <div className="Report-area" >

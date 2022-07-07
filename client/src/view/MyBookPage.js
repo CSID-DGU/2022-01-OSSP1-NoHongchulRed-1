@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import styled from 'styled-components'; //CSS-IN_JS
@@ -17,26 +17,23 @@ const Wrapper = styled.div`
 `;
 
 export default function MyBookPage() {
-  // eslint-disable-next-line
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
-  const [reportList, setReportList] = useState([]);
-  const navigate = useNavigate();
+    // eslint-disable-next-line
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    const [reportList, setReportList] = useState([]);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    axios.get('/db/users/bookreports/' + cookies?.user?.userId)
-        .then((res) => {
-            //console.log(res.data.data);
-            setReportList(res.data.data || [])
-        })
-        .catch((e) => {
-            console.log(e);
-        });
-        // eslint-disable-next-line
-}, [])
+    useEffect(() => {
+        axios.get('/db/users/bookreports/' + cookies?.user?.userId)
+            .then((res) => {
+                setReportList(res.data.data || [])
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }, [])
 
   return (
     <Wrapper>
-    {/* <div className={classes.root}> */}
 
     <div className="shortReport-area">
         {reportList.length ? reportList.map((data, index) => {
