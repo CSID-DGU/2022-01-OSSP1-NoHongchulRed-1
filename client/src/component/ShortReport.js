@@ -5,23 +5,18 @@ import './ShortReport.css'
 
 
 const Main = (props) => {
-    // eslint-disable-next-line
     const [reportList, setReportList] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         axios.get('/db/books/bookreports/' + props.isbn)
-            .then((res) => {
-                //console.log(props.isbn)
-                //console.log(res.data);
-                //console.log(res.data.data);
-                setReportList(res.data.data || [])
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-            // eslint-disable-next-line
-    }, [])
+        .then((res) => {
+            setReportList(res.data.data || [])
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    }, [props.isbn])
 
     return (
         <div className="shortReport-area" >

@@ -89,17 +89,15 @@ const EditPage = () => {
         else{
             axios.post('/db/books', {
                 isbn: isbn,
-                // isbn: isbn,
                 title: bookInfo.title,
                 authors: bookInfo.author,
                 publisher: bookInfo.publisher,
                 thumbnail: bookInfo.thumbnail
             }).then((res) => {
-                // console.log(res.data)
-                if(res.data.issuccess){
+                if (res.data.issuccess) {
                     console.log("책이 등록되었습니다.")
                 }
-                else{
+                else {
                     console.log("이미 등록된 책입니다.")
                 }
             }).catch((e) => {
@@ -112,26 +110,20 @@ const EditPage = () => {
                     rating: String(star),
                     userid: cookies?.user?.userId,
                     isbn: String(isbn),
-                    // isbn: isbn.split(' ')[0],
                 }).then((res) => {
-                    //console.log(res)
-                    if(res.data.issuccess){
+                    if (res.data.issuccess) {
                         alert('독후감이 등록되었습니다.')
-                    }else{
+                    } else {
                         alert("이미 등록된 독후감이 있습니다.")
                     }
-                    // console.log(parseIsbn)
                     navigate(-1)
                 }).catch((e) => {
                     console.log(e)
                     alert('독후감 등록 중 오류가 발생했습니다.')
                 })
             })
-
         }
-
     }
-
 
     const onChangeTitle = (e) => {setBookReportTitle(e.target.value)};
     const onChangeContent = (e) => {setBookReportContent(e.target.value)};
@@ -181,14 +173,6 @@ const EditPage = () => {
                     onChange={onChangeTitle}
                     value={bookReportTitle}
                     />
-                {/* <TextField
-                    id="datetime-local"
-                    label="작성 날짜"
-                    type="datetime-local"
-                    // defaultValue="2022-05-13T10:30"
-                    defaultValue={bookReportInfo.date}
-                    className={classes.textField}
-                    InputLabelProps={{ shrink: true }}/> */}
                 </div>
                 <h3>📌 내용 📌</h3>
                 <div>
@@ -204,8 +188,7 @@ const EditPage = () => {
                 </div>
                 <h3>⭐ 별점 ⭐</h3>
                 <Select
-                   // style="width:100px; height:50px;"
-                   style ={{width: '100px'}} 
+                    style ={{width: '100px'}} 
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
                     MenuProps={MenuProps}

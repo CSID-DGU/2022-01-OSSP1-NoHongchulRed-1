@@ -4,12 +4,12 @@ import { Button } from '@material-ui/core';
 import { useCookies } from 'react-cookie';
 import TextField from '@material-ui/core/TextField';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import Logo from '../image/logo.png'
 import axios from 'axios';
 import './SignIn.css'
 
 const SignIn = () => {
     const navigate = useNavigate();
+    // eslint-disable-next-line
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
     
     const [id, setId] = useState('')
@@ -19,17 +19,14 @@ const SignIn = () => {
     const onChangePw = (e) => {setPw(e.target.value)}
 
     const onClickButton = () => {
-        if(id === ""){ alert("아이디를 입력해주세요.") }
-        else if(pw === ""){ alert("비밀번호를 입력해주세요") }
-        else{
+        if (id === "") { alert("아이디를 입력해주세요.") }
+        else if (pw === "") { alert("비밀번호를 입력해주세요") }
+        else {
             axios.post('/db/users/login', {
                 userid: id,
                 password: pw 
             }).then((res) => {
-                //console.log(res)
                 if(res.data.issuccess){
-                    // const after1 = new Date();
-                    // after1.setMinutes(after1.getMinutes() +1);
                     setCookie(
                         'user', 
                         { userId: res.data.userId, nickName: res.data.nickname},
@@ -57,7 +54,7 @@ const SignIn = () => {
     }
 
     const onKeyDownInput = (e) => {
-        if(e.keyCode == 13){
+        if(e.keyCode === 13){
             onClickButton();
          }
     }
@@ -65,7 +62,7 @@ const SignIn = () => {
     return (
         <div className="login-area">
             <div className="title-box">
-                <img src={Logo} alt="logo" />
+                <img src={process.env.PUBLIC_URL + "/dongguk_logo.jpg"} alt="logo" />
                 <div>
                     <h1>Read Lead</h1>
                     <h4>공개 SW 프로젝트 독후감 웹</h4>
@@ -82,7 +79,6 @@ const SignIn = () => {
                     </div>
                     
                     <div className="flex-horizontal signup-fild">
-                    {/* <div> */}
                         <GroupAddIcon />
                         <label onClick={onClickSignUp}>회원가입</label>
                     </div>

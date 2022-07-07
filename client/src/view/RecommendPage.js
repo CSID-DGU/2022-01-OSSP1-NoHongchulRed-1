@@ -1,7 +1,6 @@
 import React from 'react';
 import { useCookies } from 'react-cookie';
 import styled from 'styled-components'; //CSS-IN_JS
-//import Image from '../image/BookImg1.png';
 import RecommendBook from '../component/RecommendBook';
 import CosineRecommend from '../component/CosineRecommend';
 
@@ -25,12 +24,14 @@ const Spacing = styled.div`
     height: 30px;
 `;
 
+/*
 const BookWrap = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 `;
+*/
 
 const BookList = styled.div`
     display: flex;
@@ -38,7 +39,7 @@ const BookList = styled.div`
     flex-direction: row;
     justify-content: space-evenly;
 `;
-//    
+   
 const RecommendPage = () => {
     // eslint-disable-next-line
     const [cookies, setCookie, removeCookie] = useCookies(['user']);

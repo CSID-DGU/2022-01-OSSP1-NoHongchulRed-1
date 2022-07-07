@@ -12,13 +12,12 @@ const TopViewReport = (props) => {
         try {
             axios.get('/db/bookreports/view')
             .then((res) => {
-                //console.log(res.data.data);
                 setReportList(res.data.data || []);
             })
         } catch (err) {
             console.log(err);
         }
-    }, []);
+    }, [])
     
     return (
         <div className="Report-area" >
@@ -34,7 +33,7 @@ const TopViewReport = (props) => {
                             <p className="date">{data.date}</p>
                         </div>
                         <div className="bookContent">
-                            <img src={data.thumbnail}/>
+                            <img src={data.thumbnail} alt="thumbnail"/>
                         </div>
                     </div>
                 )
@@ -42,8 +41,6 @@ const TopViewReport = (props) => {
             }
         </div>
     )
-    
-
 };
 
 export default TopViewReport;

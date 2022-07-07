@@ -1,7 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-//import { TextField, Button } from "@material-ui/core";
-// import MultipleBookSearch from '../component/MultipleBookSearch';
 import SearchResultCard from '../component/SearchResultCard';
 import styled from 'styled-components'; //CSS-IN_JS
 import { useLocation } from 'react-router-dom';
@@ -28,9 +26,6 @@ function BookSearchPage() {
   useEffect(() => {
     setBooks(state?.documents ? state.documents : [])
   }, [state])
-
-  // console.log("결과페이지에서 documents[0].publisher 출력 ▼");
-  // console.log(state.documents[0].publisher);
     
     return (
       <div>

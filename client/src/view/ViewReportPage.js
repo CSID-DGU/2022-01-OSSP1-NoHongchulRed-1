@@ -1,9 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { TextField, Button } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components'; //CSS-IN_JS
-import { FormControl } from '@material-ui/core';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
@@ -76,8 +75,6 @@ const ViewReportPage = () => {
         })
     };
 
-    //console.log("독후감정보확인 페이지에서 state 출력: ", state);
-
     //isbn, userid로 독후감 데이터를 받아옴
     useEffect(() => {
         try {
@@ -86,15 +83,13 @@ const ViewReportPage = () => {
                 return res.data;
             })
             .then((data) => {
-                //console.log(data);
                 onSetReportInfo(data);
             });
         } catch (err) {
             console.log(err);
         }
-    }, [])
+    }, [state.isbn, state.userid])
 
-    //console.log(state.isbn.isbn);
     const bookIsbn = state.isbn;
 
     //isbn으로 책 데이터를 받아옴
@@ -105,13 +100,12 @@ const ViewReportPage = () => {
                 return res.data;
             })
             .then((data) => {
-                //console.log("data: ", data);
                 onSetBookInfo(data);
             });
         } catch (err) {
             console.log(err);
         }
-    }, [])
+    }, [bookIsbn])
 
     const dateFormat = ReportInfo.date;
 

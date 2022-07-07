@@ -10,13 +10,12 @@ const RecommendBook = (props) => {
         try {
             axios.get('/recommend/svd')
             .then((res) => {
-                //console.log(res.data.data);
                 setRecommendList(res.data.data || []);
             })
         } catch (err) {
             console.log(err);
         }
-    }, []);
+    }, [])
     
     var rankDisplay = 1;
 
@@ -24,23 +23,24 @@ const RecommendBook = (props) => {
         <div className="Recommend-area" >
             {RecommendList.length ? RecommendList.map((data, index) => {
                 return (
-                    <Link to = "/GatherReportPage" state = {data}>
-                    <div className="recommend-box" key={index}>
-                        <div className="title">
-                            <h3> 👑 {rankDisplay++} 위 </h3>
-                            <p className="centerBookTitle">{data.title}</p>
+                    <div key={index}>
+                        <Link to = "/GatherReportPage" state = {data}>
+                        <div className="recommend-box">
+                            <div className="title">
+                                <h3> 👑 {rankDisplay++} 위 </h3>
+                                <p className="centerBookTitle">{data.title}</p>
+                            </div>
+                            <div className="bookContent">
+                                <img src={data.thumbnail} alt="thumbnail"/>
+                            </div>
                         </div>
-                        <div className="bookContent">
-                            <img src={data.thumbnail}/>
-                        </div>
+                        </Link>
                     </div>
-                    </Link>
                 )
             }) : "추천해드릴 만한 책을 찾지 못했습니다."
             }
         </div>
     )
-
 };
 
 export default RecommendBook;
