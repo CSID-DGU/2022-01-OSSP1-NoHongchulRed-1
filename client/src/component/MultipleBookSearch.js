@@ -6,7 +6,6 @@ import SearchIcon from '@material-ui/icons/Search';
 
 const Search = () => {
     const [text, setText] = useState('')
-    const [books, setBooks] = useState([]);
     const navigate = useNavigate();
 
     const onChange = (e) => {
@@ -25,11 +24,9 @@ const Search = () => {
         else{
             fetch('/kakao/search/multiple/' + text)
                 .then((res) => {
-                    //console.log(res)
                     return res.json();
                 })
                 .then((data) => {
-                    //console.log({state: data})
                     navigate('/BookSearchPage', {state: data});               
                 });
         }

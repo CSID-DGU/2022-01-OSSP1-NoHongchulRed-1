@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './TopViewReport.css';
@@ -8,17 +8,14 @@ const TopViewReport = (props) => {
     const [reportList, setReportList] = useState([]);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        try {
-            axios.get('/db/bookreports/view')
-            .then((res) => {
-                //console.log(res.data.data);
-                setReportList(res.data.data || []);
-            })
-        } catch (err) {
-            console.log(err);
-        }
-    }, []);
+    try {
+        axios.get('/db/bookreports/view')
+        .then((res) => {
+            setReportList(res.data.data || []);
+        })
+    } catch (err) {
+        console.log(err);
+    }
     
     return (
         <div className="Report-area" >
@@ -34,7 +31,7 @@ const TopViewReport = (props) => {
                             <p className="date">{data.date}</p>
                         </div>
                         <div className="bookContent">
-                            <img src={data.thumbnail}/>
+                            <img src={data.thumbnail} alt="thumbnail"/>
                         </div>
                     </div>
                 )
@@ -42,8 +39,6 @@ const TopViewReport = (props) => {
             }
         </div>
     )
-    
-
 };
 
 export default TopViewReport;

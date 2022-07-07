@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './RecommendBook.css';
 import { Link } from 'react-router-dom';
@@ -6,17 +6,14 @@ import { Link } from 'react-router-dom';
 const RecommendBook = (props) => {
     const [RecommendList, setRecommendList] = useState([]);
 
-    useEffect(() => {
-        try {
-            axios.get('/recommend/svd')
-            .then((res) => {
-                //console.log(res.data.data);
-                setRecommendList(res.data.data || []);
-            })
-        } catch (err) {
-            console.log(err);
-        }
-    }, []);
+    try {
+        axios.get('/recommend/svd')
+        .then((res) => {
+            setRecommendList(res.data.data || []);
+        })
+    } catch (err) {
+        console.log(err);
+    }
     
     var rankDisplay = 1;
 
@@ -40,7 +37,6 @@ const RecommendBook = (props) => {
             }
         </div>
     )
-
 };
 
 export default RecommendBook;

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie';
 
 import EditPage from '../view/EditPage';
@@ -11,13 +10,12 @@ import Main from '../view/Main';
 import ViewReportPage from '../view/ViewReportPage';
 import MyBookPage from '../view/MyBookPage';
 import GatherReportPage from '../view/GatherReportPage';
-import ShortReport from './ShortReport';
 import RecommendPage from '../view/RecommendPage';
-import TestDB from '../TestDB';
 import AllReport from '../view/AllReport';
 
+import TestDB from '../TestDB';
 
-//Route 관리 파일
+//Route 관리 코드
 const SetRoute = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
@@ -39,7 +37,6 @@ const SetRoute = () => {
         <Route exact path="/ViewReportPage" element={<ViewReportPage />} />
         <Route exact path="/MyBookPage" element={<MyBookPage />} />
         <Route exact path="/GatherReportPage" element={<GatherReportPage />} />
-        <Route exact path="/ShortReport" element={<ShortReport />} />
         <Route exact path="/AllReport" element={<AllReport />} />
         <Route exact path="/RecommendPage" element={<RecommendPage />} />
         <Route exact path="/TestDB" element={<TestDB/>} />

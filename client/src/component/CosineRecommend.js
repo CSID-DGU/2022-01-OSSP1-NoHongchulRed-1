@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-//import { useCookies } from 'react-cookie';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './CosineRecommend.css';
 import { Link } from 'react-router-dom';
@@ -7,18 +6,14 @@ import { Link } from 'react-router-dom';
 const CosineRecommend = (props) => {
     const [RecommendList, setRecommendList] = useState([]);
 
-    useEffect(() => {
-        try {
-            axios.get('/session/cos')
-            .then((res) => {
-                //console.log(res.data.data);
-                setRecommendList(res.data.data || []);
-                //setRecommendList(res.data.data?.length || 0)
-            })
-        } catch (err) {
-            console.log(err);
-        }
-    }, []);
+    try {
+        axios.get('/session/cos')
+        .then((res) => {
+            setRecommendList(res.data.data || []);
+        })
+    } catch (err) {
+        console.log(err);
+    }
     
     var rankDisplay = 1;
 
@@ -42,7 +37,6 @@ const CosineRecommend = (props) => {
             }
         </div>
     )
-
 };
 
 export default CosineRecommend;

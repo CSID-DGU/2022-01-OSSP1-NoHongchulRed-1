@@ -6,7 +6,7 @@ const Nav = () => {
     const navigate = useNavigate();
 
     const path = window.location.pathname;
-    if (path === '/' || path==='/SignUp') return null; /*로그인, 회원가입 페이지에서 Nav 숨기기 */
+    if (path === '/' || path ==='/SignUp') return null; /*로그인, 회원가입 페이지에서 Nav 숨기기 */
     
     return (
         <div className="nav-area">

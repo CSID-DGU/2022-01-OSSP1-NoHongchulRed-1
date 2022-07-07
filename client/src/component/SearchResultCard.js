@@ -27,7 +27,6 @@ const useStyles = makeStyles({
 
 export default function SearchResultCard({thumbnail, title, authors, publisher, datetime, contents, isbn}) {
   const classes = useStyles();
-  //console.log("카드에서isbn:::::",isbn);
 
   return (
     <Card className={classes.root}>
