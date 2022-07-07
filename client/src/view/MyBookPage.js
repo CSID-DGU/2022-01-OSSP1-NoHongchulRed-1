@@ -30,7 +30,7 @@ export default function MyBookPage() {
             .catch((e) => {
                 console.log(e);
             });
-    }, [])
+    }, [cookies?.user?.userId])
 
   return (
     <Wrapper>

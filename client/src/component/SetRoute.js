@@ -17,6 +17,7 @@ import TestDB from '../TestDB';
 
 //Route 관리 코드
 const SetRoute = () => {
+  // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   const path = window.location.pathname;
