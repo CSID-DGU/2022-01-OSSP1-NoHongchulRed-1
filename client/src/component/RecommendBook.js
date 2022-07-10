@@ -15,7 +15,7 @@ const RecommendBook = (props) => {
         } catch (err) {
             console.log(err);
         }
-    }, [])
+    }, []);
     
     var rankDisplay = 1;
 

@@ -55,7 +55,7 @@ router.get('/recommend/svd', async (req, res) => {
         var reportNum = await pool.query('SELECT COUNT(rating) as cnt FROM BOOKWEB.BookReportTB WHERE userid=?', [req.session.userId]);
         if (reportNum[0][0].cnt < 2) {
             result = new Object();
-            result.data = []
+            result.data = [];
             return res.json(Object.assign(result, {issuccess: false, message: "no recommand"}));
         }
 
@@ -71,14 +71,14 @@ router.get('/recommend/svd', async (req, res) => {
             }
         }
 
-        dataMat.push(sessionUserRating) // 현재 추천해줄 유저의 평점 정보 추가
+        dataMat.push(sessionUserRating); // 현재 추천해줄 유저의 평점 정보 추가
 
         const process = spawn('python', ['python/svd.py', JSON.stringify(dataMat)]);
         // stdout에 대한 콜백
         process.stdout.on('data', async function (data) {
             // 받아온 데이터는 추천 순위 인덱스 정보이므로 해당 인덱스에 해당하는 isbn을 찾아 실제 도서 정보를 넘겨줘야 함
             const recommendIndex = JSON.parse(data);
-            var recommendIsbn = []
+            var recommendIsbn = [];
             for (var i=0;i<recommendIndex.length;i++) {
                 recommendIsbn.push(isbnList[0][recommendIndex[i]]);
             }
@@ -143,7 +143,7 @@ router.get('/session/cos', async (req, res) => {
         // stdout에 대한 콜백
         process.stdout.on('data', async function (data) {
             const recommendIndex = JSON.parse(data);
-            var similarUser = []
+            var similarUser = [];
             for (var i=0; i<recommendIndex.length; i++) {
                 similarUser.push(userList[recommendIndex[i]]); 
             }
@@ -159,8 +159,8 @@ router.get('/session/cos', async (req, res) => {
             
             // 상위 3명 유저(similarUser[0]~[2])가 읽은 책 목록을 bookList에 업데이트, rating 추가
             // 상위 n명 유저에 대한 상수를 NUMOFUSER로 선언
-            const NUMOFUSER = 3
-            var similar = []
+            const NUMOFUSER = 3;
+            var similar = [];
             for (var i=0;i<NUMOFUSER;i++) {
                 var data = await pool.query('SELECT isbn, rating FROM BOOKWEB.BookReportTB WHERE userid = ?', [similarUser[i]]);
                 similar.push(data[0]);

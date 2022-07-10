@@ -16,7 +16,7 @@ const Main = (props) => {
         .catch((e) => {
             console.log(e);
         });
-    }, [props.isbn])
+    }, [props.isbn]);
 
     return (
         <div className="shortReport-area" >

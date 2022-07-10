@@ -77,16 +77,16 @@ const EditPage = () => {
 
 
     const onClickRegBookReport = () => {
-        if(bookReportTitle.trim() === ""){
+        if (bookReportTitle.trim() === "") {
             alert("독후감 제목을 입력해주세요")
         }
-        else if(bookReportContent.trim() === ""){
+        else if (bookReportContent.trim() === "") {
             alert("독후감 내용을 입력주세요")
         }
-        else if(parseInt(star) === 0){
+        else if (parseInt(star) === 0) {
             alert("별점을 선택해주세요")
         }
-        else{
+        else {
             axios.post('/db/books', {
                 isbn: isbn,
                 title: bookInfo.title,
