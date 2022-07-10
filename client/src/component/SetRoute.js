@@ -13,8 +13,6 @@ import GatherReportPage from '../view/GatherReportPage';
 import RecommendPage from '../view/RecommendPage';
 import AllReport from '../view/AllReport';
 
-import TestDB from '../TestDB';
-
 //Route 관리 코드
 const SetRoute = () => {
   // eslint-disable-next-line
@@ -40,7 +38,6 @@ const SetRoute = () => {
         <Route exact path="/GatherReportPage" element={<GatherReportPage />} />
         <Route exact path="/AllReport" element={<AllReport />} />
         <Route exact path="/RecommendPage" element={<RecommendPage />} />
-        <Route exact path="/TestDB" element={<TestDB/>} />
         <Route
           path = "/*"
           element={ <div>
