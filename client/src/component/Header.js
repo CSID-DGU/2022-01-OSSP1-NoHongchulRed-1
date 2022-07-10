@@ -33,8 +33,8 @@ const Header = () => {
     axios.get('/db/users/bookreports/' + cookies?.user?.userId).then((res) => {
         setBookReportCount(res.data.data?.length || 0);
     }).catch((e) => {
-        console.log(e)
-    })
+        console.log(e);
+    });
 
     const path = window.location.pathname;
     if (path === '/' || path==='/SignUp') return null; /*로그인, 회원가입 페이지에서 Nav 숨기기 */

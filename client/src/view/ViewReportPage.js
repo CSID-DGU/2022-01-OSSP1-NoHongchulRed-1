@@ -88,7 +88,7 @@ const ViewReportPage = () => {
         } catch (err) {
             console.log(err);
         }
-    }, [state.isbn, state.userid])
+    }, [state.isbn, state.userid]);
 
     const bookIsbn = state.isbn;
 
@@ -105,7 +105,7 @@ const ViewReportPage = () => {
         } catch (err) {
             console.log(err);
         }
-    }, [bookIsbn])
+    }, [bookIsbn]);
 
     const dateFormat = ReportInfo.date;
 

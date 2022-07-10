@@ -17,7 +17,7 @@ const TopViewReport = (props) => {
         } catch (err) {
             console.log(err);
         }
-    }, [])
+    }, []);
     
     return (
         <div className="Report-area" >

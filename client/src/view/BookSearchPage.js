@@ -25,7 +25,7 @@ function BookSearchPage() {
 
   useEffect(() => {
     setBooks(state?.documents ? state.documents : [])
-  }, [state])
+  }, [state]);
     
     return (
       <div>

@@ -18,10 +18,10 @@ const Search = () => {
     }
 
     const SendData = () => {
-        if(text === ""){
+        if (text === "") {
             alert("책 제목을 입력해주세요.")
         }
-        else{
+        else {
             fetch('/kakao/search/multiple/' + text)
             .then((res) => {
                 return res.json();

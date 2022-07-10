@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './component/Header';
 import SetRoute from './component/SetRoute';
 import Nav from './component/Nav';
-import Footer from './component/footer';
+import Footer from './component/Footer';
 
 import './App.css'
 

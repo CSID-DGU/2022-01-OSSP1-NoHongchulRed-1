@@ -32,7 +32,7 @@ const AllReport = () => {
         } catch (err) {
             console.log(err);
         }
-    }, [])
+    }, []);
 
     return (
         <Wrapper>
