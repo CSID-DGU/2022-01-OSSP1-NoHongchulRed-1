@@ -25,7 +25,7 @@ const AllReport = () => {
 
     useEffect(() => {
         try {
-            axios.get('/db/bookreports/new')
+            axios.get('/api/db/bookreports/new')
             .then((res) => {
                 setReportList(res.data.data || [])
             })

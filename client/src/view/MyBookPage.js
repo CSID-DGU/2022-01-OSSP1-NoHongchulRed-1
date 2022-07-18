@@ -23,13 +23,13 @@ export default function MyBookPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('/db/users/bookreports/' + cookies?.user?.userId)
-            .then((res) => {
-                setReportList(res.data.data || [])
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+        axios.get('/api/db/users/bookreports/' + cookies?.user?.userId)
+        .then((res) => {
+            setReportList(res.data.data || [])
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     }, [cookies?.user?.userId]);
 
   return (

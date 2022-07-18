@@ -8,7 +8,7 @@ const RecommendBook = (props) => {
 
     useEffect(() => {
         try {
-            axios.get('/recommend/svd')
+            axios.get('/api/recommend/svd')
             .then((res) => {
                 setRecommendList(res.data.data || []);
             })

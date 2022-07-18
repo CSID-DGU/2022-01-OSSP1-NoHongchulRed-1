@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { TextField, Button } from "@material-ui/core";
 import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@material-ui/icons/Search';
+import axios from 'axios';
 
 const Search = () => {
     const [text, setText] = useState('')
@@ -22,12 +23,12 @@ const Search = () => {
             alert("책 제목을 입력해주세요.")
         }
         else {
-            fetch('/kakao/search/multiple/' + text)
+            axios.get('/api/kakao/search/multiple/' + text)
             .then((res) => {
-                return res.json();
+                navigate('/BookSearchPage', {state: res.data}); 
             })
-            .then((data) => {
-                navigate('/BookSearchPage', {state: data});               
+            .catch((err) => {
+                console.log(err);
             });
         }
     }
