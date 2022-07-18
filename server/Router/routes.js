@@ -116,7 +116,7 @@ router.get('/recommend/svd', async (req, res) => {
 });
 
 // get recommend data (cosine)
-router.get('/session/cos', async (req, res) => {
+router.get('/recommend/cos', async (req, res) => {
     try {
         //나를 제외하고 독후감을 하나 이상 쓴 모든 유저의 userid, preference 가져오기
         try {
@@ -362,22 +362,6 @@ router.post('/db/bookreports', async (req,res) => {
         }
     } else {
        return res.json({issuccess: false, message: "not login yet"}); // 여기서 로그인하고 오라고 함
-    }
-});
-
-// Get User
-// 유저 정보 가져오기
-router.get('/db/users/:userid', async (req, res) => {
-    const { userid } = req.params;
-    try {
-        const data = await pool.query('SELECT * FROM BOOKWEB.UserTB WHERE userid = ?', [userid]);
-        if (data[0].length != 0) {
-            return res.json(Object.assign(data[0][0], {issuccess: true, message: "success"}));
-        } else {
-            return res.json({issuccess: false, message: "no data"});
-        }
-    } catch (err) {
-        return res.status(500).json(err);
     }
 });
 

@@ -64,12 +64,6 @@ Example request body:
 }
 ```
 
-### Get User
-
-`GET /db/users/:userid`
-
-returns a User.
-
 ### Get Book
 
 `GET /db/books/:isbn`
