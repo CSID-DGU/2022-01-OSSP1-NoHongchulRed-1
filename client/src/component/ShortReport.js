@@ -9,12 +9,12 @@ const Main = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('/db/books/bookreports/' + props.isbn)
+        axios.get('/api/db/books/bookreports/' + props.isbn)
         .then((res) => {
             setReportList(res.data.data || [])
         })
-        .catch((e) => {
-            console.log(e);
+        .catch((err) => {
+            console.log(err);
         });
     }, [props.isbn]);
 

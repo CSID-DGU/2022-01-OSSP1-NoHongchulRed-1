@@ -22,7 +22,7 @@ const SignIn = () => {
         if (id === "") { alert("아이디를 입력해주세요.") }
         else if (pw === "") { alert("비밀번호를 입력해주세요") }
         else {
-            axios.post('/db/users/login', {
+            axios.post('/api/db/users/login', {
                 userid: id,
                 password: pw 
             }).then((res) => {

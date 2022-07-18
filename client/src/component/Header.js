@@ -30,10 +30,10 @@ const Header = () => {
     // eslint-disable-next-line
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
-    axios.get('/db/users/bookreports/' + cookies?.user?.userId).then((res) => {
+    axios.get('/api/db/users/bookreports/' + cookies?.user?.userId).then((res) => {
         setBookReportCount(res.data.data?.length || 0);
-    }).catch((e) => {
-        console.log(e);
+    }).catch((err) => {
+        console.log(err);
     });
 
     const path = window.location.pathname;
@@ -53,7 +53,7 @@ const Header = () => {
             <MyInfo>
                 <div>{cookies?.user?.nickName}님 &nbsp;| &nbsp;내가 쓴 독후감 {bookReportCount}권 &nbsp;|</div>
                 <div onClick={() => {
-                    axios.get('/db/users/logout')
+                    axios.get('/api/db/users/logout')
                         .then((res) => {
                             return res.data;
                         })
@@ -61,7 +61,7 @@ const Header = () => {
                             alert("로그아웃 되었습니다");
                             removeCookie('user');
                             navigate('/');
-                        }).catch((e) => {
+                        }).catch((err) => {
                             alert('로그아웃에 실패했습니다.')
                         })
                 }}>&nbsp;&nbsp;로그아웃</div>

@@ -87,7 +87,7 @@ const EditPage = () => {
             alert("별점을 선택해주세요")
         }
         else {
-            axios.post('/db/books', {
+            axios.post('/api/db/books', {
                 isbn: isbn,
                 title: bookInfo.title,
                 authors: bookInfo.author,
@@ -100,11 +100,11 @@ const EditPage = () => {
                 else {
                     console.log("이미 등록된 책입니다.")
                 }
-            }).catch((e) => {
-                console.log(e)
+            }).catch((err) => {
+                console.log(err)
                 alert('책 등록 중 오류가 발생했습니다.')
-            }).finally((e) => {
-                axios.post('/db/bookreports', {
+            }).finally((err) => {
+                axios.post('/api/db/bookreports', {
                     title: bookReportTitle,
                     contents: bookReportContent,
                     rating: String(star),
@@ -117,8 +117,8 @@ const EditPage = () => {
                         alert("이미 등록된 독후감이 있습니다.")
                     }
                     navigate(-1)
-                }).catch((e) => {
-                    console.log(e)
+                }).catch((err) => {
+                    console.log(err)
                     alert('독후감 등록 중 오류가 발생했습니다.')
                 })
             })

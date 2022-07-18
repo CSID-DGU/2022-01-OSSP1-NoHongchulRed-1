@@ -8,7 +8,7 @@
 
 ### Authentication
 
-`POST /db/users/login`
+`POST /api/db/users/login`
 
 Example request body:
 ```JSON
@@ -18,9 +18,15 @@ Example request body:
 }
 ```
 
+### Logout
+
+`GET /api/db/users/logout`
+
+Logout from website.
+
 ### Registration
 
-`POST /db/users`
+`POST /api/db/users`
 
 Example request body:
 ```JSON
@@ -36,7 +42,7 @@ Example request body:
 
 ### Add book data
 
-`POST /db/books`
+`POST /api/db/books`
 
 Example request body:
 ```JSON
@@ -51,7 +57,7 @@ Example request body:
 
 ### Create book report
 
-`POST /db/bookreports`
+`POST /api/db/bookreports`
 
 Example request body:
 ```JSON
@@ -66,41 +72,41 @@ Example request body:
 
 ### Get Book
 
-`GET /db/books/:isbn`
+`GET /api/db/books/:isbn`
 
 returns a Book.
 
 ### Get Book report 1
 
-`GET /db/bookreports/new`
+`GET /api/db/bookreports/new`
 
 returns a Book report + Book data.  
 all Book report (ordered by latest date)
 
 ### Get Book report 2
 
-`GET /db/bookreports/view`
+`GET /api/db/bookreports/view`
 
 returns a Book report + Book data.  
 all Book report (ordered by view)
 
 ### Get Book report 3
 
-`GET /db/books/bookreports/:isbn`
+`GET /api/db/books/bookreports/:isbn`
 
-returns Book reports + Book datas.  
+returns Book reports + Book data.  
 all Book report on book (ordered by latest date)
 
 ### Get Book report 4
 
-`GET /db/users/bookreports/:userid`
+`GET /api/db/users/bookreports/:userid`
 
-returns a Book reports + Book datas.  
+returns a Book reports + Book data.  
 all Book report on user (ordered by latest date)
 
 ### Get Book report 5
 
-`GET /db/bookreports/:isbn/:userid`
+`GET /api/db/bookreports/:isbn/:userid`
 
 returns a Book report + Book data.  
 specific Book report on book and user
@@ -109,20 +115,32 @@ specific Book report on book and user
 
 ### Get Session data
 
-`GET /session`
+`GET /api/session`
 
-returns a session data (userid + nickname + others)
+returns a session data. (userid + nickname + others)
 
 ### Get Recommend data (svd)
 
-`GET /recommend/svd`
+`GET /api/recommend/svd`
 
-returns a svd recommend data
+returns a svd recommend data.
 
 ### Get Recommend data (cosine)
 
-`GET /recommend/cos`
+`GET /api/recommend/cos`
 
-returns a cosine recommend data
+returns a cosine recommend data.
 
-**※ Every endpoint is temporary. Database table can be changed soon.**
+## Endpoints (Kakao API)
+
+### Get Book Search Data (Single)
+
+`GET /api/kakao/search/single/:title`
+
+returns one book data.
+
+### Get Book Search Data (Multiple)
+
+`GET /api/kakao/search/multiple/:title`
+
+returns 10 book data.

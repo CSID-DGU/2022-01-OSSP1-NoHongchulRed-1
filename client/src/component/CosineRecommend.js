@@ -8,7 +8,7 @@ const CosineRecommend = (props) => {
 
     useEffect(() => {
         try {
-            axios.get('/recommend/cos')
+            axios.get('/api/recommend/cos')
             .then((res) => {
                 setRecommendList(res.data.data || []);
             })

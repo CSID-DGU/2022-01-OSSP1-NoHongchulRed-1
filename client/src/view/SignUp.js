@@ -171,7 +171,7 @@ const SignUp = () => {
 
             convertGenreCheck(genre)
             // id부터 sexuality까지를 body에 넣어 전달
-            axios.post('/db/users', {
+            axios.post('/api/db/users', {
                 userid: id,
                 password: pw,
                 nickname: nickName,
@@ -187,8 +187,8 @@ const SignUp = () => {
                 else {
                     alert(res.data.message)
                 }
-            }).catch((e) => {
-                console.log(e)
+            }).catch((err) => {
+                console.log(err)
                 alert("회원가입 중 오류가 발생했습니다.")
             })
         }

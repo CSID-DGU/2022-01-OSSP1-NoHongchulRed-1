@@ -10,7 +10,7 @@ const TopViewReport = (props) => {
 
     useEffect(() => {
         try {
-            axios.get('/db/bookreports/view')
+            axios.get('/api/db/bookreports/view')
             .then((res) => {
                 setReportList(res.data.data || []);
             })

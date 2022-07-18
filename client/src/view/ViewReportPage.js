@@ -78,7 +78,7 @@ const ViewReportPage = () => {
     //isbn, userid로 독후감 데이터를 받아옴
     useEffect(() => {
         try {
-            axios.get('/db/bookreports/' + state.isbn + '/' + state.userid)
+            axios.get('/api/db/bookreports/' + state.isbn + '/' + state.userid)
             .then((res) => {
                 return res.data;
             })
@@ -95,7 +95,7 @@ const ViewReportPage = () => {
     //isbn으로 책 데이터를 받아옴
     useEffect(() => {
         try {
-            axios.get('/db/books/' + bookIsbn)
+            axios.get('/api/db/books/' + bookIsbn)
             .then((res) => {
                 return res.data;
             })
