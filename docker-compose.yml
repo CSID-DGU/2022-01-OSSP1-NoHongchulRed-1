@@ -1,0 +1,30 @@
+version: "3"
+services:
+  nginx:
+    depends_on:
+      - api
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    image: homubee/bookrec-nginx
+    ports:
+      - "80:80"
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    image: homubee/bookrec-api
+    volumes:
+      - /usr/src/app/node_modules
+      - ./:/usr/src/app
+  client:
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    image: homubee/bookrec-client
+    volumes:
+      - /usr/src/app/client/node_modules
+      - ./client:/usr/src/app/client
