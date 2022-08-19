@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCookies } from 'react-cookie';
 import styled from 'styled-components'; //CSS-IN_JS
-import RecommendBook from '../component/RecommendBook';
+import SvdRecommend from '../component/SvdRecommend';
 import CosineRecommend from '../component/CosineRecommend';
 
 const Wrapper = styled.div`
@@ -46,15 +46,17 @@ const RecommendPage = () => {
 
     return(
         <Wrapper>
-            <h2>⭐ {cookies?.user?.nickName} 님의 평점 정보를 기반으로 한 추천 도서입니다. ⭐</h2>
-            <Spacing />
             <BookList>
-                <RecommendBook></RecommendBook>
-                <Spacing /><Spacing />
+                <h2>⭐ {cookies?.user?.nickName} 님의 평점 정보를 기반으로 한 추천 도서입니다. ⭐</h2>
+                <Spacing />
+                <SvdRecommend></SvdRecommend>
+                <Spacing />
                 <h2>⭐ {cookies?.user?.nickName} 님의 성향 정보를 기반으로 한 추천 도서입니다. ⭐</h2>
                 <Spacing />
                 <CosineRecommend></CosineRecommend>
             </BookList>
+            <Spacing />
+            <h4>※ 서버 성능 문제로 추천 정보 확인에 약간의 딜레이(약 5초 가량)가 있을 수 있습니다.</h4>
         </Wrapper>
     );
 }

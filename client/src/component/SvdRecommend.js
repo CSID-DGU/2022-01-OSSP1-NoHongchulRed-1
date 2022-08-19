@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './RecommendBook.css';
+import './SvdRecommend.css';
 import { Link } from 'react-router-dom';
 
-const RecommendBook = (props) => {
+const SvdRecommend = (props) => {
     const [RecommendList, setRecommendList] = useState([]);
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const RecommendBook = (props) => {
             {RecommendList.length ? RecommendList.map((data, index) => {
                 return (
                     <div key={index}>
-                        <Link to = "/GatherReportPage" state = {data}>
+                        <Link to="/GatherReportPage" state={data} style={{ color:"inherit" }}>
                         <div className="recommend-box">
                             <div className="title">
                                 <h3> 👑 {rankDisplay++} 위 </h3>
@@ -43,4 +43,4 @@ const RecommendBook = (props) => {
     )
 };
 
-export default RecommendBook;
+export default SvdRecommend;
