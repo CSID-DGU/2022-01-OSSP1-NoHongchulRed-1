@@ -40,7 +40,7 @@ const Header = () => {
     if (path === '/' || path==='/SignUp') return null; /*로그인, 회원가입 페이지에서 Nav 숨기기 */
 
     return (
-        <div className="title-area" >
+        <div className="title-area">
             <ImportContactsIcon fontSize='large'/>
             <div onClick={() => navigate('/Main')}>
                 <h2>Read<br/>Lead</h2>
@@ -66,7 +66,6 @@ const Header = () => {
                         })
                 }}>&nbsp;&nbsp;로그아웃</div>
             </MyInfo>
-
         </div>
     )
 };

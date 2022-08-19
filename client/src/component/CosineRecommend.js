@@ -24,7 +24,7 @@ const CosineRecommend = (props) => {
             {RecommendList.length ? RecommendList.map((data, index) => {
                 return (
                     <div key={index}>
-                        <Link to = "/GatherReportPage" state = {data}>
+                        <Link to = "/GatherReportPage" state = {data} style={{ color:"inherit" }}>
                         <div className="recommend-box">
                             <div className="title">
                                 <h3> 👑 {rankDisplay++} 위 </h3>

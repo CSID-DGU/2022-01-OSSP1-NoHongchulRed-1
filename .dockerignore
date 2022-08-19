@@ -1,0 +1,12 @@
+# git 관련
+.git
+.github
+
+# 개발 환경에서 도커 빌드 시 불필요 파일
+node_modules
+client/node_modules
+client/build
+.venv
+
+# 불필요 파일
+*.md
